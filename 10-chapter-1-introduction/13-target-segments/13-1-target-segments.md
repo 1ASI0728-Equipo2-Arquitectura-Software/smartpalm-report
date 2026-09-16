@@ -1,0 +1,29 @@
+## 1.3. Segmentos Objetivo 
+
+Smart Palm identifica dos segmentos objetivos principales, definidos a partir del análisis de la problemática y del proceso Lean UX. Ambos operan en el ecosistema de la palmicultura de la Amazonia peruana y representan roles complementarios dentro de la cadena de gestión agronómica del cultivo.
+
+---
+
+**Segmento 1: Dueño del Cultivo de Palma Aceitera en la Amazonia Peruana**
+
+Este segmento está conformado por personas naturales o familias propietarias de plantaciones de palma aceitera en las regiones amazónicas del Perú, con extensiones de entre 5 y 100 hectáreas, ubicadas principalmente en Ucayali, San Martín y Loreto. Se trata de productores independientes o asociados a cooperativas regionales como COCEPU, ASPASH o FENAPALMA. Según la Resolución Ministerial N° 0046-2026-MIDAGRI, más del 70% de las 95 000 hectáreas productivas activas es gestionado por pequeños y medianos productores en este perfil.
+
+**Características demográficas.** El productor típico es un hombre o mujer adulto de entre 35 y 60 años, con educación secundaria completa o técnica, residente en zona rural o semiurbana próxima a sus cultivos en la Amazonia. Cuenta con acceso a un smartphone de gama media-baja y conectividad 2G/3G disponible de manera intermitente, con cobertura reducida en las zonas de cultivo más alejadas de centros urbanos como Pucallpa, Tingo María o Tarapoto. La palmicultura es su principal o única fuente de ingresos, complementada ocasionalmente con otros cultivos de autoconsumo. Según JUNPALMA (2022), el ingreso promedio anual de los productores de la zona de Lamas–Alto Amazonas ascendía a USD 7770 anuales en 2015, equivalente a casi dos veces y media la remuneración mínima vital de ese período.
+
+**Características conductuales y motivacionales.** Su principal motivación es la protección y maximización del retorno económico de su inversión, considerando que el inicio de cosecha en la Amazonia peruana se produce entre los 28 y 36 meses desde la siembra (INIA, 2018), lo que implica un período extenso de inversión sin retorno. Toma decisiones agronómicas basándose en experiencia propia, el consejo de vecinos productores o las recomendaciones esporádicas de técnicos de cooperativas o del INIA. Su actitud frente a la adopción tecnológica es cautelosa y mediada por la confianza en entidades conocidas; la simplicidad de uso, el soporte accesible y la evidencia tangible de valor económico son factores determinantes para su adopción.
+
+**Información estadística de sustento.** Con más de 120000 hectáreas cultivadas a nivel nacional, de las cuales más del 70% corresponde a pequeños y medianos productores, y con Ucayali liderando el área con más de 60000 hectáreas (MIDAGRI, 2026), el segmento es amplio y geográficamente concentrado en zonas donde la presencia institucional es insuficiente. El proyecto de cofinanciamiento de S/ 6,3 millones en Padre Abad para asistir a 1 399 familias en 25 comunidades (Inforegión, 2024) ilustra la escala del déficit de tecnificación que persiste en la región y la demanda latente que Smart Palm puede satisfacer.
+
+---
+
+**Segmento 2: Ingeniero Agrónomo con Operación en la Amazonia Peruana**
+
+Este segmento está conformado por profesionales con titulación en ingeniería agronómica o carreras afines que ejercen como asesores técnicos independientes, empleados de empresas palmicultoras, cooperativas regionales, o técnicos vinculados a entidades como el INIA, el SENASA o el MIDAGRI, con competencia específica en el cultivo de palma aceitera en la Amazonia peruana.
+
+**Características demográficas.** El profesional típico tiene entre 28 y 50 años, reside en ciudades intermedias de la Amazonia como Pucallpa, Tarapoto o Yurimaguas, y se desplaza periódicamente a las plantaciones que supervisa. Cada visita de campo en la región implica una inversión significativa de tiempo y recursos por las distancias, el estado de las vías rurales y las condiciones climáticas de la época de lluvias. Tiene un nivel de alfabetización digital intermedio-alto y está familiarizado con plataformas digitales de uso profesional, aunque su acceso a soluciones tecnológicas especializadas para el agro amazónico ha sido históricamente limitado.
+
+**Características conductuales y motivacionales.** Su principal motivación es la eficiencia en la gestión técnica de múltiples cultivos dispersos en la geografía amazónica, la objetividad de sus recomendaciones agronómicas y la capacidad de documentar su trabajo de manera rigurosa y trazable. Valora herramientas que le permitan acceder a datos precisos sin necesidad de presencia física constante, que automaticen la generación de reportes técnicos y que estén calibradas para las condiciones ambientales específicas de la región en lugar de utilizar parámetros genéricos no validados localmente. La adopción de Smart Palm le representa una ventaja competitiva concreta frente a profesionales que trabajan con métodos exclusivamente manuales.
+
+**Información estadística de sustento.** La escasez de agrónomos calificados con presencia regular en zonas palmicultoras remotas es un problema reconocido institucionalmente, evidenciado por la necesidad de alianzas como la de JUNPALMA-CENIPALMA-PNUD (2022) para llevar asistencia técnica a zonas que el sistema institucional no alcanza. En Ucayali, el INIA desarrolló guías metodológicas estandarizadas para la caracterización agronómica local precisamente porque la presencia profesional continua en campo no puede garantizarse (INIA, 2018). Este segmento actúa además como canal natural de difusión de Smart Palm hacia el segmento de dueños del cultivo, dado el rol de influencia técnica y de confianza que el agrónomo ejerce sobre las decisiones tecnológicas del productor amazónico.
+
+---
