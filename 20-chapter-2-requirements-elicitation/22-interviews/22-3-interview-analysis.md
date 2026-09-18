@@ -12,7 +12,7 @@ El siguiente análisis sintetiza los resultados de las tres entrevistas realizad
 
 El 100% de los entrevistados es de género masculino, con edades que oscilan entre los 30 y 55 años. Un hallazgo relevante es la procedencia heterogénea: ninguno tiene una formación agronómica de base; provienen de ámbitos como la ingeniería comercial, la logística y la inversión en otros sectores. Esto los define como gestores con visión empresarial, pero con una brecha técnica que cubren mediante asesoría externa. El 67% opera en la región de Ucayali y el 33% en Huánuco, gestionando superficies que van desde las 10 hasta las 86 hectáreas. El 67% se encuentra en una etapa de establecimiento (menores de 3 años en el rubro), mientras que el 33% ya posee una trayectoria consolidada de más de 9 años.
 
-![distribucion-geografica](../assets/img/interviews/analyst/distribucion-geografica.png)
+![distribucion-geografica](/assets/img/interviews/analyst/distribucion-geografica.png)
 
 **Características tecnológicas**
 
@@ -26,7 +26,7 @@ El monitoreo se realiza mediante inspecciones visuales presenciales, con frecuen
 
 La frustración unánime es la "ceguera" operativa entre visitas. El 67% ha sufrido pérdidas cuantificables por detección tardía de problemas: Alberto perdió desarrollo de plantas por maleza no controlada y Marcelo perdió 320 plantones por roedores. El temor a la propagación de plagas (citando riesgos en África y Colombia) y el impacto del cambio climático (sequías) son preocupaciones constantes. La falta de conectividad en el campo se percibe no como una imposibilidad tecnológica, sino como una barrera operativa que esperan que cualquier solución IoT resuelva mediante el diseño de hardware robusto y protocolos de sincronización local.
 
-![pain-points-principales](../assets/img/interviews/analyst/pain-points-principales.png)
+![pain-points-principales](/assets/img/interviews/analyst/pain-points-principales.png)
 
 **Objetivos y motivaciones**
 
@@ -41,7 +41,7 @@ El 100% está dispuesto a pagar una suscripción mensual, siempre que el sistema
 3. Seguimiento de cosecha para evitar sobremaduración (Richard).
 4. Almacenamiento local con sincronización (100%).
 
-![expectativas](../assets/img/interviews/analyst/expectativas.png)
+![expectativas](/assets/img/interviews/analyst/expectativas.png)
 
 ---
 

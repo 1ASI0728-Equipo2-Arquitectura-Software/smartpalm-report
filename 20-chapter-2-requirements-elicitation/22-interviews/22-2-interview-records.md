@@ -11,7 +11,7 @@
 | Nombres y Apellidos | Alberto Pasapera |
 | Edad | 56|
 | Distrito / Zona | Lima, Perú |
-| Screenshot del video | ![entrevista1](../assets/img/interviews/entrevista1.png) |
+| Screenshot del video | ![entrevista1](/assets/img/interviews/entrevista1.png) |
 | URL del video | https://acortar.link/MEfvZW |
 | Timing de inicio en el video compilado | 00:06 |
 | Duración de la entrevista | 32:22 |
@@ -29,7 +29,7 @@ Dedica el 70% de su tiempo al cultivo y prevé incrementarlo al 100% cuando las 
 | Nombres y Apellidos | Marcelo Rojas |
 | Edad | 50 |
 | Distrito / Zona | Lima, Perú |
-| Screenshot del video | ![entrevista2](../assets/img/interviews/entrevista2.png) |
+| Screenshot del video | ![entrevista2](/assets/img/interviews/entrevista2.png) |
 | URL del video | https://acortar.link/cuvFu3 |
 | Timing de inicio en el video compilado | 00:08 |
 | Duración de la entrevista | 14:01 |
@@ -47,7 +47,7 @@ Para el monitoreo de sus plantaciones, Marcelo realiza visitas presenciales e in
 | Nombres y Apellidos | Richard Mori |
 | Edad | 53 |
 | Distrito / Zona | Ucayali, Perú |
-| Screenshot del video | ![entrevista3](../assets/img/interviews/entrevista3.png) |
+| Screenshot del video | ![entrevista3](/assets/img/interviews/entrevista3.png) |
 | URL del video | https://acortar.link/ZA77pL |
 | Timing de inicio en el video compilado | 00:05 |
 | Duración de la entrevista | 22:33 |
@@ -68,7 +68,7 @@ Visita la plantación semanalmente y se queda aproximadamente una semana cuando 
 | Nombres y Apellidos | Catalina Villavicencio Guerra |
 | Edad | 29 |
 | Distrito / Zona | Arequipa, Perú  |
-| Screenshot del video | ![entrevista4](../assets/img/interviews/entrevista4.png) |
+| Screenshot del video | ![entrevista4](/assets/img/interviews/entrevista4.png) |
 | URL del video | https://acortar.link/rBS6Zt |
 | Timing de inicio en el video compilado | 00:02 |
 | Duración de la entrevista | 10:38 |
