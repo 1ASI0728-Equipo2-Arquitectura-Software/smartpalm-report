@@ -18,12 +18,14 @@
 | Artefacto | URL |
 | :--- | :--- |
 | Design-Level EventStorming | https://miro.com/app/board/uXjVHdJ_3Wo=/?share_link_id=547546845690 |
-| To-Be Scenario Mapping | *(agregar enlace del tablero del equipo)* |
 
-### Videos
+### Videos de entrevistas de needfinding
 
-| Video | URL |
-| :--- | :--- |
-| Entrevistas de needfinding (compilado) | *(agregar enlace)* |
-| Video About-the-Product | *(pendiente de la siguiente entrega)* |
-| Video About-the-Team | *(pendiente de la siguiente entrega)* |
+| # | Entrevistado | Segmento | URL |
+| :--- | :--- | :--- | :--- |
+| 1 | Alberto Pasapera | Dueño del cultivo | https://acortar.link/MEfvZW |
+| 2 | Marcelo Rojas | Dueño del cultivo | https://acortar.link/cuvFu3 |
+| 3 | Richard Mori | Dueño del cultivo | https://acortar.link/ZA77pL |
+| 4 | Catalina Villavicencio Guerra | Ingeniero agrónomo | https://acortar.link/rBS6Zt |
+| 5 | Sara Isla Ruiz | Ingeniero agrónomo | https://upcedupe-my.sharepoint.com/:v:/g/personal/u202114309_upc_edu_pe/IQB8lJx5ybhpRLk5GpWVlfPoAfM63h8CesHMzEitbW1NmZM?e=o1cUc2 |
+| 6 | Socorro Agurto | Ingeniero agrónomo | https://upcedupe-my.sharepoint.com/:v:/g/personal/u202114309_upc_edu_pe/IQBtaiIRxr_dTadACOUH8QP2Abfxt0VYetl0O5fXozKBGiI?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=Xg8ft8 |
