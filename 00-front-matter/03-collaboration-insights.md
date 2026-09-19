@@ -18,7 +18,6 @@ La colaboración se organizó por secciones y quedó reflejada en los commits de
 
 **Evidencias de Colaboración y Commits (GitHub):**
 
-<!-- Agregar las capturas antes de exportar (no dejar referencias a imágenes inexistentes):
-![Analíticas de colaboración TB1](../assets/img/tb1-insights.png)
-![Commits del equipo TB1](../assets/img/tb1-commits.png)
--->
+![Analíticas de colaboración TB1](../assets/front-matter/tb1-contributors.png)
+
+![Red de commits del equipo TB1](../assets/front-matter/tb1-graph.png)
