@@ -89,10 +89,6 @@ La gestión y priorización del backlog se realiza en la siguiente herramienta:
 
 **Herramienta del Product Backlog:** [Tablero en Trello](https://trello.com/b/HSjBsXFx/grupo-2-fundamentos-de-arquitectura-de-software)
 
-<!-- TODO: reemplazar por el enlace del tablero propio del equipo y agregar la captura del backlog (no dejar referencias a imágenes inexistentes):
-![Product Backlog](../../assets/chapter3/product-backlog/captura-backlog.png)
--->
-
 ---
 
 
