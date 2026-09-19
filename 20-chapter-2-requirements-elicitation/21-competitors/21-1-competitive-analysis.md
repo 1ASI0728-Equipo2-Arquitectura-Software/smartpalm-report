@@ -29,10 +29,10 @@ El objetivo de este análisis es identificar y evaluar las principales solucione
 \hline
 %% Fila 2: Nombre de la StartUp + logos
 \multicolumn{2}{|p{4.62cm}|}{\centering Nombre de la StartUp} &
-\multicolumn{1}{>{\centering\arraybackslash}p{2.69cm}|}{TempWise --- Smart Palm\newline\includegraphics[width=2.4cm,keepaspectratio]{assets/img/logo1.png}} &
-\multicolumn{1}{>{\centering\arraybackslash}p{2.69cm}|}{Trimble Agriculture\newline\includegraphics[width=2.4cm,keepaspectratio]{assets/img/trimble_logo.png}} &
-\multicolumn{1}{>{\centering\arraybackslash}p{2.69cm}|}{CropX\newline\includegraphics[width=2.4cm,keepaspectratio]{assets/img/CropX_logo.jpg}} &
-\multicolumn{1}{>{\centering\arraybackslash}p{2.69cm}|}{Farmonaut\newline\includegraphics[width=2.4cm,keepaspectratio]{assets/img/Farmonaout.jpg}} \\
+\multicolumn{1}{>{\centering\arraybackslash}p{2.69cm}|}{TempWise --- Smart Palm\newline\includegraphics[width=2.4cm,keepaspectratio]{assets/chapter2/smartpalm-logo.png}} &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.69cm}|}{Trimble Agriculture\newline\includegraphics[width=2.4cm,keepaspectratio]{assets/chapter2/trimble-logo.png}} &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.69cm}|}{CropX\newline\includegraphics[width=2.4cm,keepaspectratio]{assets/chapter2/cropx-logo.jpg}} &
+\multicolumn{1}{>{\centering\arraybackslash}p{2.69cm}|}{Farmonaut\newline\includegraphics[width=2.4cm,keepaspectratio]{assets/chapter2/farmonaut-logo.jpg}} \\
 \hline
 %% Perfil — Overview
 \multirow{2}{1.6cm}{\centering Perfil} & Overview &
