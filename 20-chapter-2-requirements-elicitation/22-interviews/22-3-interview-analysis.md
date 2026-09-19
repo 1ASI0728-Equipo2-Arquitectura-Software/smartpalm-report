@@ -1,6 +1,6 @@
 ### 2.2.3. Análisis de Entrevistas
 
-*Esta sección se completará una vez concluido el registro y resumen de todas las entrevistas. El análisis debe realizarse por segmento objetivo, identificando con sustento estadístico —porcentajes sobre el total de entrevistados del segmento— las características objetivas y subjetivas más representativas para la construcción de los arquetipos. A continuación se presenta la estructura que debe completarse.*
+*El análisis debe realizarse por segmento objetivo, identificando con sustento estadístico —porcentajes sobre el total de entrevistados del segmento— las características objetivas y subjetivas más representativas para la construcción de los arquetipos.*
 
 ---
 
