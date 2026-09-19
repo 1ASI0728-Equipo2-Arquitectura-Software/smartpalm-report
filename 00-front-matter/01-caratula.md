@@ -10,7 +10,7 @@
 
 ### 2026-20
 
-**Sección:** <!-- TODO -->
+**Sección:** 2620-9077
 
 **Docente:** Jara Palacios, Marino Humberto
 
