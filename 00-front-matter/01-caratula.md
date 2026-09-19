@@ -1,35 +1,35 @@
-# Universidad Peruana de Ciencias Aplicadas
+<div align="center">
 
-<!-- Agregar el logo de la UPC en assets/img/logo_upc.png y descomentar antes de exportar:
-![Logo UPC](../assets/img/logo_upc.png)
--->
+<img width="125" height="125" alt="Logo UPC" src="../assets/front-matter/logoUPC.png" />
 
-**Carrera:** Ingeniería de Software
-**Ciclo:** 202620
-**Curso:** Arquitecturas de Software Emergentes
-**Código del curso:** 1ASI0728
+### Universidad Peruana de Ciencias Aplicadas
+
+### Ingeniería de Software
+
+### Arquitecturas de Software Emergentes
+
+### 2026-20
+
 **Sección:** <!-- TODO -->
-**Profesor:** <!-- TODO -->
 
-## Informe de Trabajo Final
+**Docente:** Jara Palacios, Marino Humberto
 
-**Entrega:** TB1
+***INFORME DE TRABAJO FINAL***
 
-### Startup: TempWise
+**Startup:** TempWise
 
-### Producto: SmartPalm
+**Producto:** SmartPalm
 
-### Integrantes:
+**Integrantes**
 
-| Apellidos y Nombres                  | Código     |
-| :----------------------------------- | :--------- |
-| Rojas Reategui, Victor Manuel        | U202123655 |
-| Julca Cruz, Renso Anthony            | U202121579 |
-| Paucar Meneses, Jeremy Alión         | U201919449 |
-| Loli Ruiz, Renzo Javier              | U20161C993 |
-| Tello Murga, Javier Oswaldo          | U202218387 |
-| Carbajal Santivañez, Sebastian       | U202111461 |
+| Nombre completo | Código |
+| :-------------- | :----- |
+| <!-- TODO -->  | <!-- TODO --> |
+| <!-- TODO -->  | <!-- TODO --> |
+| <!-- TODO -->  | <!-- TODO --> |
+| <!-- TODO -->  | <!-- TODO --> |
+| <!-- TODO -->  | <!-- TODO --> |
 
-<!-- TODO: confirmar la relación de integrantes y códigos correspondiente al Equipo 2 del curso 1ASI0728 -->
+</div>
 
-**Lima, <!-- TODO: mes --> 2026**
+<br><div align="center"><h3><!-- TODO: mes --> 2026</h3></div><br>
