@@ -12,15 +12,15 @@ Los actores identificados en el tablero son tres: Palm Grower, que ejecuta accio
 
 #### Eventos
 
-![events.jpg](../../assets/chapter-4/42-strategic-level-domain-driven-design/42-1-eventstorming/events.jpg)
+![events.jpg](../../assets/chapter4/42-strategic-level-domain-driven-design/42-1-eventstorming/events.jpg)
 
 #### Comandos
 
-![commands.jpg](../../assets/chapter-4/42-strategic-level-domain-driven-design/42-1-eventstorming/commands.jpg)
+![commands.jpg](../../assets/chapter4/42-strategic-level-domain-driven-design/42-1-eventstorming/commands.jpg)
 
 #### Actores principales
 
-![actors.jpg](../../assets/chapter-4/42-strategic-level-domain-driven-design/42-1-eventstorming/actors.jpg)
+![actors.jpg](../../assets/chapter4/42-strategic-level-domain-driven-design/42-1-eventstorming/actors.jpg)
 
 #### URL
 
