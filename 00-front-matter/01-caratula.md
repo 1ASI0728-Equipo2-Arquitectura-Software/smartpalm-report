@@ -32,4 +32,4 @@
 
 </div>
 
-<br><div align="center"><h3><!-- TODO: mes --> 2026</h3></div><br>
+<br><div align="center"><h3>Setiembre 2026</h3></div><br>
