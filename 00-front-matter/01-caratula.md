@@ -24,11 +24,11 @@
 
 | Nombre completo | Código |
 | :-------------- | :----- |
-| <!-- TODO -->  | <!-- TODO --> |
-| <!-- TODO -->  | <!-- TODO --> |
-| <!-- TODO -->  | <!-- TODO --> |
-| <!-- TODO -->  | <!-- TODO --> |
-| <!-- TODO -->  | <!-- TODO --> |
+| Paucar Meneses, Jeremy Alión | U201919449 |
+| Rojas Reategui, Victor Manuel | U202123655 |
+| Conde Isla, Camila Alessandra | U202114309 |
+| Muñoz Vilcapoma, Mauricio Rigoberto | U202217212 |
+| Ramirez Cabrera, Kenyi Efrain | U202220138 |
 
 </div>
 
