@@ -1,0 +1,13 @@
+### 2.1.2. Estrategias y tácticas frente a competidores
+
+El análisis competitivo evidencia que TempWise no compite frontalmente con actores globales de gran escala como Trimble, orientados a grandes operaciones mecanizadas con alto poder adquisitivo y sin propuestas adaptadas al pequeño palmicultor amazónico peruano. La competencia más relevante se concentra en soluciones de mediano alcance como CropX y Farmonaut, que presentan una debilidad estructural frente a Smart Palm: la ausencia de especialización en palma aceitera y la falta de adaptación a las condiciones de conectividad limitada de la Amazonia.
+
+En este contexto, TempWise adoptará las siguientes estrategias y tácticas competitivas.
+
+**Estrategia de nicho especializado.** La táctica central consiste en profundizar la especialización técnica en palma aceitera amazónica como barrera de entrada difícilmente replicable por competidores genéricos. Esto implica calibrar los modelos de IA con datos agronómicos validados por el INIA para la región Ucayali e incluir en la plataforma los parámetros de referencia del Manual de Cultivo de Palma Aceitera (INIA, 2018), generando una credibilidad técnica que ninguna solución genérica puede ofrecer sin inversión local equivalente.
+
+**Estrategia de alianzas institucionales.** Frente a la falta de reconocimiento de marca en etapa inicial, TempWise buscará legitimidad a través de alianzas con instituciones establecidas en la región: INIA, JUNPALMA, COCEPU y el Gobierno Regional de Ucayali. La táctica operativa es participar activamente en programas de transferencia tecnológica en curso —como el Proyecto PPS del PNUD— posicionando Smart Palm como una herramienta complementaria a las iniciativas institucionales existentes.
+
+**Estrategia de resiliencia tecnológica.** Frente a soluciones que dependen de conectividad constante, TempWise se diferenciará mediante la arquitectura edge computing del dispositivo IoT, que garantiza operación autónoma en zonas sin internet. La táctica es demostrar esta capacidad durante las pruebas de campo del prototipo en Ucayali, generando evidencia documentada de confiabilidad en condiciones reales que se convertirá en el principal argumento de diferenciación frente a CropX y Farmonaut.
+
+**Estrategia de precio por valor económico demostrable.** Para contrarrestar la percepción del costo como barrera, TempWise comunicará el valor de la suscripción en términos del retorno de inversión concreto para el productor, utilizando la brecha documentada en el Plan de Competitividad de Ucayali: la diferencia entre USD 50/ha/año (productor sin tecnificación) y USD 1 750/ha/año (productor tecnificado) hace que el costo de cualquiera de los planes sea directamente justificable en términos económicos.
