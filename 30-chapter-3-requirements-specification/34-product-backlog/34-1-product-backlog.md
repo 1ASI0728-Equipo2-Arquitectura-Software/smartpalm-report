@@ -8,7 +8,7 @@ A continuación se presenta el Product Backlog priorizado de Smart Palm. El orde
 - Las historias relacionadas con autenticación e infraestructura de soporte se posicionan en la parte baja del backlog tal como recomienda el enunciado.
 - Los Story Points siguen la escala Fibonacci permitida: 1, 2, 3, 5, 8.
 
-La numeración de User Stories es consistente con el documento de User Stories (sección 3.1).
+La numeración de User Stories es consistente con el documento de User Stories (sección 3.2).
 
 | # Orden | ID | Título | Descripción | Story Points |
 | ------- | -- | ------ | ----------- | ------------ |
