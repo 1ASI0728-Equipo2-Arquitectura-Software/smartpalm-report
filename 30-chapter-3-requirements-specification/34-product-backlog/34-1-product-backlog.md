@@ -85,6 +85,14 @@ La numeración de User Stories es consistente con el documento de User Stories (
 | 71 | US046 | Visualizar y actualizar el perfil de usuario | Como usuario de Smart Palm, quiero visualizar y actualizar mi perfil, para mantener mi información personal correcta y actualizada. | 2 |
 | 72 | TS004 | Implementar autenticación y control de acceso seguro | Como desarrollador, quiero implementar un mecanismo de autenticación y control de acceso basado en roles, para proteger la información de usuarios, plantaciones, dispositivos y registros de monitoreo. | 5 |
 
+La gestión y priorización del backlog se realiza en la siguiente herramienta:
+
+**Herramienta del Product Backlog:** [Tablero en Trello](https://trello.com/b/HSjBsXFx/grupo-2-fundamentos-de-arquitectura-de-software)
+
+<!-- TODO: reemplazar por el enlace del tablero propio del equipo y agregar la captura del backlog (no dejar referencias a imágenes inexistentes):
+![Product Backlog](../../assets/chapter3/product-backlog/captura-backlog.png)
+-->
+
 ---
 
 
