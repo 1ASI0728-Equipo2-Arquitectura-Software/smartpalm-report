@@ -92,4 +92,18 @@ Resumen:  La profesional identifica tres ausencias críticas en la agricultura p
 Resumen:  El Ingeniero señala que su labor depende casi exclusivamente de lo que observa en cada visita, sin ningún respaldo sensorial entre una supervisión y otra. Esto es especialmente riesgoso con enfermedades como la pudrición del cogollo, donde detectar el síntoma tarde suele significar la pérdida irreversible de la planta, como ilustra un caso real que relata en Curimaná. A esto se suma una limitación logística fuerte: gran parte de su tiempo se va en trasladarse a plantaciones dispersas en Ucayali y San Martín, siguiendo una ruta fija en vez de una basada en urgencia real. Su respaldo documental tampoco ayuda, ya que se reduce a fotos sueltas y reportes en Excel, sin un historial de datos que sustente sus recomendaciones ante productores o financiadoras.
 Frente a esto, valora en SmartPalm la posibilidad de priorizar visitas según datos reales y no por calendario, ahorrando tiempo de traslado. Como condiciones clave pide que funcione con conectividad intermitente, sea simple de usar y accesible en costo para pequeños productores, y que las recomendaciones estén calibradas con datos reales de la Amazonía y no con parámetros genéricos. Concluye que el problema no es falta de criterio técnico sino de información continua, y sugiere como mejora futura alertas tempranas automáticas ante combinaciones de variables de riesgo fitosanitario.
 
+**Entrevista 3**
+
+| Campo | Detalle |
+|-------|---------|
+  | Nombres y Apellidos | Sara Isla Ruiz |
+| Edad | 44 |
+| Distrito / Zona | Pucallpa  |
+| Screenshot del video | ![assets](/assets/img/interviews/entrevista5.png) |
+| URL del video | https://upcedupe-my.sharepoint.com/:v:/g/personal/u202114309_upc_edu_pe/IQB8lJx5ybhpRLk5GpWVlfPoAfM63h8CesHMzEitbW1NmZM?e=o1cUc2 |
+| Timing de inicio en el video compilado | 0:02 |
+| Duración de la entrevista | 10:10 |
+
+Resumen: Sara Ruiz, ingeniera agrónoma de 44 años y consultora independiente en Ucayali, supervisa a 9 palmicultores con 85 hectáreas en total, pero enfrenta serias limitaciones logísticas por viajes de 2 a 6 horas por trocha y una carga de reportería manual en Word/Excel de 4 a 6 horas semanales. Para superar la falta de información entre sus visitas esporádicas (cada 3 a 5 semanas) y la baja calidad de las fotos enviadas por WhatsApp, busca implementar sensores IoT que le permitan monitorear humedad, pH y temperatura en tiempo real. Esta tecnología, combinada con diagnósticos de IA validados en la Amazonia, le permitiría automatizar informes, priorizar visitas urgentes, brindar recomendaciones claras al agricultor y ampliar su cartera de clientes sin perder la precisión ni la calidad de su trabajo técnico.
+
 ---
