@@ -89,4 +89,18 @@ Resumen:  La profesional identifica tres ausencias críticas en la agricultura p
 
 Resumen: Sara Ruiz, ingeniera agrónoma de 44 años y consultora independiente en Ucayali, supervisa a 9 palmicultores con 85 hectáreas en total, pero enfrenta serias limitaciones logísticas por viajes de 2 a 6 horas por trocha y una carga de reportería manual en Word/Excel de 4 a 6 horas semanales. Para superar la falta de información entre sus visitas esporádicas (cada 3 a 5 semanas) y la baja calidad de las fotos enviadas por WhatsApp, busca implementar sensores IoT que le permitan monitorear humedad, pH y temperatura en tiempo real. Esta tecnología, combinada con diagnósticos de IA validados en la Amazonia, le permitiría automatizar informes, priorizar visitas urgentes, brindar recomendaciones claras al agricultor y ampliar su cartera de clientes sin perder la precisión ni la calidad de su trabajo técnico.
 
+**Entrevista 3**
+
+| Campo | Detalle |
+|-------|---------|
+| Nombres y Apellidos | Socorro Agurto |
+| Edad | 65 |
+| Distrito / Zona | Callao - Piura |
+| Screenshot del video | ![entrevista6](../../assets/chapter2/interviews/entrevista6.png) |
+| URL del video | https://upcedupe-my.sharepoint.com/:v:/g/personal/u202114309_upc_edu_pe/IQBtaiIRxr_dTadACOUH8QP2Abfxt0VYetl0O5fXozKBGiI?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=Xg8ft8 |
+| Timing de inicio en el video compilado | 0:02 |
+| Duración de la entrevista | 5:30 |
+
+Resumen: Socorro, ingeniera agrónoma especializada en la Amazonia con sólida experiencia en sistemas hidropónicos, aplica controles rigurosos de conductividad eléctrica, pH y nutrición para optimizar el cultivo de palma aceitera. En su labor independiente combina visitas presenciales periódicas con monitoreo de soluciones nutritivas y parámetros foliares, enfrentando barreras de conectividad rural que retrasan sus diagnósticos técnicos. Para ella, integrar plataformas IoT e IA validadas localmente permitiría automatizar la lectura de nutrientes en tiempo real y reducir horas en reportes manuales. Así, proyecta escalar su capacidad de asesoría manteniendo un control preciso sobre las variables físicas y químicas del suelo, asegurando la adopción tecnológica de sus productores.
+
 ---
