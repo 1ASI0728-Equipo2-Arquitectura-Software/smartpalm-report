@@ -75,24 +75,7 @@ Visita la plantación semanalmente y se queda aproximadamente una semana cuando 
 
 Resumen:  La profesional identifica tres ausencias críticas en la agricultura peruana: falta de datos agronómicos en tiempo real —humedad de suelo, temperatura, precipitación, que obliga a decidir por intuición y no por evidencia; asistencia técnica discontinua, concentrada en grandes empresas y prácticamente inexistente en zonas alejadas de San Martín, Ucayali y Loreto;  ausencia total de trazabilidad, sin registro de qué afectó al cultivo ni cuándo. Sobre la gestión actual en zonas remotas, describe un modelo artesanal basado en la experiencia empírica del productor, visitas técnicas esporádicas y anotaciones en cuaderno, agravado por la nula conectividad a internet. Respecto a Smart Palm, valora positivamente la arquitectura edge-fog-cloud con procesamiento local y sincronización offline por adaptarse a la realidad de conectividad intermitente del campo peruano. Destaca la clara separación de roles entre dueño del cultivo e ingeniero agrónomo, y el ciclo cerrado que convierte lecturas de sensores en acciones agronómicas concretas. Concluye que la propuesta demuestra entendimiento real de las restricciones del agro peruano y ofrece una base sólida para reducir la brecha entre monitoreo digital y decisión técnica. Como mejora futura sugiere incorporar recomendaciones automatizadas básicas basadas en combinaciones de variables críticas.
 
-
-
 **Entrevista 2**
-
-| Campo | Detalle |
-|-------|---------|
-  | Nombres y Apellidos | Cesar Santivañez Solis |
-| Edad | 43 |
-| Distrito / Zona | Ucayali, Perú  |
-| Screenshot del video | - |
-| URL del video | - |
-| Timing de inicio en el video compilado | 0:02 |
-| Duración de la entrevista | 10:10 |
-
-Resumen:  El Ingeniero señala que su labor depende casi exclusivamente de lo que observa en cada visita, sin ningún respaldo sensorial entre una supervisión y otra. Esto es especialmente riesgoso con enfermedades como la pudrición del cogollo, donde detectar el síntoma tarde suele significar la pérdida irreversible de la planta, como ilustra un caso real que relata en Curimaná. A esto se suma una limitación logística fuerte: gran parte de su tiempo se va en trasladarse a plantaciones dispersas en Ucayali y San Martín, siguiendo una ruta fija en vez de una basada en urgencia real. Su respaldo documental tampoco ayuda, ya que se reduce a fotos sueltas y reportes en Excel, sin un historial de datos que sustente sus recomendaciones ante productores o financiadoras.
-Frente a esto, valora en SmartPalm la posibilidad de priorizar visitas según datos reales y no por calendario, ahorrando tiempo de traslado. Como condiciones clave pide que funcione con conectividad intermitente, sea simple de usar y accesible en costo para pequeños productores, y que las recomendaciones estén calibradas con datos reales de la Amazonía y no con parámetros genéricos. Concluye que el problema no es falta de criterio técnico sino de información continua, y sugiere como mejora futura alertas tempranas automáticas ante combinaciones de variables de riesgo fitosanitario.
-
-**Entrevista 3**
 
 | Campo | Detalle |
 |-------|---------|
