@@ -1,4 +1,4 @@
-## 3.1 User Stories
+## 3.2 User Stories
 
 A continuación se presenta el conjunto completo de Epics, User Stories y Technical Stories de Smart Palm. Cada historia incluye su identificador único, título, descripción detallada, criterios de aceptacion y su relación con el Epic correspondiente. Este conjunto de historias representa la base para el desarrollo iterativo de la plataforma, guiando la implementación de funcionalidades clave y asegurando que se cumplan las necesidades de los usuarios finales.
 
