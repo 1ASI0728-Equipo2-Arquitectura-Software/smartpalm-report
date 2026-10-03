@@ -1,0 +1,4 @@
+# PDFs generados localmente (no versionar, solo local)
+TB1.pdf
+# Temporal del script build-pdf.ps1
+_build-tb1.md
