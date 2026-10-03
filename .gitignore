@@ -2,3 +2,5 @@
 TB1.pdf
 # Temporal del script build-pdf.ps1
 _build-tb1.md
+build-pdf.ps1
+report.css
