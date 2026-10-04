@@ -156,3 +156,106 @@ Los *commands* y *queries* son records que transportan intención o criterios; n
 | `AlertTriggeredIntegrationEvent`, `AlertAcknowledgedIntegrationEvent` | alerta, contexto de cultivo/lectura o usuario, hora | Eventos consumidos desde Alert. |
 | `RecommendationPublishedIntegrationEvent` | recomendación, agrónomo, sector, contenido, versión, hora | Evento consumido desde Agronomy para trazabilidad. |
 
+## 5.6.2. Interface Layer
+
+La **Interface Layer** del bounded context **Field Technical Management** recibe solicitudes HTTP autenticadas y las transforma en *commands* o *queries*. Los controllers no exponen los agregados directamente: usan *resources* para los contratos HTTP y `FieldAssemblers` para las conversiones.
+
+### 1. FieldVisitsController
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | `FieldVisitsController` |
+| **Categoría** | Controller REST |
+| **Ruta base** | `api/field/visits` |
+| **Autorización** | `[Authorize]` |
+| **Propósito** | Planificar y controlar el ciclo de visitas técnicas. |
+
+**Atributos**
+
+| Nombre | Tipo de dato | Visibilidad | Descripción |
+|---|---|---|---|
+| `commands` | `IFieldVisitCommandService` | private primary-constructor parameter | Ejecuta cambios de visita. |
+| `queries` | `IFieldVisitQueryService` | private primary-constructor parameter | Recupera agenda y detalle. |
+
+**Métodos**
+
+| Nombre | Verbo HTTP | Ruta | Tipo de retorno | Descripción |
+|---|---|---|---|---|
+| `PlanFieldVisit` | POST | `/api/field/visits` | `IActionResult` (`201 Created`) | Convierte `PlanVisitResource` en `PlanVisitCommand`. |
+| `GetFieldVisitsByAgronomist` | GET | `/api/field/visits` | `IActionResult` (`200 OK`) | Filtra por agrónomo, plantación, estado y fechas. |
+| `GetFieldVisitById` | GET | `/api/field/visits/{id}` | `IActionResult` (`200/404`) | Obtiene el detalle de una visita. |
+| `StartFieldVisit` | PATCH | `/api/field/visits/{id}/start` | `IActionResult` (`200 OK`) | Inicia desde `VisitActionResource`. |
+| `CompleteFieldVisit` | PATCH | `/api/field/visits/{id}/complete` | `IActionResult` (`200 OK`) | Completa una visita con evidencia. |
+| `CancelFieldVisit` | PATCH | `/api/field/visits/{id}/cancel` | `IActionResult` (`200 OK`) | Cancela desde `CancelVisitResource`. |
+
+### 2. FieldInspectionsController
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | `FieldInspectionsController` |
+| **Categoría** | Controller REST |
+| **Ruta base** | `api/field` |
+| **Autorización** | `[Authorize]` |
+| **Propósito** | Registrar, sincronizar y consultar inspecciones y observaciones. |
+
+**Atributos**
+
+| Nombre | Tipo de dato | Visibilidad | Descripción |
+|---|---|---|---|
+| `commands` | `IFieldInspectionCommandService` | private primary-constructor parameter | Registra inspecciones y modifica su evidencia. |
+| `queries` | `IFieldInspectionQueryService` | private primary-constructor parameter | Recupera inspecciones. |
+
+**Métodos**
+
+| Nombre | Verbo HTTP | Ruta | Tipo de retorno | Descripción |
+|---|---|---|---|---|
+| `RegisterFieldInspection` | POST | `/api/field/visits/{visitId}/inspections` | `IActionResult` (`201 Created`) | Registra una inspección y sus observaciones. |
+| `SynchronizeOfflineInspections` | POST | `/api/field/visits/{visitId}/inspections/sync` | `IActionResult` (`200 OK`) | Sincroniza el lote representado por `SyncInspectionsResource`. |
+| `GetFieldInspectionById` | GET | `/api/field/inspections/{id}` | `IActionResult` (`200/404`) | Obtiene una inspección con evidencia y alertas. |
+| `GetFieldInspectionsByPlantation` | GET | `/api/field/plantations/{plantationId}/inspections` | `IActionResult` (`200 OK`) | Filtra por sector y periodo. |
+| `AddInspectionObservation` | POST | `/api/field/inspections/{id}/observations` | `IActionResult` (`200 OK`) | Añade `AddObservationResource`. |
+| `LinkInspectionToAlert` | POST | `/api/field/inspections/{id}/alerts` | `IActionResult` (`200 OK`) | Vincula una alerta desde `LinkAlertResource`. |
+
+### 3. InterventionsController
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | `InterventionsController` |
+| **Categoría** | Controller REST |
+| **Ruta base** | `api` |
+| **Autorización** | `[Authorize]` |
+| **Propósito** | Registrar, consultar y revisar intervenciones; conserva contratos heredados bajo `api/v1`. |
+
+**Atributos**
+
+| Nombre | Tipo de dato | Visibilidad | Descripción |
+|---|---|---|---|
+| `commands` | `IInterventionCommandService` | private primary-constructor parameter | Registra, verifica y rechaza intervenciones. |
+| `queries` | `IInterventionQueryService` | private primary-constructor parameter | Consulta por ID, plantación, sector o recomendación. |
+| `projections` | `IFieldProjectionRepository` | private primary-constructor parameter | Obtiene el sector de la proyección para la ruta compatible. |
+
+**Métodos**
+
+| Nombre | Verbo HTTP | Ruta | Tipo de retorno | Descripción |
+|---|---|---|---|---|
+| `RegisterIntervention` | POST | `/api/field/interventions` | `IActionResult` (`201 Created`) | Registra `RegisterFieldInterventionResource`. |
+| `RegisterSectorIntervention` | POST | `/api/v1/sectors/{sectorId}/interventions` | `IActionResult` (`201 Created`) | Mantiene el contrato heredado y usa el claim JWT `sub`. |
+| `GetAgronomicInterventionById` | GET | `/api/field/interventions/{id}` | `IActionResult` (`200/404`) | Retorna el recurso actual. |
+| `GetLegacyAgronomicInterventionById` | GET | `/api/v1/interventions/{id}` | `IActionResult` (`200/404`) | Retorna la representación compatible. |
+| `ListInterventionsByPlantation` | GET | `/api/field/plantations/{plantationId}/interventions` | `IActionResult` (`200 OK`) | Filtra por sector, tipo, estado y fechas. |
+| `ListLegacyInterventionsByPlantation` | GET | `/api/v1/plantations/{plantationId}/interventions` | `IActionResult` (`200 OK`) | Lista con formato heredado. |
+| `ListInterventionsBySector` | GET | `/api/v1/sectors/{sectorId}/interventions` | `IActionResult` (`200 OK`) | Lista intervenciones del sector. |
+| `ListInterventionsByRecommendation` | GET | `/api/v1/recommendations/{recommendationId}/interventions` | `IActionResult` (`200 OK`) | Lista intervenciones originadas por recomendación. |
+| `VerifyIntervention` | PATCH | `/api/field/interventions/{id}/verify` | `IActionResult` (`200 OK`) | Verifica con `ReviewInterventionResource`. |
+| `RejectIntervention` | PATCH | `/api/field/interventions/{id}/reject` | `IActionResult` (`200 OK`) | Rechaza con `ReviewInterventionResource`. |
+
+### 4. Resources y transformadores
+
+| Nombre | Categoría | Propósito |
+|---|---|---|
+| `PlanVisitResource`, `VisitActionResource`, `CancelVisitResource` | Request resources | Transportan la planificación y los cambios de estado de visitas. |
+| `RegisterInspectionResource`, `SyncInspectionsResource`, `SyncInspectionItemResource` | Request resources | Transportan capturas online u offline. |
+| `ObservationInputResource`, `AddObservationResource`, `LinkAlertResource` | Request resources | Transportan evidencia y el identificador de una alerta. |
+| `RegisterFieldInterventionResource`, `RegisterInterventionResource`, `ReviewInterventionResource` | Request resources | Soportan contrato actual, heredado y decisión de revisión. |
+| `FieldVisitResource`, `FieldInspectionResource`, `FieldObservationResource`, `AgronomicInterventionResource`, `LegacyAgronomicInterventionResource` | Response resources | Exponen el estado necesario sin revelar entidades EF. |
+| `FieldAssemblers` | Static assembler | Construye commands, convierte agregados a resources y analiza enums de consulta. |
