@@ -4,3 +4,10 @@ TB1.pdf
 _build-tb1.md
 build-pdf.ps1
 report.css
+
+# Configuración de compilación de reportes
+build.yaml
+inline-images.lua
+.claude/
+*.pdf
+context/
