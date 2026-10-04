@@ -217,3 +217,12 @@ La **Infrastructure Layer** implementa los puertos con EF Core, PostgreSQL, BCry
 | `DependencyInjection` | Composition root | Registra DbContext con `UseSnakeCaseNamingConvention`, puertos, servicios y publisher. |
 
 Las relaciones físicas privadas son `subscriptions.user_id → users.id` y `payment_transactions.user_id → users.id`. `username` y `email` son únicos; el contenido del Outbox es JSONB. No hay FK o acceso de datos hacia FieldService o AgronomyService.
+
+## 5.7.5. Bounded Context Software Architecture Component Level Diagrams
+
+El diagrama C4 de componentes del container IdentityService presenta la entrada HTTP por API Gateway, controllers, assemblers, command/query services, modelo de dominio, repositorios, `IdentityDbContext`, seguridad, pago y Outbox.
+
+**Comunicación externa.** IdentityService publica `smartpalm.identity.*.v1` hacia el **Message Broker**. FieldService y AgronomyService consumen esos eventos para sus proyecciones locales; las flechas representan AMQP asíncrono, no llamadas HTTP ni acceso directo a `smartpalm_identity`.
+
+
+![identity-service-components-diagram](../assets/chapter5/57-bounded-contex-subscription/IdentityServiceComponents.png)
