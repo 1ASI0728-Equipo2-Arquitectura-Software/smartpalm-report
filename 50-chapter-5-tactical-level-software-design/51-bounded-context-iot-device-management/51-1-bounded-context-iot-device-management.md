@@ -387,3 +387,57 @@ Clases estáticas que transforman entre recursos y objetos de dominio.
 | SamplingConfigurationQueryFromResourceAssembler | ToQueryFromResource(mac) | Query de configuración. |
 | ConnectivityStatusResourceFromAggregateAssembler | ToResourceFromAggregate(EdgeDevice) | Respuesta de estado. |
 | GatewayDevicesResourceFromAggregateAssembler | ToResourceFromAggregate(EdgeDevice, List\<IotDevice\>) | Respuesta de nodos. |
+
+### 5.1.3. Application Layer.
+
+Orquesta los flujos de negocio: recibe commands y queries, recupera agregados, aplica reglas, persiste mediante Unit of Work y publica eventos con Outbox transaccional (misma transacción del cambio, con relay al broker).
+
+La capa separa escritura y lectura: los comandos validan (MAC única, suscripción activa contra BC-07, lote no repetido, lecturas dentro de 72 horas) antes de mutar, y cada mutación confirmada deja su evento en el Outbox dentro de la misma transacción, lo que garantiza que ningún cambio quede sin publicar ni ningún evento sin cambio. Las queries solo leen agregados ya calculados. El handler de `SubscriptionActivated` cierra el Flujo 2: sin ese evento, el registro permanece bloqueado.
+
+##### 1. DeviceCommandService
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | DeviceCommandService |
+| **Categoría** | Command Service |
+| **Propósito** | Flujos de registro, configuración, baja y sincronización. |
+| **Atributos** | `uow: IUnitOfWork`, `edgeDeviceRepository`, `iotDeviceRepository`, `outbox: IOutboxWriter`. |
+
+**Métodos (Handle)**
+
+| Nombre | Descripción |
+|---|---|
+| Handle(RegisterEdgeDeviceCommand) | MAC no registrada y suscripción activa verificada contra BC-07: crea el agregado, persiste y publica `EdgeDeviceRegistered`. |
+| Handle(RegisterIotDeviceCommand) | Gateway existente y activo, nodo inexistente: crea el `IotDevice`, persiste y publica `IotDeviceRegistered`. |
+| Handle(UpdateSamplingConfigurationCommand) | Gateway existente: valida el value object, reemplaza y persiste. |
+| Handle(DecommissionDeviceCommand) | Nodo existente: baja lógica, persiste y publica `DeviceDecommissioned`. |
+| Handle(DecommissionEdgeDeviceCommand) | Gateway y nodos: baja lógica en cascada. |
+| Handle(EdgeSynchronizationCommand) | Gateway existente: `BatchId` ya procesado (verificado en `SyncBatchStore`) se responde como éxito sin duplicar; rechaza lecturas con `MeasuredAt` anterior a 72 horas; ordena, persiste y publica `EdgeDataSynchronized` más un `SensorReadingRecorded` por lectura. |
+| Handle(ReportConnectivityCommand) | Actualiza el heartbeat del agregado. |
+
+Duplicados se rechazan con `409` e inexistentes con `404`.
+
+##### 2. DeviceQueryService
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | DeviceQueryService |
+| **Categoría** | Query Service |
+| **Propósito** | Lecturas de estado, registro y configuración, sin mutación. |
+
+**Métodos**
+
+| Nombre | Tipo de retorno | Visibilidad | Descripción |
+|---|---|---|---|
+| Handle(ConnectivityStatusQuery) | Task\<EdgeDevice\> | public | Gateway por MAC con estado calculado. |
+| Handle(GatewayDevicesQuery) | Task\<Tuple\<EdgeDevice, List\<IotDevice\>\>\> | public | Gateway y sus nodos con estados. |
+| Handle(ListEdgeGatewaysQuery) | Task\<IEnumerable\<EdgeDevice\>\> | public | Todos los gateways registrados. |
+| Handle(SamplingConfigurationQuery) | Task\<DeviceConfiguration\> | public | Configuración vigente del gateway. |
+
+##### 3. SubscriptionActivatedHandler
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | SubscriptionActivatedHandler |
+| **Categoría** | Event Handler (RabbitMQ) |
+| **Propósito** | Consume `SubscriptionActivated` (BC-07) de forma idempotente por `correlationId` y habilita el registro de dispositivos de la suscripción. |
