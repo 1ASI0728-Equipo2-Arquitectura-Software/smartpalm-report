@@ -562,3 +562,15 @@ La aplicación web consolida salud, paneles, tendencias, reportes, alertas y pub
 La aplicación móvil lleva salud rápida, tarjetas, alertas y publicadas al campo con caché local y acceso remoto vía gateway. El flujo espeja al web con el apoyo de campo: caché local para la intermitencia; el acceso remoto es el único que sale al gateway.
 
 ![BC-05 movil (Component)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-component-mobile.png)
+
+### 5.5.7. Bounded Context Software Architecture Code Level Diagrams.
+
+Diagramas de detalle de implementación del bounded context, consistentes con el diccionario de la Domain Layer. Rige una sola regla para todas las láminas: diagrama y diccionario dicen exactamente lo mismo; ante cualquier diferencia, manda el diccionario. Por el tamaño de este BC (el mayor del capítulo), las láminas se reparten para que cada una sea legible: ninguna tira ilegible.
+
+#### 5.5.7.1. Bounded Context Domain Layer Class Diagrams.
+
+Modelo estructural en dos láminas: salud (snapshots, resúmenes, vistas, evaluación y ranking) y series con reportes (series transitorias, reportes con secciones, cálculo de tendencias). La primera se lee del snapshot hacia afuera —resúmenes, estados y usos—; la segunda, del reporte y la serie hacia sus piezas. `SensorType` y `MeasureUnit` figuran como shared kernels de 5.1 y 5.2; la serie temporal se marca vista transitoria sin repositorio.
+
+![BC-05 clases de dominio - salud (UML)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-domain-health-diagram.png)
+
+![BC-05 clases de dominio - series y reportes (UML)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-domain-timeseries-reports-diagram.png)
