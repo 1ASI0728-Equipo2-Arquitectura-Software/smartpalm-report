@@ -574,3 +574,15 @@ Modelo estructural en dos láminas: salud (snapshots, resúmenes, vistas, evalua
 ![BC-05 clases de dominio - salud (UML)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-domain-health-diagram.png)
 
 ![BC-05 clases de dominio - series y reportes (UML)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-domain-timeseries-reports-diagram.png)
+
+#### 5.5.7.2. Bounded Context Contracts Diagrams.
+
+Contratos en tres láminas: comandos (cómputo y reportes), queries de monitoreo (salud, vistas y series) y queries de feed (reportes, alertas, publicadas). Cada una se lee de los servicios hacia sus mensajes mediante la relación "procesa".
+
+![BC-05 comandos (UML)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-domain-commands-diagram.png)
+
+![BC-05 queries de monitoreo (UML)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-domain-queries-monitoring-diagram.png)
+
+![BC-05 queries de series (UML)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-domain-queries-series-diagram.png)
+
+![BC-05 queries de feed (UML)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-domain-queries-feed-diagram.png)
