@@ -444,3 +444,62 @@ Punto de entrada HTTP del microservicio. Todo el tráfico pasa por el API Gatewa
 ##### 7. Resources y assemblers
 
 Resources principales: `HealthViewResource`, `OverviewViewResource`, `SeriesViewResource`, `TrendViewResource`, `ReportDraftResource`, `SectionResource`, `ReportViewResource`, `AlertFeedViewResource`, `RecommendationFeedViewResource`. Cada query/command principal tiene su assembler `*FromResourceAssembler` en ambas direcciones; el dominio nunca conoce detalles web.
+
+### 5.5.3. Application Layer.
+
+Orquesta los flujos de lectura y el ciclo de reportes: recibe commands, queries y eventos, delega en dominio, persiste snapshots/vistas/reportes mediante Unit of Work, consulta telemetría y feeds externos por ACL, y publica `ReportPublished` con Outbox transaccional.
+
+La lectura nunca muta: los únicos writes son snapshots/vistas recomputados y el ciclo de reportes. Cada mutación confirmada deja su evento en el Outbox dentro de la misma transacción. Los feeds externos degradan con gracia: si BC-03/BC-04 no responden, el dashboard muestra sus secciones como no disponibles sin romper el resto.
+
+##### 1. SnapshotComputationService
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | SnapshotComputationService |
+| **Categoría** | Command Service |
+| **Propósito** | Recomputar snapshots y vistas ante lotes o a demanda. |
+| **Atributos** | `uow: IUnitOfWork`, `snapshotRepository`, `overviewRepository`, `evaluation`, `ranking`, `readingsClient`, `outbox: IOutboxWriter`. |
+
+**Métodos (Handle)**
+
+| Nombre | Descripción |
+|---|---|
+| Handle(ComputeZoneSnapshotsCommand) | Lee lecturas del lote vía ACL (BC-02), evalúa worst-wins por zona y persiste snapshots. Idempotente por `batchId`. |
+| Handle(RefreshPlantationOverviewCommand) | Reconsolida conteos y `lastUpdatedAt` desde los últimos snapshots. |
+
+##### 2. ReportCommandService
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | ReportCommandService |
+| **Categoría** | Command Service |
+| **Propósito** | Ciclo de reportes y exportación. |
+| **Atributos** | `uow: IUnitOfWork`, `reportRepository`, `snapshotRepository`, `exportService`, `outbox: IOutboxWriter`. |
+
+**Métodos (Handle)**
+
+| Nombre | Descripción |
+|---|---|
+| Handle(GenerateReportDraftCommand) | Crea el borrador con snapshots y alertas del período y persiste. |
+| Handle(AddReportSectionCommand) | Agrega sección; solo en Draft (`409` en otro estado). |
+| Handle(PublishReportCommand) | Draft → Published; persiste y publica `ReportPublished`. |
+| Handle(ExportReportCommand) | Genera PDF o CSV según `format`. |
+
+##### 3. Query Services
+
+| Nombre | Queries que atiende | Fuentes |
+|---|---|---|
+| HealthQueryService | Health, PriorityZones, CompareZones | Repos de snapshots + ranking. |
+| OverviewQueryService | Overviews, PlantationOverview, LastUpdate | Repo de vistas. |
+| TimeSeriesQueryService | Series, Trend, SeriesSummary, ZoneVariables | ACL lecturas (BC-02) + cálculo de tendencias. |
+| ReportQueryService | ReportById, ReportsByPlantation | Repo de reportes. |
+| AlertFeedQueryService | ActiveAlerts, AlertHistory | ACL alertas (BC-03). |
+| RecommendationFeedQueryService | RecsByPlantation, RecDetail | ACL publicadas (BC-04). |
+
+##### 4. Handlers de eventos (RabbitMQ)
+
+| Nombre | Consume | Propósito |
+|---|---|---|
+| BatchStoredHandler | `ReadingsBatchStored` (BC-02) | Convierte en `ComputeZoneSnapshotsCommand` + `RefreshPlantationOverviewCommand`. Idempotente por `batchId`. |
+| RecommendationPublishedHandler | `RecommendationPublished` (BC-04) | Invalida/actualiza el feed de publicadas. Idempotente por `correlationId`. |
+| InterventionRegisteredHandler | `InterventionRegistered` (BC-04) | Actualiza el feed con la acción de campo. Idempotente por `correlationId`. |
