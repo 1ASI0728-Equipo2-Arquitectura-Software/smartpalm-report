@@ -102,3 +102,85 @@ La **Domain Layer** no depende de ASP.NET Core, EF Core, RabbitMQ, BCrypt, JWT n
 
 Los cuatro eventos se registran en Outbox dentro de la transacción de negocio y se publican con claves `smartpalm.identity.*.v1`; no son llamadas HTTP directas.
 
+## 5.7.2. Interface Layer
+
+La **Interface Layer** recibe solicitudes HTTP, aplica las políticas de autorización declaradas en los controllers y transforma *resources* en commands o queries. Las respuestas son contratos de aplicación, por lo que las entidades del dominio y persistencia no se exponen a los clientes.
+
+### 1. AuthenticationController
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | `AuthenticationController` |
+| **Categoría** | Controller REST |
+| **Ruta base** | `api/v1/Authentication` |
+| **Autorización** | `AllowAnonymous` en inicio de sesión |
+| **Propósito** | Validar credenciales y emitir un JWT compatible con los clientes existentes. |
+
+| Atributo | Tipo | Visibilidad | Descripción |
+|---|---|---|---|
+| `service` | `IdentityCommandService` | private primary-constructor parameter | Ejecuta el caso de uso de autenticación. |
+
+| Método | Verbo HTTP | Ruta | Retorno | Descripción |
+|---|---|---|---|---|
+| `SignIn` | POST | `/api/v1/Authentication/sign-in` | `IActionResult` (`200/401`) | Convierte `SignInResource` en command y devuelve `AuthenticatedUserResponse` con JWT. |
+
+### 2. UsersController y AdminUsersController
+
+| Controller | Ruta base / autorización | Dependencias | Métodos HTTP |
+|---|---|---|---|
+| `UsersController` | `api/v1/users`; `Administrator` | `IdentityQueryService` | `GetAllUsers` — GET `/`; `GetUserById` — GET `/{id}` (`200/404`). |
+| `AdminUsersController` | `api/v1/admin/users`; `Administrator` | `IdentityCommandService`, `IdentityQueryService` | `CreateUser` — POST `/` (`201/400`); `ListUsers` — GET `/`; `GetUserById` — GET `/{userId}` (`200/404`). |
+
+Ambos controllers devuelven `UserResponse`. `CreateUser` usa `CreateUserResource` y su assembler; los listados construyen `GetAllUsersQuery` y las búsquedas `GetUserByIdQuery`.
+
+### 3. SubscriptionsController
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | `SubscriptionsController` |
+| **Categoría** | Controller REST |
+| **Ruta base** | `api/v1/subscriptions` |
+| **Propósito** | Consultar planes, suscripción y pagos del usuario autenticado, y cancelar la suscripción vigente. |
+
+| Atributo | Tipo | Visibilidad | Descripción |
+|---|---|---|---|
+| `commandService` | `SubscriptionCommandService` | private primary-constructor parameter | Cancela suscripciones. |
+| `queryService` | `SubscriptionQueryService` | private primary-constructor parameter | Obtiene planes, suscripciones y pagos. |
+
+| Método | Verbo HTTP | Ruta | Autorización / respuesta | Descripción |
+|---|---|---|---|---|
+| `ListPlans` | GET | `/api/v1/subscriptions/plans` | `AllowAnonymous`, `200` | Devuelve el catálogo de `PlanResponse`. |
+| `GetSubscription` | GET | `/api/v1/subscriptions` | `Authorize`, `200/404` | Usa el claim `sid` o `sub` para recuperar la suscripción actual. |
+| `CancelSubscription` | DELETE | `/api/v1/subscriptions` | `Authorize`, `200/400/404` | Cancela la suscripción del usuario autenticado. |
+| `ListPayments` | GET | `/api/v1/subscriptions/payments` | `Authorize`, `200` | Lista los pagos del usuario autenticado. |
+
+### 4. AdminSubscriptionsController
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | `AdminSubscriptionsController` |
+| **Categoría** | Controller REST administrativo |
+| **Ruta base** | `api/v1/admin/subscriptions` |
+| **Autorización** | `Administrator` |
+| **Propósito** | Crear, consultar y cobrar suscripciones en representación de un usuario. |
+
+| Atributo | Tipo | Visibilidad | Descripción |
+|---|---|---|---|
+| `commandService` | `SubscriptionCommandService` | private primary-constructor parameter | Crea suscripciones y procesa pagos. |
+| `queryService` | `SubscriptionQueryService` | private primary-constructor parameter | Consulta suscripciones. |
+
+| Método | Verbo HTTP | Ruta | Retorno | Descripción |
+|---|---|---|---|---|
+| `CreateSubscription` | POST | `/api/v1/admin/subscriptions` | `201/400/404` | Transforma `CreateSubscriptionResource` en command. |
+| `ListSubscriptions` | GET | `/api/v1/admin/subscriptions` | `200` | Lista las suscripciones. |
+| `GetSubscriptionById` | GET | `/api/v1/admin/subscriptions/{subscriptionId}` | `200/404` | Obtiene una suscripción por ID. |
+| `ProcessPayment` | POST | `/api/v1/admin/subscriptions/users/{userId}/payments` | `201/400/404` | Transforma `ProcessPaymentResource` en command y procesa el pago. |
+
+### 5. Resources, assemblers y health checks
+
+| Nombre | Categoría | Propósito |
+|---|---|---|
+| `SignInResource`, `CreateUserResource`, `CreateSubscriptionResource`, `ProcessPaymentResource` | Request resources | Contienen solamente los datos de transporte de cada comando. |
+| `IdentityResourceAssemblers` | Static assembler | Convierte resources a commands y mantiene el contrato HTTP separado de Domain. |
+| `AuthenticatedUserResponse`, `UserResponse`, `PlanResponse`, `SubscriptionResponse`, `InactiveSubscriptionResponse`, `PaymentResponse` | Application response contracts | Evitan exponer agregados y entidades directamente. |
+| `DatabaseHealthCheck` | Health check | Comprueba PostgreSQL para `/health/ready`; `/health/live` es verificación de proceso. |
