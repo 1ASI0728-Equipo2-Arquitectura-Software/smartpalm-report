@@ -246,3 +246,65 @@ Publicados (BC-02):
 | ReadingsBatchStored | v1 | Lote reconciliado. | batchId, edgeMac, storedCount, correlationId |
 
 ---
+
+### 5.2.2. Interface Layer.
+
+Punto de entrada HTTP del microservicio. Todo el tráfico pasa por el API Gateway con JWT según rol; todos los endpoints requieren autenticación. Los controllers delegan en Application y solo exponen lectura de datos y gestión de umbrales: no existe endpoint de ingesta de lecturas, que entra exclusivamente por eventos desde BC-01.
+
+El gateway es la única puerta y ningún endpoint queda anónimo. Los controllers son deliberadamente delgados —validan forma, convierten y delegan— para que las reglas vivan en dominio y aplicación, no en HTTP. Los resources son los contratos versionables de la API.
+
+##### 1. SensorReadingsController
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | SensorReadingsController |
+| **Categoría** | Controller |
+| **Ruta base** | `api/v1/sensor-readings` (vía API Gateway) |
+| **Propósito** | Historial de lecturas por gateway o por nodo. |
+
+**Métodos**
+
+| Nombre | Verbo HTTP | Ruta | Auth | Tipo de retorno | Descripción |
+|---|---|---|---|---|---|
+| GetByGateway | GET | `/` | JWT-User | 200 OK | Por `edgeMac`, con filtros `from`, `to`, `deviceMac` y paginado. |
+| GetByDevice | GET | `/{deviceMac}` | JWT-User | 200 OK | Historial del nodo con rango y paginado. |
+
+##### 2. AgronomicThresholdsController
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | AgronomicThresholdsController |
+| **Categoría** | Controller |
+| **Ruta base** | `api/v1/agronomic-thresholds` (vía API Gateway) |
+| **Propósito** | Consulta y ajuste de umbrales por nodo. |
+
+**Métodos**
+
+| Nombre | Verbo HTTP | Ruta | Auth | Tipo de retorno | Descripción |
+|---|---|---|---|---|---|
+| GetByDevice | GET | `/` | JWT-User | 200 OK | Umbrales del nodo (`deviceMac`). |
+| UpdateThreshold | PATCH | `/` | JWT-Admin | 200 OK | Ajuste parcial; crea el umbral si no existe. |
+
+##### 3. Resources
+
+Records inmutables de petición y respuesta.
+
+| Nombre | Campos | Descripción |
+|---|---|---|
+| SensorReadingViewResource | edgeMac, deviceMac, sensorType, value, measureUnit, measuredAt | Respuesta de lectura. |
+| ReadingHistoryQueryResource | edgeMac, deviceMac, from, to, page, size | Filtros de historial. |
+| UpdateThresholdResource | sensorType, minValue, maxValue, description | Solicitud de ajuste. |
+| ThresholdViewResource | edgeMac, deviceMac, sensorType, minValue, maxValue, version | Respuesta de umbral. |
+
+##### 4. Assemblers
+
+Clases estáticas que transforman entre recursos y objetos de dominio.
+
+| Nombre | Método | Descripción |
+|---|---|---|
+| ReadingsByGatewayQueryFromResourceAssembler | ToQueryFromResource(ReadingHistoryQueryResource) | Query de historial. |
+| ReadingsByDeviceQueryFromResourceAssembler | ToQueryFromResource(deviceMac, from, to, page, size) | Query por nodo. |
+| UpdateAgronomicThresholdCommandFromResourceAssembler | ToCommandFromResource(deviceMac, UpdateThresholdResource) | Ajuste de umbral. |
+| SensorReadingViewResourceFromAggregateAssembler | ToResourceFromAggregate(SensorReading) | Respuesta de lectura. |
+| ThresholdViewResourceFromAggregateAssembler | ToResourceFromAggregate(AgronomicThreshold) | Respuesta de umbral. |
+| ThresholdsByDeviceQueryFromResourceAssembler | ToQueryFromResource(deviceMac) | Query de umbrales. |
