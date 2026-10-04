@@ -299,3 +299,13 @@ La **Infrastructure Layer** implementa los puertos mediante EF Core, PostgreSQL 
 | `DependencyInjection` | Composition root | Registra PostgreSQL con `UseSnakeCaseNamingConvention`, repositorios, servicios y hosted services. |
 
 Las FK internas son `field_inspections.visit_id → field_visits.id`, `field_observations.inspection_id → field_inspections.id`, `inspection_alert_links.inspection_id → field_inspections.id` y `agronomic_interventions.origin_inspection_id → field_inspections.id` (nullable). Los IDs de usuario, plantación, sector, alerta y recomendación no son FKs cruzadas.
+
+## 5.6.5. Bounded Context Software Architecture Component Level Diagrams
+
+A continuación se muestra el diagrama C4 de componentes del container FieldService:
+
+![field-service-components-c4](../assets/chapter5/56-bc-field-service/FieldServiceComponents.png)
+
+Presenta la entrada desde API Gateway, los controllers, command/query services, el modelo de dominio, repositorios, `FieldDbContext`, Inbox, Outbox y PostgreSQL.
+
+**Comunicación externa.** IdentityService, CropService, AlertService y AgronomyService no invocan directamente a FieldService ni acceden a su base de datos. Publican eventos en el **Message Broker** (RabbitMQ); el `IntegrationEventConsumer` de FieldService los recibe por AMQP y delega en `IntegrationEventHandlers`. Esta decisión mantiene consistencia eventual de proyecciones y evita dependencias síncronas entre bounded contexts.
