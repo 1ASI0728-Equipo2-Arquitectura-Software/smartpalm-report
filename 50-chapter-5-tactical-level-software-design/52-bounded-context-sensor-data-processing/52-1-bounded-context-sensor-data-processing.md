@@ -406,3 +406,19 @@ Implementan las interfaces de dominio con Entity Framework Core sobre el context
 ##### 4. Consumers
 
 Los tres handlers de 5.2.3 operan como consumers RabbitMQ con reintento y dead-letter queue; cada uno delega en el command service correspondiente sin lógica de negocio propia.
+
+### 5.2.6. Bounded Context Software Architecture Component Level Diagrams.
+
+Un diagrama por cada container que toca el bounded context. El microservicio descompone en reconciliación de lotes, persistencia de lecturas, evaluación de umbrales, gestión de umbrales e historial, con repositorio a Postgres propio y publicación a RabbitMQ, todo detrás del API Gateway. BC-01 aparece como sistema externo que alimenta por eventos; BC-03 y BC-05 como consumidores.
+
+Se leen siguiendo el flujo de datos: la entrada siempre son los eventos de BC-01 vía broker, los componentes colaboran hacia el repositorio o el publicador, y las salidas son la base propia, el broker o los BCs consumidores. Cada vista recorta exactamente un container con sus vecinos: nada de lo que no participa aparece, y nada de lo que participa falta.
+
+![BC-02 microservicio (Component)](../../assets/chapter5/52-bounded-context-sensor-data-processing/52-component-microservice.png)
+
+La aplicación web analiza historial y umbrales consumiendo la API vía gateway con sesión autenticada. Se lee de izquierda a derecha: el administrador y el usuario entran por los servicios de análisis y seguimiento, todos convergen en el consumo centralizado con sesión, y de ahí al gateway y al microservicio.
+
+![BC-02 web (Component)](../../assets/chapter5/52-bounded-context-sensor-data-processing/52-component-web.png)
+
+La aplicación móvil consulta lecturas y estado de umbrales en campo con caché local y acceso remoto vía gateway. El flujo espeja al web con el apoyo de campo: caché local para la intermitencia; el acceso remoto es el único que sale al gateway.
+
+![BC-02 movil (Component)](../../assets/chapter5/52-bounded-context-sensor-data-processing/52-component-mobile.png)
