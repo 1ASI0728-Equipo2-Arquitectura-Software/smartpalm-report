@@ -277,3 +277,25 @@ La **Application Layer** coordina los casos de uso, aplica autorización sobre l
 | `IIntegrationEventWriter`, `IInbox` | Application ports | `Enqueue`; `HasProcessedAsync`, `MarkProcessed`. | Abstraen Outbox e Inbox del caso de uso. |
 
 `OnceAsync` primero revisa si el `Guid` del mensaje existe en Inbox; de no existir, aplica el handler, marca el mensaje procesado y guarda la transacción. Una redelivery no vuelve a modificar la proyección.
+
+## 5.6.4. Infrastructure Layer
+
+La **Infrastructure Layer** implementa los puertos mediante EF Core, PostgreSQL y RabbitMQ. Cada tabla pertenece al servicio y los IDs de otros contextos se guardan solo como proyecciones locales.
+
+| Nombre | Categoría | Implementación y responsabilidad |
+|---|---|---|
+| `FieldDbContext` | EF Core DbContext / `IUnitOfWork` | Mapea el esquema `field`, agrega `DbSet` de agregados, evidencia, proyecciones, Inbox y Outbox; `ExecuteAsync<T>` confirma o revierte la transacción. |
+| `FieldVisitRepository` | EF repository | Implementa agenda y búsqueda de visitas. |
+| `FieldInspectionRepository` | EF repository | Implementa búsquedas por ID, `ClientReference`, visita y plantación. |
+| `InterventionRepository` | EF repository | Implementa filtros por plantación, sector y recomendación. |
+| `FieldProjectionRepository` | EF repository | Materializa y consulta proyecciones locales. |
+| `Inbox`, `InboxMessage` | Idempotency adapter / entity | Persiste IDs y tipos de eventos consumidos. |
+| `IntegrationEventWriter`, `OutboxMessage`, `OutboxPublisher` | Outbox adapter, entity y hosted service | Registra `field.*.v1` en la transacción y publica con reintentos. |
+| `IntegrationEventConsumer` | RabbitMQ consumer | Consume eventos de Identity, Crop, Alert y Agronomy, los despacha y confirma tras procesarlos. |
+| `RabbitMqOptions` | Configuration options | Configura conexión, exchange y colas del broker. |
+| `FieldDbContextFactory` | Design-time factory | Crea el DbContext para herramientas de migración desde configuración. |
+| `FieldDatabaseInitializer` | Initializer | Aplica migraciones al arrancar. |
+| `FieldDatabaseHealthCheck` | Health check | Comprueba la disponibilidad para readiness. |
+| `DependencyInjection` | Composition root | Registra PostgreSQL con `UseSnakeCaseNamingConvention`, repositorios, servicios y hosted services. |
+
+Las FK internas son `field_inspections.visit_id → field_visits.id`, `field_observations.inspection_id → field_inspections.id`, `inspection_alert_links.inspection_id → field_inspections.id` y `agronomic_interventions.origin_inspection_id → field_inspections.id` (nullable). Los IDs de usuario, plantación, sector, alerta y recomendación no son FKs cruzadas.
