@@ -441,3 +441,50 @@ Duplicados se rechazan con `409` e inexistentes con `404`.
 | **Nombre** | SubscriptionActivatedHandler |
 | **Categoría** | Event Handler (RabbitMQ) |
 | **Propósito** | Consume `SubscriptionActivated` (BC-07) de forma idempotente por `correlationId` y habilita el registro de dispositivos de la suscripción. |
+
+### 5.1.4. Infrastructure Layer.
+
+Materialización del microservicio con persistencia y mensajería propias: base de datos exclusiva con migraciones propias y cero tablas compartidas.
+
+La base propia es lo que hace real el límite del bounded context: el servicio evoluciona, migra y escala sin coordinar esquemas con nadie, y ninguna consulta cruza a tablas ajenas. La mensajería sale por Outbox con relay para que la publicación sobreviva caídas, y la seguridad se aplica en el borde (identidad de dispositivo) antes de tocar dominio. Todo lo que vive en campo —Edge API, SQLite, firmware— queda deliberadamente fuera del microservicio e interactúa solo por contratos HTTP y eventos.
+
+##### 1. DeviceManagementDbContext
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | DeviceManagementDbContext |
+| **Categoría** | DbContext propio del microservicio (PostgreSQL, `DATABASE_URL` exclusiva) |
+| **Propósito** | Acceso a datos del BC-01. El propio contexto actúa como Unit of Work (`SaveChanges` transaccional junto al Outbox). |
+| **Tablas** | `edge_devices` (con `DeviceConfiguration` como tipo propio), `iot_devices`, `sync_batches` (`batch_id` único), `connectivity_logs`, `outbox_messages`. snake_case, únicos en `mac_address` y `batch_id`. |
+
+##### 2. EdgeDeviceRepository + IotDeviceRepository
+
+Implementan las interfaces de dominio con Entity Framework Core sobre el contexto propio, con búsqueda por dirección MAC. Sin dependencias de acceso a datos fuera del servicio.
+
+##### 3. RabbitMqEventPublisher + OutboxRelay
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | RabbitMqEventPublisher / OutboxRelay |
+| **Categoría** | Messaging (publisher + relay) |
+| **Propósito** | Publicar eventos versionados (exchange por tipo, dead-letter queue). El relay drena `outbox_messages` y confirma la publicación; los consumidores son idempotentes por `readingId`, `batchId` y `correlationId`. |
+
+##### 4. DeviceIdentityValidator
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | DeviceIdentityValidator |
+| **Categoría** | Security (infraestructura) |
+| **Propósito** | Validar la identidad de cada dispositivo en sincronizaciones y heartbeats con el secreto aprovisionado al registrarlo. La telemetría de MAC desconocida o dada de baja se rechaza con `401/403`. |
+
+##### 5. Interoperación Edge
+
+El Edge API (Raspberry Pi + SQLite) es la contraparte de campo: autentica el firmware, normaliza lecturas, evalúa umbrales con la última versión válida, almacena hasta 72 horas y envía lotes idempotentes a `POST /synchronizations`. La propagación de umbrales y configuración hacia el edge se coordina con los bounded contexts de procesamiento y recomendación (BC-02/BC-04).
+
+##### 6. Stores operativos
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | SyncBatchStore / ConnectivityLogStore |
+| **Categoría** | Persistencia operativa (infraestructura) |
+| **Propósito** | `SyncBatchStore` registra `sync_batches` por `batch_id` único en la misma transacción del lote. `ConnectivityLogStore` anexa `connectivity_logs` por heartbeat como auditoría; el estado vivo permanece en el agregado. |
