@@ -200,3 +200,20 @@ La **Application Layer** orquesta los capabilities de autenticación, alta de us
 | `IPaymentProcessor` | External-service port | `ProcessAsync(payment, token)`. | Aísla el proveedor de cobros. |
 | `IIntegrationEventWriter` | Messaging port | `Enqueue(eventType, payload)`. | Aísla la escritura de Outbox. |
 
+## 5.7.4. Infrastructure Layer
+
+La **Infrastructure Layer** implementa los puertos con EF Core, PostgreSQL, BCrypt, JWT, un adaptador de pago local y RabbitMQ. IdentityService solo publica mensajes, por lo que no requiere consumer ni Inbox.
+
+| Nombre | Categoría | Implementación y responsabilidad |
+|---|---|---|
+| `IdentityDbContext` | EF Core DbContext / `IUnitOfWork` | Mapea usuarios, suscripciones, pagos y Outbox en el esquema `identity`; ejecuta transacciones con estrategia de reintento. |
+| `UserRepository`, `SubscriptionRepository`, `PaymentRepository` | EF repositories | Implementan los tres puertos de persistencia. |
+| `PasswordHasher` | Security adapter | Usa BCrypt con factor 12 para hash y verificación. |
+| `JwtTokenIssuer` | Security adapter | Firma JWT HMAC-SHA256 y conserva los claims requeridos por los clientes. |
+| `LocalPaymentProcessor` | Payment adapter | Implementa el puerto de cobro de forma reemplazable para entorno local. |
+| `IntegrationEventWriter`, `OutboxMessage`, `OutboxPublisher` | Outbox adapter, entity y hosted service | Persisten JSONB en la transacción y publican lotes de 50 mensajes pendientes con reintentos. |
+| `JwtOptions`, `RabbitMqOptions`, `SeedOptions` | Configuration options | Enlazan las opciones de JWT, broker y datos semilla. |
+| `IdentityDbContextFactory`, `IdentityDatabaseInitializer` | Design-time factory / initializer | Habilitan migraciones y las aplican al arranque. |
+| `DependencyInjection` | Composition root | Registra DbContext con `UseSnakeCaseNamingConvention`, puertos, servicios y publisher. |
+
+Las relaciones físicas privadas son `subscriptions.user_id → users.id` y `payment_transactions.user_id → users.id`. `username` y `email` son únicos; el contenido del Outbox es JSONB. No hay FK o acceso de datos hacia FieldService o AgronomyService.
