@@ -310,3 +310,80 @@ Eventos versionados sobre RabbitMQ con entrega al menos una vez; los consumidore
 BC-01 consume `SubscriptionActivated` (BC-07), que habilita el registro de dispositivos de la suscripción.
 
 ---
+
+### 5.1.2. Interface Layer.
+
+Punto de entrada HTTP del microservicio. Todo el tráfico pasa por el API Gateway: los usuarios con JWT según rol y los dispositivos con identidad validada. Todos los endpoints requieren autenticación. Los controllers delegan en Application mediante assemblers que convierten entre recursos y commands o queries.
+
+El gateway es la única puerta: concentra autenticación por rol para personas y validación de identidad para dispositivos, de modo que ningún endpoint quede anónimo. Los controllers son deliberadamente delgados —validan forma, convierten y delegan— para que las reglas vivan en dominio y aplicación, no en HTTP. Los resources son los contratos versionables de la API y los assemblers los traducen en ambas direcciones sin que el dominio conozca detalles web.
+
+##### 1. EdgeGatewaysController
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | EdgeGatewaysController |
+| **Categoría** | Controller |
+| **Ruta base** | `api/v1/edge-gateways` (vía API Gateway) |
+| **Propósito** | Ciclo de vida de gateways: registro, configuración, estado y sincronización. |
+
+**Métodos**
+
+| Nombre | Verbo HTTP | Ruta | Auth | Tipo de retorno | Descripción |
+|---|---|---|---|---|---|
+| RegisterEdgeDevice | POST | `/` | JWT-Admin | 201 Created | Alta de gateway. |
+| UpdateSamplingConfiguration | PATCH | `/{mac}/configuration` | JWT-Admin | 200 OK | Reemplazo de configuración. |
+| DecommissionEdgeDevice | DELETE | `/{mac}` | JWT-Admin | 204 No Content | Baja lógica del gateway. |
+| ListEdgeGateways | GET | `/` | JWT-User | 200 OK | Todos los gateways. |
+| GetSamplingConfiguration | GET | `/{mac}/configuration` | Device | 200 OK | Configuración vigente para aplicar en campo. |
+| GetConnectivityStatus | GET | `/{mac}/connectivity` | JWT-User | 200 OK | Estado de conectividad y salud. |
+| GetGatewayDevices | GET | `/{mac}/devices` | JWT-User | 200 OK | Nodos del gateway. |
+| SynchronizeEdgeData | POST | `/{mac}/synchronizations` | Device | 202 Accepted | Lote idempotente; procesamiento asíncrono. |
+| ReportConnectivity | POST | `/{mac}/heartbeats` | Device | 202 Accepted | Heartbeat de conectividad. |
+
+##### 2. IotDevicesController
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | IotDevicesController |
+| **Categoría** | Controller |
+| **Ruta base** | `api/v1/iot-devices` (vía API Gateway) |
+| **Propósito** | Operaciones directas sobre nodos. |
+
+**Métodos**
+
+| Nombre | Verbo HTTP | Ruta | Auth | Tipo de retorno | Descripción |
+|---|---|---|---|---|---|
+| RegisterIotDevice | POST | `/` | JWT-Admin | 201 Created | Alta de nodo (`{edgeMac, iotMac}`). |
+| GetIotDevice | GET | `/{mac}` | JWT-User | 200 OK | Detalle del nodo. |
+| DecommissionIotDevice | DELETE | `/{mac}` | JWT-Admin | 204 No Content | Baja lógica del nodo. |
+
+##### 3. Resources
+
+Records inmutables de petición y respuesta.
+
+| Nombre | Campos | Descripción |
+|---|---|---|
+| EdgeDeviceRegistrationResource | edgeMac, monitoringZoneId | Solicitud de alta de gateway. |
+| IotDeviceRegistrationResource | edgeMac, iotMac | Solicitud de alta de nodo. |
+| SamplingConfigurationResource | samplingIntervalMinutes, transmissionMode, retryPolicy | Solicitud de configuración. |
+| EdgeSynchronizationResource | batchId, readings[], syncedAt | Lote de sincronización; lecturas `{readingId, deviceMac, sensorType, measuredAt, value}`. |
+| HeartbeatResource | checkedAt | Heartbeat de conectividad. |
+| ConnectivityStatusResource | mac, connectivity, health, lastSyncAt | Respuesta de estado. |
+| GatewayDevicesResource | gatewayMac, devices[] | Respuesta con nodos y estados. |
+
+##### 4. Assemblers
+
+Clases estáticas que transforman entre recursos y objetos de dominio.
+
+| Nombre | Método | Descripción |
+|---|---|---|
+| RegisterEdgeDeviceCommandFromResourceAssembler | ToCommandFromResource(EdgeDeviceRegistrationResource) | Alta de gateway. |
+| RegisterIotDeviceCommandFromResourceAssembler | ToCommandFromResource(edgeMac, IotDeviceRegistrationResource) | Alta de nodo. |
+| UpdateSamplingConfigurationCommandFromResourceAssembler | ToCommandFromResource(mac, SamplingConfigurationResource) | Configuración. |
+| EdgeSynchronizationCommandFromResourceAssembler | ToCommandFromResource(gatewayMac, EdgeSynchronizationResource) | Sincronización. |
+| ReportConnectivityCommandFromResourceAssembler | ToCommandFromResource(mac, HeartbeatResource) | Heartbeat. |
+| ConnectivityStatusQueryFromResourceAssembler | ToQueryFromResource(edgeMac) | Query de estado. |
+| GatewayDevicesQueryFromResourceAssembler | ToQueryFromResource(edgeMac) | Query de nodos. |
+| SamplingConfigurationQueryFromResourceAssembler | ToQueryFromResource(mac) | Query de configuración. |
+| ConnectivityStatusResourceFromAggregateAssembler | ToResourceFromAggregate(EdgeDevice) | Respuesta de estado. |
+| GatewayDevicesResourceFromAggregateAssembler | ToResourceFromAggregate(EdgeDevice, List\<IotDevice\>) | Respuesta de nodos. |
