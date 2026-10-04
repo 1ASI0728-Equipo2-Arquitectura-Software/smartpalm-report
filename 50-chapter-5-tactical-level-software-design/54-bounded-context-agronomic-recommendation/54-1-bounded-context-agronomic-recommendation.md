@@ -326,3 +326,38 @@ Inexistentes se responden con `404`.
 | **Nombre** | ThresholdExceededHandler |
 | **Categoría** | Event Handler (RabbitMQ) |
 | **Propósito** | Consume `ThresholdExceeded` (BC-02) de forma idempotente por `correlationId` y delega en el generation service la creación del borrador. |
+
+### 5.4.4. Infrastructure Layer.
+
+Materialización del microservicio con persistencia y mensajería propias: base de datos exclusiva con migraciones propias y cero tablas compartidas.
+
+La base propia es lo que hace real el límite del bounded context: el servicio evoluciona, migra y escala sin coordinar esquemas con nadie. La intervención referencia a su recomendación con FK real porque ambas viven en la misma base; plantación, agrónomo y dispositivo son Guid/MAC lógicos sin FK porque viven en otras bases. La mensajería sale por Outbox con relay para que la publicación sobreviva caídas, y la IA se consume como sistema externo falible con timeout y fallback a borrador manual.
+
+##### 1. RecommendationDbContext
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | RecommendationDbContext |
+| **Categoría** | DbContext propio del microservicio (PostgreSQL, `DATABASE_URL` exclusiva) |
+| **Propósito** | Acceso a datos del BC-04. El propio contexto actúa como Unit of Work (`SaveChanges` transaccional junto al Outbox). |
+| **Tablas** | `recommendations`, `agronomic_interventions` (FK a recomendación), `outbox_messages`. snake_case. |
+
+##### 2. RecommendationRepository
+
+Implementa la interfaz de dominio con Entity Framework Core sobre el contexto propio, con búsqueda por plantación, estado y agrónomo. Sin dependencias de acceso a datos fuera del servicio.
+
+##### 3. RabbitMqEventPublisher + OutboxRelay
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | RabbitMqEventPublisher / OutboxRelay |
+| **Categoría** | Messaging (publisher + relay) |
+| **Propósito** | Publicar eventos versionados (exchange por tipo, dead-letter queue). El relay drena `outbox_messages` y confirma la publicación; los consumidores son idempotentes por `recommendationId`, `interventionId` y `correlationId`. |
+
+##### 4. AIEngineClient
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | AIEngineClient |
+| **Categoría** | Integration (infraestructura) |
+| **Propósito** | Cliente HTTP al AI Engine externo con timeout: ante falla o timeout, el generation service crea el borrador manual sin bloquear el flujo. |
