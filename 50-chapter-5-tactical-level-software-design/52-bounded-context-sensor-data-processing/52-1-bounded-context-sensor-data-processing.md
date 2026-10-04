@@ -436,3 +436,9 @@ Modelo estructural (agregado, entidad, enumeraciones, repositorios, servicios de
 ![BC-02 clases de dominio - contratos y mensajes (UML)](../../assets/chapter5/52-bounded-context-sensor-data-processing/52-domain-contracts-diagram.png)
 
 ![BC-02 eventos de integración (UML)](../../assets/chapter5/52-bounded-context-sensor-data-processing/52-domain-events-diagram.png)
+
+#### 5.2.7.2. Bounded Context Database Design Diagram.
+
+Tablas, columnas, constraints y relaciones de la base de datos propia del microservicio. Las MAC son referencias lógicas a BC-01 sin claves foráneas porque viven en otra base; el Outbox no referencia al dominio con claves foráneas porque los mensajes no son agregados. La unicidad de `reading_id` es la garantía física de la idempotencia de consumo.
+
+![BC-02 diagrama de BD](../../assets/chapter5/52-bounded-context-sensor-data-processing/52-database-diagram.png)
