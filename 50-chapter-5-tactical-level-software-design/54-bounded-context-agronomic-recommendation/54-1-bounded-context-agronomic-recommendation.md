@@ -275,3 +275,54 @@ Clases estáticas que transforman entre recursos y objetos de dominio.
 | RecommendationByIdQueryFromResourceAssembler | ToQueryFromResource(id) | Query por id. |
 | RecommendationsByPlantationQueryFromResourceAssembler | ToQueryFromResource(plantationId, status, agronomistId, page, size) | Query con filtros. |
 | RecommendationViewResourceFromAggregateAssembler | ToResourceFromAggregate(Recommendation) | Respuesta. |
+
+### 5.4.3. Application Layer.
+
+Orquesta los flujos de negocio: recibe commands, queries y el evento trigger, recupera agregados, aplica reglas de ciclo de vida, persiste mediante Unit of Work y publica eventos con Outbox transaccional (misma transacción del cambio, con relay al broker).
+
+La capa hace cumplir el ciclo: crear deja Pending, editar solo procede en Pending, aprobar exige Pending, publicar exige Approved, e intervenir exige Published. Cada transición confirmada deja su evento en el Outbox dentro de la misma transacción. Las queries solo leen estados ya calculados.
+
+##### 1. RecommendationCommandService
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | RecommendationCommandService |
+| **Categoría** | Command Service |
+| **Propósito** | Flujos del ciclo de vida e intervenciones. |
+| **Atributos** | `uow: IUnitOfWork`, `recommendationRepository`, `generation: IRecommendationGenerationService`, `outbox: IOutboxWriter`. |
+
+**Métodos (Handle)**
+
+| Nombre | Descripción |
+|---|---|
+| Handle(CreateRecommendationCommand) | Crea el agregado en Pending y persiste. |
+| Handle(UpdateRecommendationContentCommand) | Recomendación en Pending: reemplaza contenido y persiste; otro estado se rechaza con `409`. |
+| Handle(ApproveRecommendationCommand) | Pending → Approved con `ApprovedAt`; persiste. |
+| Handle(PublishRecommendationCommand) | Approved → Published con `PublishedAt`; persiste y publica `RecommendationPublished`. |
+| Handle(RegisterInterventionCommand) | Recomendación en Published: crea la intervención, persiste y publica `InterventionRegistered`. |
+
+Inexistentes se responden con `404`.
+
+##### 2. RecommendationQueryService
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | RecommendationQueryService |
+| **Categoría** | Query Service |
+| **Propósito** | Lecturas de recomendaciones e intervenciones, sin mutación. |
+
+**Métodos**
+
+| Nombre | Tipo de retorno | Visibilidad | Descripción |
+|---|---|---|---|
+| Handle(RecommendationByIdQuery) | Task\<Recommendation?\> | public | Una recomendación por `Id`. |
+| Handle(RecommendationsByPlantationQuery) | Task\<IEnumerable\<Recommendation\>\> | public | Por plantación con filtros y paginación. |
+| Handle(InterventionsByRecommendationQuery) | Task\<IEnumerable\<AgronomicIntervention\>\> | public | Intervenciones de una recomendación. |
+
+##### 3. ThresholdExceededHandler
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | ThresholdExceededHandler |
+| **Categoría** | Event Handler (RabbitMQ) |
+| **Propósito** | Consume `ThresholdExceeded` (BC-02) de forma idempotente por `correlationId` y delega en el generation service la creación del borrador. |
