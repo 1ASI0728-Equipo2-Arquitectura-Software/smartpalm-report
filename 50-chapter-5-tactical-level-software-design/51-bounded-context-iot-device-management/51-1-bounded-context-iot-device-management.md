@@ -520,3 +520,9 @@ Modelo estructural (agregada, entidades, value object, enumeraciones, repositori
 ![BC-01 clases de dominio - modelo (UML)](../../assets/chapter5/51-bounded-context-iot-device-management/51-domain-class-diagram.png)
 
 ![BC-01 clases de dominio - contratos y mensajes (UML)](../../assets/chapter5/51-bounded-context-iot-device-management/51-domain-contracts-diagram.png)
+
+#### 5.1.7.2. Bounded Context Database Design Diagram.
+
+Tablas, columnas, constraints y relaciones de la base de datos propia del microservicio. Los únicos identificadores que cruzan tablas son los del propio agregado; el Outbox no referencia al dominio con claves foráneas porque los mensajes no son agregados.
+
+![BC-01 diagrama de BD](../../assets/chapter5/51-bounded-context-iot-device-management/51-database-diagram.png)
