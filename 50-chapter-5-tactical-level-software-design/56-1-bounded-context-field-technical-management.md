@@ -259,3 +259,21 @@ La **Interface Layer** del bounded context **Field Technical Management** recibe
 | `RegisterFieldInterventionResource`, `RegisterInterventionResource`, `ReviewInterventionResource` | Request resources | Soportan contrato actual, heredado y decisión de revisión. |
 | `FieldVisitResource`, `FieldInspectionResource`, `FieldObservationResource`, `AgronomicInterventionResource`, `LegacyAgronomicInterventionResource` | Response resources | Exponen el estado necesario sin revelar entidades EF. |
 | `FieldAssemblers` | Static assembler | Construye commands, convierte agregados a resources y analiza enums de consulta. |
+
+## 5.6.3. Application Layer
+
+La **Application Layer** coordina los casos de uso, aplica autorización sobre las proyecciones locales, invoca la lógica del agregado y persiste el cambio junto a su evento de salida. Los controllers no contienen reglas de transición.
+
+| Nombre | Categoría | Dependencias y métodos | Responsabilidad |
+|---|---|---|---|
+| `FieldVisitCommandService` | Command Service | Repositorios de visita/inspección, UoW, Outbox y `FieldAuthorizationService`; cuatro `HandleAsync`. | Planifica, inicia, completa y cancela; publica eventos de planificación/completitud. |
+| `FieldInspectionCommandService` | Command Service | Repositorios de visita, inspección y proyección, UoW, Outbox, autorización. | Deduplica por `ClientReference`, registra/sincroniza inspecciones, evidencia y alertas. |
+| `InterventionCommandService` | Command Service | Repositorios, proyecciones, autorización, trazabilidad, UoW y Outbox. | Registra, verifica y rechaza intervenciones publicando los hechos correspondientes. |
+| `FieldVisitQueryService` | Query Service | `IFieldVisitRepository`; dos `HandleAsync`. | Obtiene agenda y detalle sin modificar estado. |
+| `FieldInspectionQueryService` | Query Service | `IFieldInspectionRepository`; dos `HandleAsync`. | Obtiene inspecciones por ID o plantación. |
+| `InterventionQueryService` | Query Service | `IInterventionRepository`; cuatro `HandleAsync`. | Obtiene intervenciones por ID, plantación, sector o recomendación. |
+| `FieldAuthorizationService` | Application Domain Service | `IFieldProjectionRepository`, `FieldAccessPolicy`; `EnsureAgronomistAccessAsync`, `EnsureFieldUserAccessAsync`. | Traduce reglas de acceso en consultas locales. |
+| `IntegrationEventHandlers` | Event Handler | Proyecciones, `IInbox`, UoW; doce sobrecargas `HandleAsync` y `OnceAsync`. | Actualiza proyecciones de Identity, Crop, Alert y Agronomy de forma idempotente. |
+| `IIntegrationEventWriter`, `IInbox` | Application ports | `Enqueue`; `HasProcessedAsync`, `MarkProcessed`. | Abstraen Outbox e Inbox del caso de uso. |
+
+`OnceAsync` primero revisa si el `Guid` del mensaje existe en Inbox; de no existir, aplica el handler, marca el mensaje procesado y guarda la transacción. Una redelivery no vuelve a modificar la proyección.
