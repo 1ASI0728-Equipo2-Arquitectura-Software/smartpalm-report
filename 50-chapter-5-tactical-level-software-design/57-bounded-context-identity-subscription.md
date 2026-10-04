@@ -184,3 +184,19 @@ Ambos controllers devuelven `UserResponse`. `CreateUser` usa `CreateUserResource
 | `IdentityResourceAssemblers` | Static assembler | Convierte resources a commands y mantiene el contrato HTTP separado de Domain. |
 | `AuthenticatedUserResponse`, `UserResponse`, `PlanResponse`, `SubscriptionResponse`, `InactiveSubscriptionResponse`, `PaymentResponse` | Application response contracts | Evitan exponer agregados y entidades directamente. |
 | `DatabaseHealthCheck` | Health check | Comprueba PostgreSQL para `/health/ready`; `/health/live` es verificación de proceso. |
+
+## 5.7.3. Application Layer
+
+La **Application Layer** orquesta los capabilities de autenticación, alta de usuario, administración de suscripciones y cobro. Valida datos de frontera, llama a los agregados y repositorios, y escribe el evento de integración en la misma transacción que el cambio de estado.
+
+| Nombre | Categoría | Dependencias y métodos | Responsabilidad |
+|---|---|---|---|
+| `IdentityCommandService` | Command Service | `IUserRepository`, password/token ports, Outbox y UoW; `SignInAsync`, `CreateAsync`. | Autentica, comprueba estado `Active`, valida duplicados, hashea contraseña, crea usuario y publica `user-created`. |
+| `IdentityQueryService` | Query Service | `IUserRepository`; dos sobrecargas `HandleAsync`. | Devuelve usuario por ID o listado como `UserResponse`. |
+| `SubscriptionCommandService` | Command Service | repositorios, `IPaymentProcessor`, Outbox y UoW; `CreateAsync`, `CancelAsync`, `ProcessPaymentAsync`. | Crea pendiente, cancela activa o procesa pago, completa transacción y activa la suscripción. |
+| `SubscriptionQueryService` | Query Service | repositorios de suscripción/pago; catálogo. | Devuelve planes, suscripciones activas/inactivas, listados y pagos. |
+| `IPasswordHasher` | Security port | `Hash`, `Verify`. | Desacopla BCrypt del caso de uso. |
+| `ITokenIssuer` | Security port | `Create(User)`. | Emite JWT con `sub`, `sid`, `name`, `role` y `jti`. |
+| `IPaymentProcessor` | External-service port | `ProcessAsync(payment, token)`. | Aísla el proveedor de cobros. |
+| `IIntegrationEventWriter` | Messaging port | `Enqueue(eventType, payload)`. | Aísla la escritura de Outbox. |
+
