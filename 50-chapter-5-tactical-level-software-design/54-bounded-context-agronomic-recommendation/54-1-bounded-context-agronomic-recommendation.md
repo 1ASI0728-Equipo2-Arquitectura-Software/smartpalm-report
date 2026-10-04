@@ -377,3 +377,17 @@ La aplicación web revisa borradores, aprueba, publica y consulta historial cons
 La aplicación móvil muestra publicadas y registra intervenciones en campo con caché local y acceso remoto vía gateway. El flujo espeja al web con el apoyo de campo: caché local para la intermitencia; el acceso remoto es el único que sale al gateway.
 
 ![BC-04 movil (Component)](../../assets/chapter5/54-bounded-context-agronomic-recommendation/54-component-mobile.png)
+
+### 5.4.7. Bounded Context Software Architecture Code Level Diagrams.
+
+Diagramas de detalle de implementación del bounded context, consistentes con el diccionario de la Domain Layer. Rige una sola regla para las tres láminas: diagrama y diccionario dicen exactamente lo mismo; ante cualquier diferencia, manda el diccionario.
+
+#### 5.4.7.1. Bounded Context Domain Layer Class Diagrams.
+
+Modelo estructural (agregado, entidad, enumeraciones, repositorio y servicio de generación), contratos con mensajes (servicios de comandos/consultas, commands y queries) y eventos de integración (consumido de BC-02 y publicados, todos v1). La primera lámina se lee del agregado hacia afuera —contención y usos—; la segunda, de los servicios hacia sus mensajes mediante la relación "procesa"; la tercera lista los tres eventos con sus payloads. `SensorType` figura como shared kernel definido en 5.1.
+
+![BC-04 clases de dominio - modelo (UML)](../../assets/chapter5/54-bounded-context-agronomic-recommendation/54-domain-class-diagram.png)
+
+![BC-04 clases de dominio - contratos y mensajes (UML)](../../assets/chapter5/54-bounded-context-agronomic-recommendation/54-domain-contracts-diagram.png)
+
+![BC-04 eventos de integración (UML)](../../assets/chapter5/54-bounded-context-agronomic-recommendation/54-domain-events-diagram.png)
