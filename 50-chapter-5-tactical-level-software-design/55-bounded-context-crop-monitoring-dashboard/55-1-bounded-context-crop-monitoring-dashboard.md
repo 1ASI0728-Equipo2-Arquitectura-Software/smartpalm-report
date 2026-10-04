@@ -592,3 +592,9 @@ Contratos en tres láminas: comandos (cómputo y reportes), queries de monitoreo
 Eventos consumidos de BC-02 y BC-04 (contratos existentes, todos v1) y el publicado propio, con sus payloads. Las alertas no figuran aquí: llegan por ACL a BC-03, cuyos eventos aún no existen.
 
 ![BC-05 eventos de integración (UML)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-domain-events-diagram.png)
+
+#### 5.5.7.4. Bounded Context Database Design Diagram.
+
+Tablas, columnas, constraints y relaciones de la base de datos propia del microservicio. FKs reales solo dentro de la base (resúmenes→snapshot, join→vista/snapshot, secciones→reporte, referencias→reporte/snapshot); zona, plantación y autor son Guid lógicos sin FK porque viven en otras bases. No hay tablas de telemetría cruda por decisión D4. El Outbox no referencia al dominio con claves foráneas porque los mensajes no son agregados.
+
+![BC-05 diagrama de BD](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-database-diagram.png)
