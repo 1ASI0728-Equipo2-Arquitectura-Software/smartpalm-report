@@ -422,3 +422,17 @@ La aplicación web analiza historial y umbrales consumiendo la API vía gateway 
 La aplicación móvil consulta lecturas y estado de umbrales en campo con caché local y acceso remoto vía gateway. El flujo espeja al web con el apoyo de campo: caché local para la intermitencia; el acceso remoto es el único que sale al gateway.
 
 ![BC-02 movil (Component)](../../assets/chapter5/52-bounded-context-sensor-data-processing/52-component-mobile.png)
+
+### 5.2.7. Bounded Context Software Architecture Code Level Diagrams.
+
+Diagramas de detalle de implementación del bounded context, consistentes con el diccionario de la Domain Layer. Rige una sola regla para las tres láminas: diagrama y diccionario dicen exactamente lo mismo; ante cualquier diferencia, manda el diccionario.
+
+#### 5.2.7.1. Bounded Context Domain Layer Class Diagrams.
+
+Modelo estructural (agregado, entidad, enumeraciones, repositorios, servicios de dominio y factories), contratos con mensajes (servicios de comandos/consultas, commands y queries) y eventos de integración (consumidos de BC-01 y publicados, todos v1). La primera lámina se lee del agregado hacia afuera; la segunda, de los servicios hacia sus mensajes mediante la relación "procesa"; la tercera lista los seis eventos con sus payloads. `SensorType` figura como shared kernel definido en 5.1.
+
+![BC-02 clases de dominio - modelo (UML)](../../assets/chapter5/52-bounded-context-sensor-data-processing/52-domain-class-diagram.png)
+
+![BC-02 clases de dominio - contratos y mensajes (UML)](../../assets/chapter5/52-bounded-context-sensor-data-processing/52-domain-contracts-diagram.png)
+
+![BC-02 eventos de integración (UML)](../../assets/chapter5/52-bounded-context-sensor-data-processing/52-domain-events-diagram.png)
