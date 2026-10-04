@@ -1,76 +1,81 @@
+
 ## 5.3.2. Interface Layer
 
-La **Interface Layer** del bounded context **Alert & Notification** concentra la consulta y gestión de alertas expuestas a los roles autenticados. Sus controllers traducen recursos HTTP en comandos o consultas, aplican la información de identidad del JWT y retornan DTOs, manteniendo aislados los agregados y proyecciones internas.
+La **Interface Layer** recibe solicitudes HTTP autenticadas, obtiene la identidad y el rol desde JWT, convierte recursos en commands o queries y retorna recursos de transporte. Los controllers no exponen agregados ni entidades EF Core.
 
-#### 1. AlertsController
+##### 1. AlertsController
 
 | Campo | Detalle |
 |---|---|
 | **Nombre** | AlertsController |
 | **Categoría** | Controller REST |
 | **Ruta base** | `api/v1/alerts` |
-| **Propósito** | Listar las alertas visibles para el usuario autenticado y registrar su reconocimiento. |
+| **Propósito** | Listar alertas visibles y registrar su reconocimiento. |
 
 **Atributos**
 
 | Nombre | Tipo de dato | Visibilidad | Descripción |
 |---|---|---|---|
-| `_commandService` | `AlertCommandService` | private readonly | Coordina el reconocimiento de alertas. |
-| `_queryService` | `AlertQueryService` | private readonly | Filtra las alertas según el usuario y rol del JWT. |
+| `commandService` | `AlertCommandService` | private readonly (primary constructor) | Coordina reconocimientos. |
+| `queryService` | `AlertQueryService` | private readonly (primary constructor) | Recupera alertas por usuario y rol. |
 
 **Métodos**
 
-| Nombre | Verbo HTTP | Ruta | Tipo de retorno | Descripción |
-|---|---|---|---|---|
-| GetAlerts | GET | `/` | `Task<ActionResult<IReadOnlyList<AlertResource>>>` | Recupera las alertas permitidas para el usuario autenticado. |
-| AcknowledgeAlert | PATCH | `/{alertId}` | `Task<IActionResult>` | Construye `AcknowledgeAlertCommand`, registra el reconocimiento y devuelve `204 No Content`. |
+| Nombre | Verbo HTTP | Ruta | Autorización | Tipo de retorno | Descripción |
+|---|---|---|---|---|---|
+| `GetAlerts` | GET | `/` | `Administrator`, `PalmGrower`, `Agronomist` | `Task<ActionResult<IReadOnlyList<AlertResource>>>` | Crea `GetAlertsByUserIdQuery` desde JWT y devuelve alertas permitidas. |
+| `AcknowledgeAlert` | PATCH | `/{alertId}` | `Administrator`, `PalmGrower`, `Agronomist` | `Task<IActionResult>` | Crea `AcknowledgeAlertCommand` y retorna `204 No Content`. |
 
-#### 2. AdminAlertsController
+---
+
+##### 2. AdminAlertsController
 
 | Campo | Detalle |
 |---|---|
 | **Nombre** | AdminAlertsController |
 | **Categoría** | Controller REST administrativo |
 | **Ruta base** | `api/v1/admin/alerts` |
-| **Propósito** | Consultar globalmente las alertas con autorización administrativa. |
-
-**Atributos**
+| **Propósito** | Consultar globalmente las alertas para administración. |
 
 | Nombre | Tipo de dato | Visibilidad | Descripción |
 |---|---|---|---|
-| `_queryService` | `AlertQueryService` | private readonly | Obtiene el conjunto administrativo de alertas. |
+| `queryService` | `AlertQueryService` | private readonly (primary constructor) | Ejecuta la consulta administrativa. |
 
-**Métodos**
+| Nombre | Verbo HTTP | Ruta | Autorización | Tipo de retorno | Descripción |
+|---|---|---|---|---|---|
+| `ListAlerts` | GET | `/` | `Administrator` | `Task<ActionResult<IReadOnlyList<AlertResource>>>` | Ejecuta `GetAllAlertsQuery` y transforma sus resultados. |
 
-| Nombre | Verbo HTTP | Ruta | Tipo de retorno | Descripción |
-|---|---|---|---|---|
-| ListAlerts | GET | `/` | `Task<ActionResult<IReadOnlyList<AlertResource>>>` | Devuelve las alertas disponibles para administración. |
+---
 
-#### 3. UserAlertSettingsController
+##### 3. UserAlertSettingsController
 
 | Campo | Detalle |
 |---|---|
 | **Nombre** | UserAlertSettingsController |
 | **Categoría** | Controller REST |
 | **Ruta base** | `api/v1/alert-settings` |
-| **Propósito** | Consultar y actualizar la preferencia de silenciamiento por tipo de sensor. |
-
-**Atributos**
+| **Propósito** | Consultar y actualizar preferencias de silencio por sensor. |
 
 | Nombre | Tipo de dato | Visibilidad | Descripción |
 |---|---|---|---|
-| `_commandService` | `AlertCommandService` | private readonly | Crea o actualiza la configuración de alerta del usuario. |
-| `_queryService` | `AlertQueryService` | private readonly | Recupera configuraciones de alerta existentes. |
+| `commandService`, `queryService` | `AlertCommandService`, `AlertQueryService` | private readonly (primary constructor) | Coordinan mutaciones y lecturas de preferencias. |
 
-**Métodos**
+| Nombre | Verbo HTTP | Ruta | Autorización | Tipo de retorno | Descripción |
+|---|---|---|---|---|---|
+| `GetUserAlertSettings` | GET | `/` | Usuario autenticado | `Task<ActionResult<IReadOnlyList<UserAlertSettingResource>>>` | Lista preferencias del usuario de JWT. |
+| `GetUserAlertSettingBySensorType` | GET | `/{sensorType}` | Usuario autenticado | `Task<ActionResult<UserAlertSettingResource>>` | Retorna `400` por sensor inválido, `404` si no existe o `200 OK`. |
+| `UpdateUserAlertSetting` | PUT | `/{sensorType}` | Usuario autenticado | `Task<ActionResult<UserAlertSettingResource>>` | Valida el sensor, transforma el recurso y devuelve la preferencia actualizada. |
 
-| Nombre | Verbo HTTP | Ruta | Tipo de retorno | Descripción |
-|---|---|---|---|---|
-| GetUserAlertSettings | GET | `/` | `Task<ActionResult<IReadOnlyList<UserAlertSettingResource>>>` | Lista las preferencias del usuario autenticado. |
-| GetUserAlertSettingBySensorType | GET | `/{sensorType}` | `Task<ActionResult<UserAlertSettingResource>>` | Obtiene la preferencia de un tipo de sensor validado. |
-| UpdateUserAlertSetting | PUT | `/{sensorType}` | `Task<ActionResult<UserAlertSettingResource>>` | Transforma `UpdateUserAlertSettingResource` y actualiza `IsMuted`. |
+---
 
-#### Resources y assemblers
+##### 4. Resources, assemblers y claims
 
-`AlertResource`, `UserAlertSettingResource` y `UpdateUserAlertSettingResource` son records de transporte. `AlertResourceAssemblers` conserva las conversiones entre los recursos HTTP, los comandos y las respuestas del dominio. La autorización JWT permite al Palm Grower consultar sus alertas, al Agronomist consultar las plantaciones afiliadas y al Administrator acceder al conjunto administrativo. Los endpoints `/health/live` y `/health/ready` pertenecen a la supervisión técnica del proceso.
+| Nombre | Categoría | Campos o métodos | Propósito |
+|---|---|---|---|
+| `AlertResource` | Response record | `id`, `sensorType`, `message`, `level`, `status`, `timestamp` | Contrato HTTP de una alerta. |
+| `UserAlertSettingResource` | Response record | `sensorType`, `isMuted` | Contrato HTTP de una preferencia. |
+| `UpdateUserAlertSettingResource` | Request record | `isMuted` | Cuerpo de actualización. |
+| `AlertResourceAssemblers` | Static assembler | `ToResource(AlertResponse)`, `ToResource(UserAlertSettingResponse)` | Convierte DTOs de Application en recursos REST. |
+| `ClaimsPrincipalExtensions` | Internal static helper | `RequiredUserId`, `RequiredRole` | Obtiene `sid`/`sub` y `role`; rechaza claims ausentes o inválidos. |
 
+Los endpoints `/health/live` y `/health/ready` son puntos de supervisión técnica, no capacidades HTTP del dominio.
