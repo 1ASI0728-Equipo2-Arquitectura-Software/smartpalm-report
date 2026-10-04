@@ -1,22 +1,38 @@
+
 ## 5.3.4. Infrastructure Layer
 
-#### Implementaciones técnicas
+La **Infrastructure Layer** materializa los puertos mediante PostgreSQL, RabbitMQ y Firebase. Ninguna tabla es compartida con otro microservicio: las proyecciones de Crop llegan como eventos y se almacenan en el esquema local `alert`.
 
-| Nombre | Categoría | Propósito | Métodos o configuración relevante |
-| :--- | :--- | :--- | :--- |
-| AlertDbContext | EF Core DbContext | Mapear el esquema `alert` y actuar como `IUnitOfWork`. | DbSets de alertas, settings, proyecciones, Inbox, Outbox y entregas. |
-| AlertRepository | Repository Implementation | Implementar `IAlertRepository`. | Consultas por usuario/rol, alerta reciente y verificación de acceso. |
-| UserAlertSettingRepository | Repository Implementation | Implementar preferencias por usuario/sensor. | Búsqueda, listado y alta de settings. |
-| ProjectionRepository | Repository Implementation | Mantener referencias materializadas de Crop. | Upsert de plantation, sector y afiliación. |
-| NotificationDeliveryRepository | Repository Implementation | Gestionar entregas pendientes. | Alta y actualización del estado de dispatch. |
-| IntegrationEventConsumer / Inbox | Messaging Consumer | Consumir eventos con ack manual e idempotencia. | `InboxMessage` registra el identificador ya procesado. |
-| IntegrationEventWriter / OutboxPublisher | Messaging Publisher | Persistir y publicar eventos transaccionales. | `OutboxMessage` JSONB, confirmaciones y reintentos. |
-| FirebaseNotificationService | External Service | Implementar `IPushNotificationService` mediante FCM. | `SendAsync` devuelve resultado enviado, omitido o reintentable; credenciales provienen de entorno. |
+##### 1. Persistencia y repositorios
 
-`AlertDbContext` configura `alerts`, `user_alert_settings`, `notification_deliveries`, las tres proyecciones, `inbox_messages` y `outbox_messages` en `alert`. `notification_deliveries.alert_id → alerts.id` es FK interna; índices únicos protegen event source, settings, MAC y afiliaciones.
+| Nombre | Categoría | Propósito | Elementos relevantes |
+|---|---|---|---|
+| `AlertDbContext` | EF Core DbContext / `IUnitOfWork` | Mapear alertas, settings, entregas, proyecciones, Inbox y Outbox. | `ExecuteAsync<T>` abre una transacción, confirma al éxito y revierte ante error. |
+| `AlertRepository` | Repository implementation | Implementar alertas, duplicidad y visibilidad. | Consultas por MAC/sensor/fecha y acceso por rol. |
+| `UserAlertSettingRepository` | Repository implementation | Implementar preferencias por usuario/sensor. | Búsqueda, listado y alta. |
+| `ProjectionRepository` | Repository implementation | Implementar proyecciones materializadas de Crop. | Búsquedas por identificador, MAC o afiliación. |
+| `NotificationDeliveryRepository` | Repository implementation | Implementar el alta de entregas. | Agrega `NotificationDelivery` al DbContext. |
+| `AlertDbContextFactory` | Design-time factory | Habilitar EF Core CLI. | Lee `AlertDatabase` desde `appsettings`, entorno y variables; usa Npgsql y `snake_case`. |
+| `AlertDatabaseInitializer` | Database initializer | Aplicar migraciones al iniciar. | Reintenta hasta diez veces con espera de dos segundos. |
 
-`IntegrationEventConsumer` enlaza Ingestion y Crop, usa ack manual y reintentos; `Inbox` evita efectos duplicados. `OutboxPublisher` publica eventos `alert.*.v1`. `NotificationDispatcher` procesa entregas fuera de la transacción de alerta y `FirebaseNotificationService` implementa `IPushNotificationService` con Firebase Admin SDK; credenciales se inyectan por entorno. `RabbitMqOptions` y `FirebaseOptions` no contienen secretos en el repositorio.
+`AlertDbContext` configura `alerts`, `user_alert_settings`, `notification_deliveries`, las tres proyecciones, `inbox_messages` y `outbox_messages`. La única FK física de negocio es `notification_deliveries.alert_id → alerts.id`, con borrado en cascada. Índices únicos protegen `source_event_id`, usuario/sensor, MAC de sector y afiliación agrónomo/plantación.
 
-`InboxMessage` y `OutboxMessage` son entidades de mensajería; `AlertDbContextFactory` habilita EF en diseño, `AlertDatabaseInitializer` aplica migraciones y `DependencyInjection` registra políticas, repositorios y adaptadores. `AlertResponse` y `UserAlertSettingResponse` son los contratos de salida consumidos por los controllers; `ClaimsPrincipalExtensions` encapsula la lectura de identidad.
+##### 2. Mensajería e idempotencia
 
+| Nombre | Categoría | Propósito | Comportamiento relevante |
+|---|---|---|---|
+| `Inbox` / `InboxMessage` | Inbox adapter / entity | Implementar `IInbox`. | Registra `messageId`, tipo de evento y fecha para evitar reprocesamiento. |
+| `IntegrationEventWriter` / `OutboxMessage` | Outbox adapter / entity | Implementar `IIntegrationEventWriter`. | Serializa JSON con enums como texto y escribe el evento en la transacción actual. |
+| `IntegrationEventConsumer` | RabbitMQ `BackgroundService` | Consumir los seis eventos de Ingestion y Crop. | Declara exchange/cola, usa ack manual y reencola ante error. |
+| `OutboxPublisher` | RabbitMQ `BackgroundService` | Publicar eventos `alert.*.v1`. | Procesa hasta 100 mensajes, marca publicación y registra reintentos. |
+| `NotificationDispatcher` | `BackgroundService` | Enviar entregas pendientes o fallidas. | Procesa hasta 50 entregas con menos de 10 intentos y publica la entrega confirmada. |
 
+##### 3. Servicios externos, configuración y salud
+
+| Nombre | Categoría | Propósito | Elementos relevantes |
+|---|---|---|---|
+| `FirebaseNotificationService` | Firebase adapter / `IPushNotificationService` | Enviar FCM por tópico. | `SendAsync` devuelve `PushDispatchResult`; usa configuración o `FIREBASE_CREDENTIALS_JSON` y se deshabilita con seguridad si faltan credenciales. |
+| `RabbitMqOptions` | Configuration options | URI, exchange, cola y habilitación de RabbitMQ. | Se enlaza desde configuración. |
+| `FirebaseOptions` | Configuration options | Habilitación, tópico y credenciales de Firebase. | No almacena secretos en el repositorio. |
+| `DependencyInjection` | Composition root | Registrar adaptadores, repositorios, políticas y hosted services. | `AddAlertInfrastructure` exige `ConnectionStrings:AlertDatabase`. |
+| `AlertDatabaseHealthCheck` | Health check | Verificar PostgreSQL. | `CheckHealthAsync` usa `CanConnectAsync`. |
