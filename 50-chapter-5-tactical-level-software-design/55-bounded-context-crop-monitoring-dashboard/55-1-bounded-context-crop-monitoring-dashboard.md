@@ -586,3 +586,9 @@ Contratos en tres láminas: comandos (cómputo y reportes), queries de monitoreo
 ![BC-05 queries de series (UML)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-domain-queries-series-diagram.png)
 
 ![BC-05 queries de feed (UML)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-domain-queries-feed-diagram.png)
+
+#### 5.5.7.3. Bounded Context Integration Events Diagram.
+
+Eventos consumidos de BC-02 y BC-04 (contratos existentes, todos v1) y el publicado propio, con sus payloads. Las alertas no figuran aquí: llegan por ACL a BC-03, cuyos eventos aún no existen.
+
+![BC-05 eventos de integración (UML)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-domain-events-diagram.png)
