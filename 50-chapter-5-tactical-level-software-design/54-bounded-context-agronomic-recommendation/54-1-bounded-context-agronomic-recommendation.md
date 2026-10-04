@@ -1,0 +1,224 @@
+## 5.4. Bounded Context: Agronomic Recommendation.
+
+El bounded context **Agronomic Recommendation** gestiona el ciclo de vida de las recomendaciones agronómicas —borrador, aprobada, publicada— y el registro de las intervenciones que el productor ejecuta en campo: convierte la telemetría ya evaluada (BC-02) en acción agronómica, que luego notifican las alertas (BC-03) y muestra el monitoreo (BC-05). Sin recomendaciones aprobadas no hay manejo que notificar ni avance que monitorear. Por eso se despliega como **microservicio independiente** con base de datos propia, capaz de evolucionar su flujo de aprobación y su integración con IA sin arrastrar al resto de la solución.
+
+Esta sección detalla su diseño táctico en el orden en que se construye y se lee: primero el modelo de dominio con sus reglas (5.4.1), luego la superficie HTTP que lo expone (5.4.2), la orquestación de los flujos (5.4.3), la materialización en persistencia y mensajería (5.4.4), y finalmente las vistas de arquitectura que lo verifican visualmente (5.4.6 y 5.4.7). Las capacidades cubiertas son cinco: generar borradores manuales o asistidos por IA, aprobar y publicar con timestamps, consultar historial con filtros, registrar intervenciones del productor y versionar el contenido editable solo en borrador. El trigger de generación entra por evento desde BC-02; la gestión del ciclo de vida es HTTP por API Gateway.
+
+### 5.4.1. Domain Layer.
+
+La Domain Layer concentra el núcleo del dominio: el agregado `Recommendation`, la entidad `AgronomicIntervention`, las enumeraciones de estado y tipo, las interfaces de repositorio y de servicios, el servicio de generación, además de los commands, queries y eventos de integración que estructuran las operaciones del bounded context.
+
+El agregado se delimita por recomendación: cada `Recommendation` es una unidad de consistencia con su ciclo Pending → Approved → Published, y ninguna intervención existe fuera de su recomendación. El contenido solo se edita en borrador; una vez aprobada, la recomendación es inmutable (si cambia el criterio, se crea una nueva). El diccionario se lee ficha por ficha —categoría, propósito, atributos y métodos— y todo lo que aparece en los diagramas de 5.4.6 y 5.4.7 sale de aquí, sin elementos de más. `SensorType` no se redefine: se referencia el shared kernel de 5.1 para tipificar la variable que originó la recomendación.
+
+##### 1. Recommendation
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | Recommendation |
+| **Categoría** | Entity / Aggregate Root |
+| **Propósito** | Propuesta de manejo para el cultivo, generada por agrónomo o asistida por IA, con ciclo de aprobación y publicación. |
+
+**Atributos**
+
+| Nombre | Tipo de dato | Visibilidad | Descripción |
+|---|---|---|---|
+| Id | Guid | private | Identificador único, generable offline sin coordinación. |
+| PlantationId | Guid | private | Plantación objetivo. Referencia lógica a BC-06, sin FK. |
+| AgronomistId | Guid | private | Agrónomo responsable. Referencia lógica a BC-07, sin FK. |
+| DeviceMac | string | private | Nodo cuyo exceso originó el borrador. Referencia lógica a BC-01. |
+| SensorType | SensorType | private | Variable que originó el borrador (shared kernel 5.1). |
+| Content | string | private | Detalle técnico. Editable solo en Pending. |
+| Type | RecommendationType | private | Manual o asistida por IA. |
+| Status | RecommendationStatus | private | Pending / Approved / Published. |
+| CreatedAt | DateTime | private | Fecha de generación del borrador. |
+| ApprovedAt | DateTime | private | Fecha de aprobación. Nula hasta aprobar. |
+| PublishedAt | DateTime | private | Fecha de publicación. Nula hasta publicar. |
+
+**Métodos**
+
+| Nombre | Tipo de retorno | Visibilidad | Descripción |
+|---|---|---|---|
+| Create | void | public | Alta en estado Pending. |
+| UpdateContent | void | public | Reemplaza el contenido; solo en Pending. |
+| Approve | void | public | Pending → Approved; registra `ApprovedAt`. |
+| Publish | void | public | Approved → Published; registra `PublishedAt`. |
+
+---
+
+##### 2. RecommendationStatus
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | RecommendationStatus |
+| **Categoría** | Enumeration |
+| **Propósito** | Estados del ciclo de vida. El rechazo se modela no aprobando: el borrador expira sin publicar. |
+
+**Valores**
+
+| Nombre | Descripción |
+|---|---|
+| Pending | Borrador pendiente de aprobación. |
+| Approved | Aprobada por el agrónomo, aún no visible. |
+| Published | Publicada y visible para el productor. |
+
+---
+
+##### 3. RecommendationType
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | RecommendationType |
+| **Categoría** | Enumeration |
+| **Propósito** | Origen de la recomendación. |
+
+**Valores**
+
+| Nombre | Descripción |
+|---|---|
+| Manual | Creada manualmente por un agrónomo. |
+| AIGenerated | Borrador asistido por el AI Engine y validado por agrónomo. |
+
+---
+
+##### 4. AgronomicIntervention
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | AgronomicIntervention |
+| **Categoría** | Entity (hija del agregado `Recommendation`) |
+| **Propósito** | Acción ejecutada en campo por el productor tras recibir una recomendación publicada. Sin identidad fuera del agregado. |
+
+**Atributos**
+
+| Nombre | Tipo de dato | Visibilidad | Descripción |
+|---|---|---|---|
+| Id | Guid | private | Identificador único. |
+| RecommendationId | Guid | private | Recomendación base. FK real, misma base. |
+| Description | string | private | Descripción de la intervención realizada. |
+| PerformedBy | string | private | Nombre de quien la ejecutó. |
+| ExecutionDate | DateTime | private | Fecha real de ejecución. |
+| CreatedAt | DateTime | private | Fecha de registro en el sistema. |
+
+**Métodos**
+
+| Nombre | Tipo de retorno | Visibilidad | Descripción |
+|---|---|---|---|
+| Register | void | public | Alta bajo el agregado, solo sobre recomendación Published. |
+
+---
+
+##### 5. IRecommendationRepository
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | IRecommendationRepository |
+| **Categoría** | Repository (interfaz, contrato del agregado) |
+| **Propósito** | Persistencia y consulta de recomendaciones e intervenciones en la base de datos propia del microservicio. |
+
+**Métodos**
+
+| Nombre | Tipo de retorno | Visibilidad | Descripción |
+|---|---|---|---|
+| AddAsync | Task | public | Agrega una recomendación nueva. |
+| FindByIdAsync | Task\<Recommendation?\> | public | Busca por `Id`. Retorna `null` si no existe. |
+| FindPendingAsync | Task\<IEnumerable\<Recommendation\>\> | public | Borradores pendientes de aprobación. |
+| FindByPlantationAsync | Task\<IEnumerable\<Recommendation\>\> | public | Por plantación, con filtro opcional por estado. |
+| FindByAgronomistAsync | Task\<IEnumerable\<Recommendation\>\> | public | Por agrónomo responsable. |
+| AddInterventionAsync | Task | public | Agrega una intervención bajo el agregado. |
+| FindInterventionsByRecommendationAsync | Task\<IEnumerable\<AgronomicIntervention\>\> | public | Intervenciones de una recomendación. |
+
+---
+
+##### 6. IRecommendationCommandService
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | IRecommendationCommandService |
+| **Categoría** | Domain Service (interfaz) |
+| **Propósito** | Contrato del servicio que procesa el ciclo de vida e intervenciones. |
+
+**Métodos**
+
+| Nombre | Tipo de retorno | Visibilidad | Descripción |
+|---|---|---|---|
+| Handle(CreateRecommendationCommand) | Task | public | Alta en Pending. |
+| Handle(UpdateRecommendationContentCommand) | Task | public | Edición solo en Pending. |
+| Handle(ApproveRecommendationCommand) | Task | public | Pending → Approved. |
+| Handle(PublishRecommendationCommand) | Task | public | Approved → Published; publica `RecommendationPublished`. |
+| Handle(RegisterInterventionCommand) | Task | public | Alta de intervención; publica `InterventionRegistered`. |
+
+---
+
+##### 7. IRecommendationQueryService
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | IRecommendationQueryService |
+| **Categoría** | Domain Service (interfaz) |
+| **Propósito** | Contrato del servicio de consultas. |
+
+**Métodos**
+
+| Nombre | Tipo de retorno | Visibilidad | Descripción |
+|---|---|---|---|
+| Handle(RecommendationByIdQuery) | Task\<Recommendation?\> | public | Por `Id`. Retorna `null` si no existe. |
+| Handle(RecommendationsByPlantationQuery) | Task\<IEnumerable\<Recommendation\>\> | public | Por plantación con filtros y paginación. |
+| Handle(InterventionsByRecommendationQuery) | Task\<IEnumerable\<AgronomicIntervention\>\> | public | Intervenciones de una recomendación. |
+
+---
+
+##### 8. IRecommendationGenerationService + RecommendationGenerationService
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | IRecommendationGenerationService / RecommendationGenerationService |
+| **Categoría** | Domain Service (interfaz + implementación) |
+| **Propósito** | Generar el borrador ante un exceso: manual directo o asistido por el AI Engine con fallback a manual ante timeout. |
+| **Método** | `DraftFromThreshold` → borrador en Pending con origen citado. |
+
+---
+
+##### 9. Commands
+
+Objetos inmutables que encapsulan intención de cambio. Todos viajan con `CorrelationId` para trazabilidad e idempotencia.
+
+| Nombre | Parámetros | Descripción |
+|---|---|---|
+| CreateRecommendationCommand | PlantationId, AgronomistId, DeviceMac, SensorType, Content, Type, CorrelationId | Alta en Pending. |
+| UpdateRecommendationContentCommand | RecommendationId, Content, CorrelationId | Edición solo en Pending. |
+| ApproveRecommendationCommand | RecommendationId, AgronomistId, CorrelationId | Pending → Approved. |
+| PublishRecommendationCommand | RecommendationId, CorrelationId | Approved → Published. |
+| RegisterInterventionCommand | RecommendationId, Description, PerformedBy, ExecutionDate, CorrelationId | Alta de intervención. |
+
+---
+
+##### 10. Queries
+
+Objetos inmutables de solo lectura.
+
+| Nombre | Parámetros | Descripción |
+|---|---|---|
+| RecommendationByIdQuery | RecommendationId | Una recomendación. |
+| RecommendationsByPlantationQuery | PlantationId, Status (opcional), AgronomistId (opcional), Page, Size | Historial con filtros. |
+| InterventionsByRecommendationQuery | RecommendationId | Intervenciones de una recomendación. |
+
+---
+
+##### 11. Eventos de integración
+
+BC-04 consume un evento v1 de BC-02 y publica dos propios, todos sobre RabbitMQ con entrega al menos una vez; los consumidores son idempotentes y existe dead-letter queue.
+
+Consumido (BC-02):
+
+| Nombre | Versión | Cuándo | Contenido mínimo |
+|---|---|---|---|
+| ThresholdExceeded | v1 | Lectura fuera de rango. | deviceMac, sensorType, value, minValue, maxValue, measuredAt, correlationId |
+
+Publicados (BC-04):
+
+| Nombre | Versión | Cuándo | Contenido mínimo |
+|---|---|---|---|
+| RecommendationPublished | v1 | Publicación confirmada. | recommendationId, plantationId, deviceMac, sensorType, content, publishedAt, correlationId |
+| InterventionRegistered | v1 | Intervención registrada. | interventionId, recommendationId, performedBy, executionDate, correlationId |
+
+---
