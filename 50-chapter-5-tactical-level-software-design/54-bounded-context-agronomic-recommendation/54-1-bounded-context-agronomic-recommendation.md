@@ -391,3 +391,9 @@ Modelo estructural (agregado, entidad, enumeraciones, repositorio y servicio de 
 ![BC-04 clases de dominio - contratos y mensajes (UML)](../../assets/chapter5/54-bounded-context-agronomic-recommendation/54-domain-contracts-diagram.png)
 
 ![BC-04 eventos de integración (UML)](../../assets/chapter5/54-bounded-context-agronomic-recommendation/54-domain-events-diagram.png)
+
+#### 5.4.7.2. Bounded Context Database Design Diagram.
+
+Tablas, columnas, constraints y relaciones de la base de datos propia del microservicio. La intervención referencia a su recomendación con FK real porque comparten base; plantación, agrónomo y dispositivo son referencias lógicas sin FK porque viven en otras bases. El Outbox no referencia al dominio con claves foráneas porque los mensajes no son agregados.
+
+![BC-04 diagrama de BD](../../assets/chapter5/54-bounded-context-agronomic-recommendation/54-database-diagram.png)
