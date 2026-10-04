@@ -546,3 +546,19 @@ La base propia guarda lo que el dashboard congela (snapshots, vistas, reportes) 
 | **Nombre** | ReportExportService |
 | **Categoría** | Technical Service (infraestructura) |
 | **Propósito** | Generar PDF (con secciones y datos referenciados) y CSV (tabulares) a partir del reporte almacenado. |
+
+### 5.5.6. Bounded Context Software Architecture Component Level Diagrams.
+
+Un diagrama por cada container que toca el bounded context. El microservicio descompone en cómputo de snapshots, composición de vistas, análisis de series, gestión de reportes, feeds de alertas y publicadas y exportación, con tres ACL de integración, repositorio a Postgres propio y publicación a RabbitMQ, todo detrás del API Gateway. BC-02 alimenta lecturas y lotes; BC-04 alimenta publicadas; BC-03 se consulta por ACL.
+
+Se leen siguiendo el flujo de datos: la entrada son eventos y queries a los BCs vecinos, los componentes colaboran hacia el repositorio, los ACL o el publicador, y las salidas son la base propia, el broker o las vistas servidas. Cada vista recorta exactamente un container con sus vecinos: nada de lo que no participa aparece, y nada de lo que participa falta.
+
+![BC-05 microservicio (Component)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-component-microservice.png)
+
+La aplicación web consolida salud, paneles, tendencias, reportes, alertas y publicadas consumiendo la API vía gateway con sesión autenticada. Se lee de izquierda a derecha: agrónomo y productor entran por sus servicios, todos convergen en el consumo centralizado con sesión, y de ahí al gateway y al microservicio.
+
+![BC-05 web (Component)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-component-web.png)
+
+La aplicación móvil lleva salud rápida, tarjetas, alertas y publicadas al campo con caché local y acceso remoto vía gateway. El flujo espeja al web con el apoyo de campo: caché local para la intermitencia; el acceso remoto es el único que sale al gateway.
+
+![BC-05 movil (Component)](../../assets/chapter5/55-bounded-context-crop-monitoring-dashboard/55-component-mobile.png)
