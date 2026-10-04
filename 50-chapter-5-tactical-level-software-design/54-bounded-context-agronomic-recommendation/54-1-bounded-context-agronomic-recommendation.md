@@ -222,3 +222,56 @@ Publicados (BC-04):
 | InterventionRegistered | v1 | Intervención registrada. | interventionId, recommendationId, performedBy, executionDate, correlationId |
 
 ---
+
+### 5.4.2. Interface Layer.
+
+Punto de entrada HTTP del microservicio. Todo el tráfico pasa por el API Gateway: agrónomos y administradores con JWT según rol para gestionar el ciclo de vida, y productores para consultar publicadas y registrar intervenciones. Todos los endpoints requieren autenticación. Los controllers delegan en Application mediante assemblers que convierten entre recursos y commands o queries.
+
+El gateway es la única puerta: concentra autenticación por rol de modo que ningún endpoint quede anónimo. Los controllers son deliberadamente delgados —validan forma, convierten y delegan— para que las reglas vivan en dominio y aplicación, no en HTTP. Los resources son los contratos versionables de la API y los assemblers los traducen en ambas direcciones sin que el dominio conozca detalles web.
+
+##### 1. RecommendationsController
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | RecommendationsController |
+| **Categoría** | Controller |
+| **Ruta base** | `api/v1/recommendations` (vía API Gateway) |
+| **Propósito** | Ciclo de vida completo e intervenciones. |
+
+**Métodos**
+
+| Nombre | Verbo HTTP | Ruta | Auth | Tipo de retorno | Descripción |
+|---|---|---|---|---|---|
+| GetRecommendationById | GET | `/{id}` | JWT-User | 200 OK | Detalle de una recomendación. |
+| GetRecommendations | GET | `/` | JWT-User | 200 OK | Por `plantationId`, filtrable por `status` y `agronomistId`, con paginado. |
+| CreateRecommendation | POST | `/` | JWT-Agronomist | 201 Created | Alta en Pending. |
+| UpdateRecommendationContent | PATCH | `/{id}/content` | JWT-Agronomist | 200 OK | Edición solo en Pending. |
+| ApproveRecommendation | POST | `/{id}/approve` | JWT-Agronomist | 200 OK | Pending → Approved. |
+| PublishRecommendation | POST | `/{id}/publish` | JWT-Agronomist | 200 OK | Approved → Published. |
+| RegisterIntervention | POST | `/{id}/interventions` | JWT-User | 201 Created | Alta de intervención (solo sobre Published). |
+| GetInterventionsByRecommendationId | GET | `/{id}/interventions` | JWT-User | 200 OK | Intervenciones de una recomendación. |
+
+##### 2. Resources
+
+Records inmutables de petición y respuesta.
+
+| Nombre | Campos | Descripción |
+|---|---|---|
+| CreateRecommendationResource | plantationId, agronomistId, deviceMac, sensorType, content, type | Solicitud de alta. |
+| UpdateContentResource | content | Solicitud de edición. |
+| InterventionResource | description, performedBy, executionDate | Solicitud de intervención. |
+| RecommendationViewResource | id, plantationId, content, type, status, createdAt, approvedAt, publishedAt | Respuesta de recomendación. |
+| InterventionViewResource | id, description, performedBy, executionDate | Respuesta de intervención. |
+
+##### 3. Assemblers
+
+Clases estáticas que transforman entre recursos y objetos de dominio.
+
+| Nombre | Método | Descripción |
+|---|---|---|
+| CreateRecommendationCommandFromResourceAssembler | ToCommandFromResource(CreateRecommendationResource) | Alta. |
+| UpdateContentCommandFromResourceAssembler | ToCommandFromResource(id, UpdateContentResource) | Edición. |
+| RegisterInterventionCommandFromResourceAssembler | ToCommandFromResource(id, InterventionResource) | Intervención. |
+| RecommendationByIdQueryFromResourceAssembler | ToQueryFromResource(id) | Query por id. |
+| RecommendationsByPlantationQueryFromResourceAssembler | ToQueryFromResource(plantationId, status, agronomistId, page, size) | Query con filtros. |
+| RecommendationViewResourceFromAggregateAssembler | ToResourceFromAggregate(Recommendation) | Respuesta. |
