@@ -503,3 +503,46 @@ La lectura nunca muta: los únicos writes son snapshots/vistas recomputados y el
 | BatchStoredHandler | `ReadingsBatchStored` (BC-02) | Convierte en `ComputeZoneSnapshotsCommand` + `RefreshPlantationOverviewCommand`. Idempotente por `batchId`. |
 | RecommendationPublishedHandler | `RecommendationPublished` (BC-04) | Invalida/actualiza el feed de publicadas. Idempotente por `correlationId`. |
 | InterventionRegisteredHandler | `InterventionRegistered` (BC-04) | Actualiza el feed con la acción de campo. Idempotente por `correlationId`. |
+
+### 5.5.4. Infrastructure Layer.
+
+Materialización del microservicio con persistencia propia, mensajería para un solo evento publicado e integración por ACL al resto: base de datos exclusiva con migraciones propias y cero tablas compartidas, sin telemetría cruda duplicada.
+
+La base propia guarda lo que el dashboard congela (snapshots, vistas, reportes) y nada de lo que otros BCs ya guardan (lecturas, alertas, recomendaciones se consultan en vivo). Las referencias a zonas, plantaciones y autores son Guid lógicos sin FK porque viven en otras bases. Los ACL aíslan al dominio de cambios en los contratos externos, con degradación graciosa ante indisponibilidad.
+
+##### 1. MonitoringDbContext
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | MonitoringDbContext |
+| **Categoría** | DbContext propio del microservicio (PostgreSQL, `DATABASE_URL` exclusiva) |
+| **Propósito** | Acceso a datos del BC-05. El propio contexto actúa como Unit of Work (`SaveChanges` transaccional junto al Outbox). |
+| **Tablas** | `crop_health_snapshots`, `parameter_summaries` (UK snapshot+tipo), `plantation_overviews` (UK plantación), `plantation_overview_snapshots` (join), `technical_reports`, `report_sections`, `report_snapshot_references`, `outbox_messages`. snake_case. |
+
+##### 2. Repositories (EF Core)
+
+`CropHealthSnapshotRepository`, `PlantationOverviewRepository` y `TechnicalReportRepository` sobre el contexto propio. Sin dependencias de acceso a datos fuera del servicio y sin repositorio de series (vista transitoria).
+
+##### 3. RabbitMqEventPublisher + OutboxRelay
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | RabbitMqEventPublisher / OutboxRelay |
+| **Categoría** | Messaging (publisher + relay) |
+| **Propósito** | Publicar `ReportPublished` versionado (exchange por tipo, dead-letter queue). El relay drena `outbox_messages` y confirma la publicación. |
+
+##### 4. ACL Query Clients (HTTP)
+
+| Nombre | Contra | Propósito |
+|---|---|---|
+| ReadingsQueryClient | BC-02 | Lecturas por gateway/dispositivo/rango para snapshots y series. Contrato existente. |
+| AlertsQueryClient | BC-03 | Activas e historial con degradación graciosa. Contrato TBD con rama 53. |
+| RecommendationsQueryClient | BC-04 | Publicadas y detalle con filtro Published. Contrato existente. |
+
+##### 5. ReportExportService
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | ReportExportService |
+| **Categoría** | Technical Service (infraestructura) |
+| **Propósito** | Generar PDF (con secciones y datos referenciados) y CSV (tabulares) a partir del reporte almacenado. |
