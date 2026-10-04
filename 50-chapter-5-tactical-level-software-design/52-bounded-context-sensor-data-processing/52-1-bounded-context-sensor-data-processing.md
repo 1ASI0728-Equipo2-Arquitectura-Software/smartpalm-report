@@ -308,3 +308,70 @@ Clases estáticas que transforman entre recursos y objetos de dominio.
 | SensorReadingViewResourceFromAggregateAssembler | ToResourceFromAggregate(SensorReading) | Respuesta de lectura. |
 | ThresholdViewResourceFromAggregateAssembler | ToResourceFromAggregate(AgronomicThreshold) | Respuesta de umbral. |
 | ThresholdsByDeviceQueryFromResourceAssembler | ToQueryFromResource(deviceMac) | Query de umbrales. |
+
+### 5.2.3. Application Layer.
+
+Orquesta los flujos de negocio: recibe commands, queries y eventos, recupera agregados, aplica reglas, persiste mediante Unit of Work y publica eventos con Outbox transaccional (misma transacción del cambio, con relay al broker).
+
+La capa separa escritura y lectura: la persistencia es idempotente por `readingId` (reprocesar un evento jamás duplica), la reconciliación compara conteo esperado contra `CountByBatch`, y cada mutación confirmada deja su evento en el Outbox dentro de la misma transacción. Las queries solo leen datos ya calculados.
+
+##### 1. SensorReadingCommandService
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | SensorReadingCommandService |
+| **Categoría** | Command Service |
+| **Propósito** | Flujos de persistencia, reconciliación y ajuste de umbrales. |
+| **Atributos** | `uow: IUnitOfWork`, `readingRepository`, `thresholdRepository`, `evaluation: IThresholdEvaluationService`, `outbox: IOutboxWriter`. |
+
+**Métodos (Handle)**
+
+| Nombre | Descripción |
+|---|---|
+| Handle(RecordSensorReadingCommand) | `readingId` ya persistido se responde como éxito sin duplicar; crea la lectura vía factory, evalúa contra el umbral vigente y publica `ThresholdExceeded` si sale de rango. |
+| Handle(ProcessSynchronizedBatchCommand) | Compara `readingsCount` contra `CountByBatch`; publica `ReadingsBatchStored` con el conteo reconciliado. |
+| Handle(UpdateAgronomicThresholdCommand) | Actualiza o crea el umbral (nueva `Version`) y publica `ThresholdUpdated`. |
+
+##### 2. SensorReadingQueryService
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | SensorReadingQueryService |
+| **Categoría** | Query Service |
+| **Propósito** | Historial de lecturas, sin mutación. |
+
+**Métodos**
+
+| Nombre | Tipo de retorno | Visibilidad | Descripción |
+|---|---|---|---|
+| Handle(ReadingsByGatewayQuery) | Task\<IEnumerable\<SensorReading\>\> | public | Historial por gateway con filtros y paginación. |
+| Handle(ReadingsByDeviceQuery) | Task\<IEnumerable\<SensorReading\>\> | public | Historial por nodo con rango y paginación. |
+
+##### 3. AgronomicThresholdQueryService
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | AgronomicThresholdQueryService |
+| **Categoría** | Query Service |
+| **Propósito** | Lectura de umbrales, sin mutación. |
+
+**Métodos**
+
+| Nombre | Tipo de retorno | Visibilidad | Descripción |
+|---|---|---|---|
+| Handle(ThresholdsByDeviceQuery) | Task\<IEnumerable\<AgronomicThreshold\>\> | public | Umbrales del nodo. |
+
+##### 4. Handlers de eventos (RabbitMQ)
+
+| Nombre | Consume | Propósito |
+|---|---|---|
+| IotDeviceRegisteredHandler | `IotDeviceRegistered` (BC-01) | Crea un umbral por defecto por cada `SensorType` aplicable usando `DefaultThresholdFactory`. Idempotente por `correlationId`. |
+| SensorReadingRecordedHandler | `SensorReadingRecorded` (BC-01) | Convierte el evento en `RecordSensorReadingCommand` y delega al command service. |
+| EdgeDataSynchronizedHandler | `EdgeDataSynchronized` (BC-01) | Convierte el evento en `ProcessSynchronizedBatchCommand` y delega al command service. |
+
+##### 5. Factories
+
+| Nombre | Método | Descripción |
+|---|---|---|
+| SensorReadingFactory | ForType(sensorType, value, measuredAt) | Crea la lectura asignando el `MeasureUnit` correcto (Percent para Humidity, Unknown para los demás). |
+| DefaultThresholdFactory | ForType(deviceMac, edgeMac, sensorType) | Umbral por defecto: Temperature 10–40, Humidity 20–80; resto sin definir (`IsSet` falso). |
