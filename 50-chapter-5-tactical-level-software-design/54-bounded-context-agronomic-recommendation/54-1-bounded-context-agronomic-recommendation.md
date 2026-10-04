@@ -361,3 +361,19 @@ Implementa la interfaz de dominio con Entity Framework Core sobre el contexto pr
 | **Nombre** | AIEngineClient |
 | **Categoría** | Integration (infraestructura) |
 | **Propósito** | Cliente HTTP al AI Engine externo con timeout: ante falla o timeout, el generation service crea el borrador manual sin bloquear el flujo. |
+
+### 5.4.6. Bounded Context Software Architecture Component Level Diagrams.
+
+Un diagrama por cada container que toca el bounded context. El microservicio descompone en trigger de excesos, generación (manual o vía IA), aprobación, publicación, historial y registro de intervenciones, con repositorio a Postgres propio y publicación a RabbitMQ, todo detrás del API Gateway. BC-02 alimenta por eventos; BC-03 y BC-05 consumen; el AI Engine asiste como sistema externo.
+
+Se leen siguiendo el flujo de datos: la entrada es el exceso de BC-02 o el agrónomo vía gateway, los componentes colaboran hacia el repositorio o el publicador, y las salidas son la base propia, el broker o los BCs consumidores. Cada vista recorta exactamente un container con sus vecinos: nada de lo que no participa aparece, y nada de lo que participa falta.
+
+![BC-04 microservicio (Component)](../../assets/chapter5/54-bounded-context-agronomic-recommendation/54-component-microservice.png)
+
+La aplicación web revisa borradores, aprueba, publica y consulta historial consumiendo la API vía gateway con sesión autenticada. Se lee de izquierda a derecha: el agrónomo entra por revisión, aprobación, publicación e historial, todos convergen en el consumo centralizado con sesión, y de ahí al gateway y al microservicio.
+
+![BC-04 web (Component)](../../assets/chapter5/54-bounded-context-agronomic-recommendation/54-component-web.png)
+
+La aplicación móvil muestra publicadas y registra intervenciones en campo con caché local y acceso remoto vía gateway. El flujo espeja al web con el apoyo de campo: caché local para la intermitencia; el acceso remoto es el único que sale al gateway.
+
+![BC-04 movil (Component)](../../assets/chapter5/54-bounded-context-agronomic-recommendation/54-component-mobile.png)
