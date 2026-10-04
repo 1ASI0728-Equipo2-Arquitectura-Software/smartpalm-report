@@ -488,3 +488,23 @@ El Edge API (Raspberry Pi + SQLite) es la contraparte de campo: autentica el fir
 | **Nombre** | SyncBatchStore / ConnectivityLogStore |
 | **Categoría** | Persistencia operativa (infraestructura) |
 | **Propósito** | `SyncBatchStore` registra `sync_batches` por `batch_id` único en la misma transacción del lote. `ConnectivityLogStore` anexa `connectivity_logs` por heartbeat como auditoría; el estado vivo permanece en el agregado. |
+
+### 5.1.6. Bounded Context Software Architecture Component Level Diagrams.
+
+Un diagrama por cada container que toca el bounded context. El microservicio descompone en registro, configuración, estado, conectividad, sincronización, validación de suscripción (contra BC-07), repositorio (a Postgres propio) y publicación de eventos (a RabbitMQ), todo detrás del API Gateway.
+
+Se leen siguiendo el flujo de datos: la entrada siempre es el gateway, los servicios colaboran en proceso hacia el repositorio o el publicador, y las salidas son la base propia, el broker o el sistema externo. Cada vista recorta exactamente un container con sus vecinos: nada de lo que no participa aparece, y nada de lo que participa falta.
+
+![BC-01 microservicio (Component)](../../assets/chapter5/51-bounded-context-iot-device-management/51-component-microservice.png)
+
+La aplicación web administra dispositivos y configuración consumiendo la API vía gateway con sesión autenticada. Se lee de izquierda a derecha: el administrador y el usuario entran por los servicios de la aplicación, todos convergen en el consumo centralizado con sesión, y de ahí al gateway y al microservicio.
+
+![BC-01 web (Component)](../../assets/chapter5/51-bounded-context-iot-device-management/51-component-web.png)
+
+La aplicación móvil opera en campo (registro rápido, estado, configuración, revisión de sincronización) con caché local y acceso remoto vía gateway. El flujo espeja al web con dos apoyos de campo: caché local para la intermitencia y revisión de sincronización pendiente; el acceso remoto es el único que sale al gateway.
+
+![BC-01 movil (Component)](../../assets/chapter5/51-bounded-context-iot-device-management/51-component-mobile.png)
+
+El Edge API en campo autentica el firmware, normaliza lecturas, evalúa umbrales con la versión vigente, buferiza 72 horas en SQLite y envía lotes idempotentes. Se lee como procesa el campo de arriba hacia abajo: autenticar, normalizar, evaluar, buferizar y enviar; si la conexión cae, todo lo anterior sigue funcionando con la última versión vigente.
+
+![BC-01 edge (Component)](../../assets/chapter5/51-bounded-context-iot-device-management/51-component-edge.png)
