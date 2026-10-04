@@ -508,3 +508,15 @@ La aplicación móvil opera en campo (registro rápido, estado, configuración, 
 El Edge API en campo autentica el firmware, normaliza lecturas, evalúa umbrales con la versión vigente, buferiza 72 horas en SQLite y envía lotes idempotentes. Se lee como procesa el campo de arriba hacia abajo: autenticar, normalizar, evaluar, buferizar y enviar; si la conexión cae, todo lo anterior sigue funcionando con la última versión vigente.
 
 ![BC-01 edge (Component)](../../assets/chapter5/51-bounded-context-iot-device-management/51-component-edge.png)
+
+### 5.1.7. Bounded Context Software Architecture Code Level Diagrams.
+
+Diagramas de detalle de implementación del bounded context, consistentes con el diccionario de la Domain Layer. Rige una sola regla para las tres láminas: diagrama y diccionario dicen exactamente lo mismo; ante cualquier diferencia, manda el diccionario.
+
+#### 5.1.7.1. Bounded Context Domain Layer Class Diagrams.
+
+Modelo estructural (agregada, entidades, value object, enumeraciones, repositorios y servicios de dominio) y contratos con mensajes (servicios de comandos/consultas, commands, queries y eventos). La primera lámina se lee del agregado hacia afuera —contención, configuración y usos—; la segunda, de los servicios hacia sus mensajes mediante la relación "procesa".
+
+![BC-01 clases de dominio - modelo (UML)](../../assets/chapter5/51-bounded-context-iot-device-management/51-domain-class-diagram.png)
+
+![BC-01 clases de dominio - contratos y mensajes (UML)](../../assets/chapter5/51-bounded-context-iot-device-management/51-domain-contracts-diagram.png)
