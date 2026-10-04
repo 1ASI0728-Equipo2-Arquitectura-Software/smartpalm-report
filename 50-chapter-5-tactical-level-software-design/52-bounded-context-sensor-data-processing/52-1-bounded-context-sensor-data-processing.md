@@ -375,3 +375,34 @@ La capa separa escritura y lectura: la persistencia es idempotente por `readingI
 |---|---|---|
 | SensorReadingFactory | ForType(sensorType, value, measuredAt) | Crea la lectura asignando el `MeasureUnit` correcto (Percent para Humidity, Unknown para los demás). |
 | DefaultThresholdFactory | ForType(deviceMac, edgeMac, sensorType) | Umbral por defecto: Temperature 10–40, Humidity 20–80; resto sin definir (`IsSet` falso). |
+
+### 5.2.4. Infrastructure Layer.
+
+Materialización del microservicio con persistencia y mensajería propias: base de datos exclusiva con migraciones propias y cero tablas compartidas.
+
+La base propia es lo que hace real el límite del bounded context: el servicio evoluciona, migra y escala sin coordinar esquemas con nadie, y ninguna consulta cruza a tablas ajenas. Las referencias a dispositivos son MAC lógicas sin claves foráneas fuera del BC, porque esos datos viven en otra base. La mensajería sale por Outbox con relay para que la publicación sobreviva caídas.
+
+##### 1. SensorDataDbContext
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | SensorDataDbContext |
+| **Categoría** | DbContext propio del microservicio (PostgreSQL, `DATABASE_URL` exclusiva) |
+| **Propósito** | Acceso a datos del BC-02. El propio contexto actúa como Unit of Work (`SaveChanges` transaccional junto al Outbox). |
+| **Tablas** | `sensor_readings` (`reading_id` único), `agronomic_thresholds`, `outbox_messages`. snake_case, sin FK fuera del BC. |
+
+##### 2. SensorReadingRepository + AgronomicThresholdRepository
+
+Implementan las interfaces de dominio con Entity Framework Core sobre el contexto propio, con búsqueda por MAC, rangos de fecha y paginación. Sin dependencias de acceso a datos fuera del servicio.
+
+##### 3. RabbitMqEventPublisher + OutboxRelay
+
+| Campo | Detalle |
+|---|---|
+| **Nombre** | RabbitMqEventPublisher / OutboxRelay |
+| **Categoría** | Messaging (publisher + relay) |
+| **Propósito** | Publicar eventos versionados (exchange por tipo, dead-letter queue). El relay drena `outbox_messages` y confirma la publicación; los consumidores son idempotentes por `readingId`, `batchId` y `correlationId`. |
+
+##### 4. Consumers
+
+Los tres handlers de 5.2.3 operan como consumers RabbitMQ con reintento y dead-letter queue; cada uno delega en el command service correspondiente sin lógica de negocio propia.
