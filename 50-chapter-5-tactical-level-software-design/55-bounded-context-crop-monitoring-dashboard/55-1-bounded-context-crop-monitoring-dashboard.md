@@ -386,3 +386,61 @@ Publicado:
 | ReportPublished | v1 | Reporte publicado. | reportId, plantationId, status, publishedAt, correlationId |
 
 ---
+
+### 5.5.2. Interface Layer.
+
+Punto de entrada HTTP del microservicio. Todo el tráfico pasa por el API Gateway con JWT según rol; todos los endpoints requieren autenticación. Seis controllers delgados que validan forma, convierten con assemblers y delegan en Application.
+
+##### 1. CropHealthController — `api/v1/monitoring/health` (JWT-User)
+
+| Nombre | Verbo HTTP | Ruta | Descripción |
+|---|---|---|---|
+| GetPlantationHealth | GET | `/plantations/{plantationId}` | Salud consolidada (zona opcional por query). |
+| GetPriorityZones | GET | `/plantations/{plantationId}/priority` | Zonas por criticidad. |
+| CompareZones | GET | `/plantations/{plantationId}/compare?zoneIds=` | Comparación entre zonas. |
+
+##### 2. PlantationOverviewController — `api/v1/monitoring/overviews` (JWT-User)
+
+| Nombre | Verbo HTTP | Ruta | Descripción |
+|---|---|---|---|
+| GetMyOverviews | GET | `/` | Vistas del usuario autenticado. |
+| GetPlantationOverview | GET | `/{plantationId}` | Detalle con conteos. |
+| GetLastUpdate | GET | `/{plantationId}/last-update` | Última actualización y brecha. |
+
+##### 3. TimeSeriesController — `api/v1/monitoring/series` (JWT-User)
+
+| Nombre | Verbo HTTP | Ruta | Descripción |
+|---|---|---|---|
+| GetSeries | GET | `/zones/{zoneId}` | Serie con `sensorType`, `from`, `to`. |
+| GetTrend | GET | `/zones/{zoneId}/trend` | Tendencia del período. |
+| GetSeriesSummary | GET | `/zones/{zoneId}/summary` | Estadísticas y anomalías. |
+| GetZoneVariables | GET | `/zones/{zoneId}/variables` | Variables disponibles. |
+
+##### 4. TechnicalReportsController — `api/v1/monitoring/reports`
+
+| Nombre | Verbo HTTP | Ruta | Auth | Descripción |
+|---|---|---|---|---|
+| GenerateDraft | POST | `/` | JWT-Agronomist | Borrador con datos del período. |
+| GetReports | GET | `/` | JWT-User | Por `plantationId`, filtro `status`. |
+| GetReportById | GET | `/{reportId}` | JWT-User | Detalle completo. |
+| AddSection | POST | `/{reportId}/sections` | JWT-Agronomist | Solo en Draft. |
+| PublishReport | POST | `/{reportId}/publish` | JWT-Agronomist | Draft → Published. |
+| ExportReport | GET | `/{reportId}/export?format=` | JWT-User | PDF o CSV descargable. |
+
+##### 5. AlertsFeedController — `api/v1/monitoring/alerts` (JWT-User, vía BC-03)
+
+| Nombre | Verbo HTTP | Ruta | Descripción |
+|---|---|---|---|
+| GetActiveAlerts | GET | `/` | Activas por `plantationId`. |
+| GetAlertHistory | GET | `/history` | Con filtros zona, severidad, rango. |
+
+##### 6. RecommendationsFeedController — `api/v1/monitoring/recommendations` (JWT-User, vía BC-04)
+
+| Nombre | Verbo HTTP | Ruta | Descripción |
+|---|---|---|---|
+| GetPublishedFeed | GET | `/` | Publicadas por `plantationId`. |
+| GetRecommendationDetail | GET | `/{recommendationId}` | Detalle de una publicada. |
+
+##### 7. Resources y assemblers
+
+Resources principales: `HealthViewResource`, `OverviewViewResource`, `SeriesViewResource`, `TrendViewResource`, `ReportDraftResource`, `SectionResource`, `ReportViewResource`, `AlertFeedViewResource`, `RecommendationFeedViewResource`. Cada query/command principal tiene su assembler `*FromResourceAssembler` en ambas direcciones; el dominio nunca conoce detalles web.
