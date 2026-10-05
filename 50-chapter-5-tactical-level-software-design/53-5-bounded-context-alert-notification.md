@@ -16,9 +16,46 @@ En paralelo, IngestionService y CropService publican sus eventos hacia el **Mess
 | Inbox / Outbox | Evitar reprocesamiento y garantizar publicación confiable. |
 | Notification Dispatcher / Firebase Adapter | Entregar alertas críticas por FCM y registrar resultados. |
 
-## 5.3.6. Bounded Context Software Architecture Code Level Diagrams
-
 ### 5.3.6.1. Bounded Context Domain Layer Class Diagrams
 
+- Detalla `Alert`, `NotificationDelivery`, estados, tipos sensoriales y la composición `Alert 1 — 0..N NotificationDelivery`, con sus invariantes de reconocimiento y despacho.
+![Alert lifecycle and deliveries](../assets/chapter5/53-bc-alert-notification/alert-lifecyle-deliveries.png)
 
-### 5.3.6.2. Bounded Context Database Design Diagram
+---
+<br>
+
+- Detalla la preferencia de silenciamiento por usuario y sensor, junto con el parser del tipo sensorial.
+![User settings and sensor types](../assets/chapter5/53-bc-alert-notification/alert-user-settings-types.png)
+---
+<br>
+
+- Presenta las proyecciones recibidas de Crop y las políticas de clasificación y duplicidad, distinguiendo asociaciones lógicas de FKs físicas.
+![Local projections and policies](../assets/chapter5/53-bc-alert-notification/alert-policies.png)
+---
+<br>
+
+- Presenta repositorios y `IUnitOfWork` con las operaciones que persisten agregados, preferencias, entregas y proyecciones privadas. |
+![Persistence ports](../assets/chapter5/53-bc-alert-notification/alert-persistence-ports.png)
+---
+<br>
+
+- Presenta los dos commands de reconocimiento y actualización de preferencias, con sus tipos de dominio de destino. |
+![Commands](../assets/chapter5/53-bc-alert-notification/alert-commands.png)
+---
+<br>
+
+- Presenta las cinco queries de alertas y configuraciones del usuario. |
+![Queries](../assets/chapter5/53-bc-alert-notification/alert-queries.png)
+---
+<br>
+
+- Presenta el evento consumido desde Ingestion y los cinco eventos de Crop que alimentan el modelo local mediante Inbox. |
+![Consumed integration events](../assets/chapter5/53-bc-alert-notification/alert-consumed-integration-events.png)
+---
+<br>
+
+- Presenta los cuatro eventos emitidos por Alert mediante Outbox después de confirmar la transacción local. 
+![Published integration events](../assets/chapter5/53-bc-alert-notification/alert-published-integration-events.png)
+---
+<br>
+
