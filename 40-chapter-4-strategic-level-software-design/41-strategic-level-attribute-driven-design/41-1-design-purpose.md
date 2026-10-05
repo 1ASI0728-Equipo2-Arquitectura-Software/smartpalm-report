@@ -1,3 +1,5 @@
+# 4.1. Strategic-Level Attribute-Driven Design.
+
 ### 4.1.1. Design Purpose
 
 El propósito del proceso de Attribute-Driven Design (ADD) de Smart Palm es transformar las necesidades de los palmicultores e ingenieros agrónomos de la Amazonia peruana en decisiones arquitectónicas verificables. La solución debe reducir la dependencia de inspecciones manuales esporádicas y permitir que una lectura capturada en campo se convierta, aun bajo conectividad intermitente, en información técnica, una alerta o una recomendación agronómica oportuna.
