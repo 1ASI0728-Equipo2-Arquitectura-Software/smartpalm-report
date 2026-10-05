@@ -14,7 +14,7 @@
 
 **Docente:** Jara Palacios, Marino Humberto
 
-***INFORME DE TRABAJO FINAL***
+***INFORME DE TRABAJO PARCIAL (TP1)***
 
 **Startup:** TempWise
 
@@ -32,4 +32,4 @@
 
 </div>
 
-<br><div align="center"><h3>Setiembre 2026</h3></div><br>
+<br><div align="center"><h3>Octubre 2026</h3></div><br>
