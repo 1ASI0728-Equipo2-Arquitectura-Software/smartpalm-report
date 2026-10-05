@@ -12,6 +12,8 @@ La arquitectura de software resultante, documentada con el modelo C4 (System Lan
 
 Al cierre del TB1, la solución cuenta con una base arquitectónica y de requisitos sólida y verificable. Quedan pendientes para las siguientes entregas el diseño táctico por bounded context, el diseño de experiencia de usuario, la implementación y el despliegue de los productos digitales, así como la validación empírica de las hipótesis planteadas en el proceso Lean UX.
 
+**TP1.** En esta entrega el equipo completó el diseño táctico de los siete bounded contexts (capas de dominio, interfaz, aplicación e infraestructura, diagramas de componentes, de clases y de base de datos por servicio, con contratos y eventos de integración) y avanzó la propuesta de experiencia de usuario hasta los wireflows (style guidelines, arquitectura de información, landing page y aplicaciones web y móvil con user goals explícitos). Además se corrigieron los artefactos observados por el docente en el TB1 (canvases por contexto, context mapping y diagramas C4 con vocabulario canónico de eventos). Con ello, las hipótesis del Lean UX sobre monitoreo continuo del cultivo y soporte a la decisión agronómica quedan respaldadas por un diseño detallado e implementable; su validación empírica con usuarios corresponde a la fase de implementación y validación (TB2).
+
 ### Recomendaciones
 
 1. Completar las entrevistas de validación con usuarios representativos de ambos segmentos para contrastar las hipótesis del proceso Lean UX con evidencia directa y no solo con el diseño de la solución.
@@ -19,3 +21,6 @@ Al cierre del TB1, la solución cuenta con una base arquitectónica y de requisi
 3. Definir las guías de estilo, la arquitectura de información y el diseño de UI/UX (Capítulo VI) de forma consistente entre el Landing Page, la aplicación web y la aplicación móvil.
 4. Implementar los productos digitales priorizando el Product Backlog por valor de negocio, comenzando por el Landing Page y las capacidades centrales de monitoreo, alertas y recomendaciones.
 5. Mantener actualizado el Registro de Versiones, el Collaboration Insights y el Student Outcome en cada entrega, reemplazando los enlaces provisionales por los definitivos.
+6. Completar la prosa del 6.3 e integrar a develop las ramas 63, 64 y 00 antes del cierre del TP1, capturando luego la evidencia de colaboración con los cinco integrantes.
+7. Iniciar en el TB2 el Sprint 1 por el Landing Page y las capacidades centrales (monitoreo, alertas y recomendaciones), instrumentando desde el primer incremento los tests automatizados y la documentación OpenAPI de los endpoints.
+8. Realizar las entrevistas de validación sobre el landing y los prototipos, con evaluación heurística de usabilidad, arquitectura de información y diseño inclusivo, y publicar los videos About-the-Product y About-the-Team.
