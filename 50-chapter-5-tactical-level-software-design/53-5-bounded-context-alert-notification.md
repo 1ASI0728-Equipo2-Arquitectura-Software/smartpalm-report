@@ -59,3 +59,8 @@ En paralelo, IngestionService y CropService publican sus eventos hacia el **Mess
 ---
 <br>
 
+### 5.3.6.2. Bounded Context Database Design Diagram
+
+El diagrama representa el esquema físico PostgreSQL de AlertService, derivado de sus migraciones EF Core. Incluye alertas, preferencias de usuario, entregas de notificaciones, proyecciones locales de Crop, Inbox y Outbox. La única FK física de negocio es notification_deliveries.alert_id → alerts.id; las referencias a usuario, plantación y sector no son FKs entre microservicios.
+
+![Alert Service diagrama BD](../assets/chapter5/53-bc-alert-notification/alert_microservice-db.png)
