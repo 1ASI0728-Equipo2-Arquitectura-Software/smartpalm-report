@@ -1,4 +1,4 @@
-#### 4.1.1.3 Bounded Context Canvases.
+## 4.2.4. Bounded Context Canvases.
 
 
 A continuación se presentan los Bounded Context Canvases de los siete bounded contexts, elaborados con proceso iterativo por contexto en orden de importancia: definición del panorama, destilación de reglas de negocio y captura de Ubiquitous Language, análisis de capabilities, captura de dependencias y crítica de diseño. El vocabulario (eventos, roles, dependencias) es el canónico del Capítulo V.
