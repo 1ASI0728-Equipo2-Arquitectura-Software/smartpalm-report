@@ -1,4 +1,4 @@
-# 6.2.2. Labeling Systems
+#### 6.2.2. Labeling Systems
 El sistema de etiquetado (Labeling System) se diseñó bajo criterios de claridad, concisión y contextualización con el sector agrotecnológico de la palma aceitera en la Amazonía peruana. Se buscó un equilibrio entre la precisión técnica requerida por los ingenieros agrónomos y un lenguaje sencillo e interpretativo para los productores de campo con menor alfabetización digital.
 
 Las etiquetas de los menús, encabezados, estados de alerta y llamadas a la acción (CTA) se definieron mediante terminología descriptiva orientada a la tarea.

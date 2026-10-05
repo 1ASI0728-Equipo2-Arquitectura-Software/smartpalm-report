@@ -1,4 +1,4 @@
-# 6.2.4. Searching Systems
+#### 6.2.4. Searching Systems
 
 El sistema de búsqueda y filtrado de SmartPalm fue proyectado para reducir el esfuerzo cognitivo y agilizar el despliegue de información específica entre volúmenes amplios de datos históricos, múltiples parcelas y redes densas de sensores.
 

@@ -1,4 +1,4 @@
-# 6.2.3. SEO Tags and Meta Tags
+#### 6.2.3. SEO Tags and Meta Tags
 
 Con el fin de posicionar la solución digital de SmartPalm dentro del sector AgTech, la agricultura de precisión y la gestión industrial de palma aceitera en motores de búsqueda, se estructuró un esquema estandarizado de metaetiquetas (Meta Tags) e índices de optimización SEO.
 

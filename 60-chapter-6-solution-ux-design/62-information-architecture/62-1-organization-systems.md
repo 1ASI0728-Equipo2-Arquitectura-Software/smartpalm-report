@@ -8,7 +8,7 @@ Asimismo, la solución adopta una arquitectura modular y escalable. Esto asegura
 
 ---
 
-# 6.2.1. Organization Systems
+#### 6.2.1. Organization Systems
 
 El sistema de organización de SmartPalm emplea un esquema híbrido que combina una estructura jerárquica basada en roles con un agrupamiento funcional de contenidos. Esta estrategia categoriza las herramientas y datos según la frecuencia de uso, el nivel de criticidad operativa y el contexto de interacción del usuario.
 
