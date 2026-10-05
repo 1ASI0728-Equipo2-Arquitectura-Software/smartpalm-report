@@ -226,3 +226,46 @@ El diagrama C4 de componentes del container IdentityService presenta la entrada 
 
 
 ![identity-service-components-diagram](../assets/chapter5/57-bounded-contex-subscription/IdentityServiceComponents.png)
+
+## 5.7.6. Bounded Context Software Architecture Code Level Diagrams
+
+### 5.7.6.1. Bounded Context Domain Layer Class Diagrams
+
+Las seis fuentes PlantUML son perspectivas complementarias del mismo Domain Layer, no modelos separados. Se distribuyen por responsabilidad de negocio y contratos para conservar el detalle de miembros y relaciones sin producir una única imagen ilegible.
+
+Detalla el agregado `User`, sus credenciales, rol, estado de acceso, operaciones de perfil y la invariante de creación activa. 
+
+![User and access](../assets/chapter5/57-bounded-contex-subscription/identity-user-access.png)
+---
+<br>
+
+Detalla `Subscription`, `PaymentTransaction`, `SubscriptionPlan` y sus estados, además de sus asociaciones lógicas con el usuario de la lámina anterior. 
+
+![Subscription, plans and payments](../assets/chapter5/57-bounded-contex-subscription/identity-subscription-billing.png)
+---
+<br>
+
+Presenta `SubscriptionPlanCatalog`, los tres repositorios y `IUnitOfWork`; aclara que Identity no tiene proyecciones ni consume eventos. 
+
+![Policies and persistence ports](../assets/chapter5/57-bounded-contex-subscription/identity-projections-policies-port.png)
+---
+<br>
+
+Presenta los cinco commands de autenticación, creación de usuarios, suscripción, cancelación y pago, junto con sus agregados de destino. 
+
+![Commands](../assets/chapter5/57-bounded-contex-subscription/identity-commands.png)
+---
+<br>
+
+Presenta las siete queries de usuarios, suscripciones, pagos y catálogo de planes con sus tipos de lectura. 
+
+![Queries](../assets/chapter5/57-bounded-contex-subscription/identity-queries.png)
+---
+<br>
+
+Presenta los cuatro eventos publicados mediante Outbox y sus consumidores conceptuales Field/Agronomy. 
+
+![Integration events](../assets/chapter5/57-bounded-contex-subscription/identity-integration-events.png)
+---
+<br>
+
