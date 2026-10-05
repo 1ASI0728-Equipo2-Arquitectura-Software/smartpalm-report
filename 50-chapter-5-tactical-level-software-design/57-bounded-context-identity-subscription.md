@@ -1,5 +1,5 @@
 
-# 5.7. Bounded Context: Identity & Subscription Management
+## 5.7. Bounded Context: Identity & Subscription Management
 
 El bounded context **Identity & Subscription Management** es la autoridad de usuarios, autenticación, roles, planes, suscripciones y pagos de SmartPalm. `SmartPalm.IdentityService` es propietario del esquema PostgreSQL `identity`, preserva los claims JWT y contratos HTTP existentes, y publica hechos versionados mediante Outbox hacia el **Message Broker** implementado con RabbitMQ. Ningún bounded context consulta directamente su base de datos.
 
@@ -218,7 +218,7 @@ La **Infrastructure Layer** implementa los puertos con EF Core, PostgreSQL, BCry
 
 Las relaciones físicas privadas son `subscriptions.user_id → users.id` y `payment_transactions.user_id → users.id`. `username` y `email` son únicos; el contenido del Outbox es JSONB. No hay FK o acceso de datos hacia FieldService o AgronomyService.
 
-## 5.7.5. Bounded Context Software Architecture Component Level Diagrams
+## 5.7.6. Bounded Context Software Architecture Component Level Diagrams
 
 El diagrama C4 de componentes del container IdentityService presenta la entrada HTTP por API Gateway, controllers, assemblers, command/query services, modelo de dominio, repositorios, `IdentityDbContext`, seguridad, pago y Outbox.
 
@@ -227,9 +227,9 @@ El diagrama C4 de componentes del container IdentityService presenta la entrada 
 
 ![identity-service-components-diagram](../assets/chapter5/57-bounded-contex-subscription/IdentityServiceComponents.png)
 
-## 5.7.6. Bounded Context Software Architecture Code Level Diagrams
+## 5.7.7. Bounded Context Software Architecture Code Level Diagrams
 
-### 5.7.6.1. Bounded Context Domain Layer Class Diagrams
+### 5.7.7.1. Bounded Context Domain Layer Class Diagrams
 
 Las seis fuentes PlantUML son perspectivas complementarias del mismo Domain Layer, no modelos separados. Se distribuyen por responsabilidad de negocio y contratos para conservar el detalle de miembros y relaciones sin producir una única imagen ilegible.
 
@@ -263,7 +263,7 @@ Las seis fuentes PlantUML son perspectivas complementarias del mismo Domain Laye
 ---
 <br>
 
-### 5.7.6.2. Bounded Context Database Design Diagram
+### 5.7.7.2. Bounded Context Database Design Diagram
 
 El diagrama representa el esquema físico PostgreSQL de IdentityService, compuesto por usuarios, suscripciones, transacciones de pago y Outbox. Las relaciones subscriptions.user_id y payment_transactions.user_id son FKs internas hacia users.id, mientras los índices únicos de usuario y correo garantizan la identidad única. El Outbox conserva los eventos de usuarios y suscripciones antes de su publicación asíncrona.
 
