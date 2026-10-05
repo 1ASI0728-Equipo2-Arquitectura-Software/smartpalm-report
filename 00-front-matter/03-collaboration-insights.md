@@ -21,3 +21,21 @@ La colaboración se organizó por secciones y quedó reflejada en los commits de
 ![Analíticas de colaboración TB1](../assets/front-matter/tb1-contributors.png)
 
 ![Red de commits del equipo TB1](../assets/front-matter/tb1-graph.png)
+
+## TP1
+
+Para el TP1 el equipo mantuvo el flujo **GitFlow** con una rama `feature` por sección (51–57 para el Capítulo V, 61–65 para el Capítulo VI, 00 para el front-matter y 81 para las correcciones del feedback del TB1) y **Conventional Commits** en inglés, con mensajes orientados al contenido y no a la mecánica. Cada sección se construyó con commits atómicos (cada texto junto a sus imágenes) y pasó por revisión cruzada: los borradores del Capítulo V y las correcciones del Capítulo IV se sometieron a auditorías de doble pasada (visual y de consistencia contra el statement), y se verificaron los vínculos del índice y las referencias de imágenes rama por rama. Las secciones 61 y 62 se integraron a `develop` mediante pull requests revisados (#1 y #2).
+
+La colaboración se distribuyó así:
+
+- **Paucar Meneses, Jeremy Alión** (`asmip_10`) desarrolló el 5.1, 5.2, 5.4 y 5.5, la alineación de numeración de 53/56/57, las correcciones del Capítulo IV (canvases, context mapping y C4), el acta de vocabulario canónico y el front-matter TP1, además de coordinar las revisiones y los merges.
+- **Rojas Reategui, Victor Manuel** (`VRojas1603`) desarrolló el 5.3, 5.6 y 5.7 (capas, diagramas C4 de componentes, de clases y de base de datos).
+- **Ramirez Cabrera, Kenyi Efrain** (`Kenyi15upc`) desarrolló el 6.1 (style guidelines) y el 6.2 (information architecture), integrados a `develop` vía PRs.
+- **Muñoz Vilcapoma, Mauricio Rigoberto** (`Mauricio Muñoz Vilcapoma`) desarrolló el 6.4.1/6.4.2 (wireframes y wireflows con user goals) con adelanto de mock-ups, user flows y el 6.5 prototyping.
+- **Conde Isla, Camila Alessandra** (`camilac07`) inició el 6.3.1/6.3.2 (wireframes y mock-ups del landing page).
+
+**Evidencias de Colaboración y Commits (GitHub):**
+
+![Analíticas de colaboración TP1](../assets/front-matter/tp1-contributors.png)
+
+![Red de commits del equipo TP1](../assets/front-matter/tp1-graph.png)
