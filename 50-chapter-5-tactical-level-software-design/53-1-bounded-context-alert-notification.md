@@ -1,4 +1,4 @@
-# 5.3. Bounded Context: Alert & Notification
+## 5.3. Bounded Context: Alert & Notification
 
 El bounded context **Alert & Notification** convierte eventos de telemetría fuera de umbral en alertas consultables y, si corresponde, notificaciones *push*. `SmartPalm.AlertService` es propietario del esquema PostgreSQL `alert`; consume eventos de **IngestionService** y **CropService** mediante RabbitMQ, mantiene proyecciones locales de plantaciones, sectores y afiliaciones, y usa Firebase Cloud Messaging a través de Firebase Admin SDK.
 

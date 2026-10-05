@@ -1,4 +1,4 @@
-## 5.3.5. Bounded Context Software Architecture Component Level Diagrams
+## 5.3.6. Bounded Context Software Architecture Component Level Diagrams
 
 Aqui se presenta el diagrama C4 de componentes del container AlertService. Se lee de izquierda a derecha: el API Gateway enruta solicitudes HTTP hacia los controllers; estos delegan mutaciones a `AlertCommandService` y lecturas a `AlertQueryService`. Los comandos consultan repositorios, confirman cambios mediante `AlertDbContext` como Unit of Work y escriben eventos de reconocimiento en Outbox.
 
@@ -16,7 +16,9 @@ En paralelo, IngestionService y CropService publican sus eventos hacia el **Mess
 | Inbox / Outbox | Evitar reprocesamiento y garantizar publicación confiable. |
 | Notification Dispatcher / Firebase Adapter | Entregar alertas críticas por FCM y registrar resultados. |
 
-### 5.3.6.1. Bounded Context Domain Layer Class Diagrams
+## 5.3.7. Bounded Context Software Architecture Code Level Diagrams.
+
+### 5.3.7.1. Bounded Context Domain Layer Class Diagrams
 
 - Detalla `Alert`, `NotificationDelivery`, estados, tipos sensoriales y la composición `Alert 1 — 0..N NotificationDelivery`, con sus invariantes de reconocimiento y despacho.
 ![Alert lifecycle and deliveries](../assets/chapter5/53-bc-alert-notification/alert-lifecyle-deliveries.png)
@@ -59,7 +61,7 @@ En paralelo, IngestionService y CropService publican sus eventos hacia el **Mess
 ---
 <br>
 
-### 5.3.6.2. Bounded Context Database Design Diagram
+### 5.3.7.2. Bounded Context Database Design Diagram
 
 El diagrama representa el esquema físico PostgreSQL de AlertService, derivado de sus migraciones EF Core. Incluye alertas, preferencias de usuario, entregas de notificaciones, proyecciones locales de Crop, Inbox y Outbox. La única FK física de negocio es notification_deliveries.alert_id → alerts.id; las referencias a usuario, plantación y sector no son FKs entre microservicios.
 
