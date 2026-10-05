@@ -19,6 +19,14 @@
 | :--- | :--- |
 | Design-Level EventStorming | https://miro.com/app/board/uXjVHdJ_3Wo=/?share_link_id=547546845690 |
 
+### Diseños y Prototipos en Figma
+
+| Artefacto | URL |
+| :--- | :--- |
+| Web Application — Diseño completo | https://www.figma.com/design/bFDv7p60jPElSFuoSRZF1H/WebApp?node-id=0-1 |
+| Mobile Application — Prototipo interactivo (dueño del cultivo) | https://www.figma.com/proto/bFDv7p60jPElSFuoSRZF1H/WebApp?node-id=2130-1315&scaling=scale-down&page-id=1%3A2 |
+
+
 ### Videos de entrevistas de needfinding
 
 | # | Entrevistado | Segmento | URL |
