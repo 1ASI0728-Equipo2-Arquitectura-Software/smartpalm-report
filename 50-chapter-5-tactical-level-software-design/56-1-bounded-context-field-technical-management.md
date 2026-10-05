@@ -370,3 +370,9 @@ Las once fuentes siguientes son vistas complementarias del mismo Domain Layer; s
 ![Events consumed from Alert and Agronomy](../assets/chapter5/56-bc-field-service/field-consumed-alert-agronomy-events.png)
 ---
 <br>
+
+### 5.3.6.2. Bounded Context Database Design Diagram
+
+El diagrama presenta el esquema físico PostgreSQL de FieldService: visitas, inspecciones, observaciones, enlaces con alertas, intervenciones, proyecciones locales, Inbox y Outbox. Las FKs internas preservan la consistencia entre visitas, inspecciones, observaciones e intervenciones. Los datos de usuarios, plantaciones, sectores, alertas y recomendaciones se mantienen como proyecciones o identificadores locales actualizados por eventos.
+
+![Field Service diagrama BD](../assets/chapter5/56-bc-field-service/field_microservice-db.png)
