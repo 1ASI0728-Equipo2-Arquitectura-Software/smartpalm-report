@@ -14,5 +14,6 @@ Esta sección inicia en una página nueva.
 | V0.6    | 18/09/2026 | Conde Isla, Camila Alessandra        | Capítulo II: 2.4 Ubiquitous Language y registro consolidado de entrevista a ingeniero agrónomo; 2.3.4 As-Is y 3.1 To-Be Scenario Mapping de ambos segmentos.                                                      |
 | V0.7    | 18/09/2026 | Paucar Meneses, Jeremy Alión         | Capítulo IV: 4.3 Software Architecture (System Landscape, Context, Container y Deployment) con diagramas C4 en Structurizr; perfil de integrante y fotografía.                                                     |
 | V0.8    | 19/09/2026 | Paucar Meneses, Jeremy Alión         | Front-matter: carátula, registro de versiones, collaboration insights, contenido (índice) y student outcome.                                                                                                       |
+| V0.9    | 05/10/2026 | Paucar Meneses, Jeremy Alión         | Capítulo IV (feedback TB1): 4.2.4 con 7 Bounded Context Canvases graficados, 4.2.5 con 2 diagramas de Context Mapping y vocabulario canónico de eventos, 4.3 con C4 re-renderizados (contexto con AI Engine, contenedor legible, despliegue con conectores) y `workspace40.dsl` versionado. |
 
 <!-- Agregar una fila por cada modificación relevante (nueva sección, corrección o mejora) antes de cada entrega. -->
