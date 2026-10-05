@@ -309,3 +309,64 @@ A continuación se muestra el diagrama C4 de componentes del container FieldServ
 Presenta la entrada desde API Gateway, los controllers, command/query services, el modelo de dominio, repositorios, `FieldDbContext`, Inbox, Outbox y PostgreSQL.
 
 **Comunicación externa.** IdentityService, CropService, AlertService y AgronomyService no invocan directamente a FieldService ni acceden a su base de datos. Publican eventos en el **Message Broker** (RabbitMQ); el `IntegrationEventConsumer` de FieldService los recibe por AMQP y delega en `IntegrationEventHandlers`. Esta decisión mantiene consistencia eventual de proyecciones y evita dependencias síncronas entre bounded contexts.
+
+## 5.6.6. Bounded Context Software Architecture Code Level Diagrams
+
+### 5.6.6.1. Bounded Context Domain Layer Class Diagrams
+
+Las once fuentes siguientes son vistas complementarias del mismo Domain Layer; se subdividen por capacidad de visitas, inspecciones, intervenciones, acceso, trazabilidad y mensajería para preservar atributos, métodos, visibilidad y relaciones sin concentrar todo el modelo en una sola imagen.
+
+- Detalla el agregado `FieldVisit`, sus transiciones y la regla que exige una inspección antes de completar la visita. 
+![Field-visits](../assets/chapter5/56-bc-field-service/field-visits.png)
+---
+<br>
+
+- Detalla `FieldInspection`, observaciones, enlaces a alertas, sincronización offline y las composiciones internas. 
+![Inspections and observations](../assets/chapter5/56-bc-field-service/field-inspections-observations-class-diagram.png)
+---
+<br>
+
+- Detalla `AgronomicIntervention`, tipos, estados, referencia opcional a la inspección originadora e invariantes de revisión. 
+![Agronomic interventions](../assets/chapter5/56-bc-field-service/field-agronomic-interventions.png)
+---
+<br>
+
+- Presenta proyecciones de usuarios, plantaciones, sectores y afiliaciones, la política de acceso y los puertos de visitas e inspecciones.
+![Access projections, policy and ports](../assets/chapter5/56-bc-field-service/field-domain-projections-policies.png)
+---
+<br>
+
+- Presenta proyecciones de alertas y recomendaciones, validación de trazabilidad y los puertos de intervenciones y proyecciones.
+![Traceability projections, service and ports](../assets/chapter5/56-bc-field-service/field-traceability-projections-policies.png)
+---
+<br>
+
+- Presenta contratos de planificación, inicio, finalización, cancelación y consulta de visitas.
+![Visit commands and queries](../assets/chapter5/56-bc-field-service/field-visits-contracts.png)
+---
+<br>
+
+- Presenta contratos de registro, observaciones, enlace a alertas, consulta e idempotencia de sincronización offline. 
+![Inspection and offline synchronization contracts](../assets/chapter5/56-bc-field-service/field-inspections-contracts.png)
+---
+<br>
+
+- Presenta contratos de intervención, revisión y consultas de historial y cadena de trazabilidad.
+![Intervention and traceability contracts](../assets/chapter5/56-bc-field-service/field-interventions-contracts.png)
+---
+<br>
+
+- Presenta los cinco eventos emitidos por Field mediante Outbox. 
+![Published integration events](../assets/chapter5/56-bc-field-service/field-published-integration-events.png)
+---
+<br>
+
+- Presenta los nueve eventos que forman las proyecciones locales de identidad, suscripción, plantación, sector y afiliación.
+![Events consumed from Identity and Crop](../assets/chapter5/56-bc-field-service/field-consumed-idenity-crop-events.png)
+---
+<br>
+
+- Presenta los eventos de alerta y recomendación publicados que enriquecen la trazabilidad local.
+![Events consumed from Alert and Agronomy](../assets/chapter5/56-bc-field-service/field-consumed-alert-agronomy-events.png)
+---
+<br>
