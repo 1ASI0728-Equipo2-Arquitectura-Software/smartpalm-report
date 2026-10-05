@@ -263,3 +263,8 @@ Las seis fuentes PlantUML son perspectivas complementarias del mismo Domain Laye
 ---
 <br>
 
+### 5.7.6.2. Bounded Context Database Design Diagram
+
+El diagrama representa el esquema físico PostgreSQL de IdentityService, compuesto por usuarios, suscripciones, transacciones de pago y Outbox. Las relaciones subscriptions.user_id y payment_transactions.user_id son FKs internas hacia users.id, mientras los índices únicos de usuario y correo garantizan la identidad única. El Outbox conserva los eventos de usuarios y suscripciones antes de su publicación asíncrona.
+
+![Identity Service diagrama BD](../assets/chapter5/57-bounded-contex-subscription/identity_microservice-db.png)
