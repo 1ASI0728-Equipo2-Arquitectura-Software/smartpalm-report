@@ -1,4 +1,4 @@
-# 5.6. Bounded Context: Field Technical Management
+## 5.6. Bounded Context: Field Technical Management
 
 El bounded context **Field Technical Management** registra el trabajo técnico efectuado en campo: visitas, inspecciones —también las capturadas sin conexión—, observaciones e intervenciones agronómicas. `SmartPalm.FieldService` es propietario exclusivo del esquema PostgreSQL `field`. Mantiene proyecciones locales de usuarios, suscripciones, plantaciones, sectores, afiliaciones, alertas y recomendaciones que se actualizan de manera idempotente a partir de eventos de Identity, Crop, Alert y Agronomy. Por tanto, no consulta ni comparte bases de datos externas.
 
@@ -300,7 +300,7 @@ La **Infrastructure Layer** implementa los puertos mediante EF Core, PostgreSQL 
 
 Las FK internas son `field_inspections.visit_id → field_visits.id`, `field_observations.inspection_id → field_inspections.id`, `inspection_alert_links.inspection_id → field_inspections.id` y `agronomic_interventions.origin_inspection_id → field_inspections.id` (nullable). Los IDs de usuario, plantación, sector, alerta y recomendación no son FKs cruzadas.
 
-## 5.6.5. Bounded Context Software Architecture Component Level Diagrams
+## 5.6.6. Bounded Context Software Architecture Component Level Diagrams
 
 A continuación se muestra el diagrama C4 de componentes del container FieldService:
 
@@ -310,9 +310,9 @@ Presenta la entrada desde API Gateway, los controllers, command/query services, 
 
 **Comunicación externa.** IdentityService, CropService, AlertService y AgronomyService no invocan directamente a FieldService ni acceden a su base de datos. Publican eventos en el **Message Broker** (RabbitMQ); el `IntegrationEventConsumer` de FieldService los recibe por AMQP y delega en `IntegrationEventHandlers`. Esta decisión mantiene consistencia eventual de proyecciones y evita dependencias síncronas entre bounded contexts.
 
-## 5.6.6. Bounded Context Software Architecture Code Level Diagrams
+## 5.6.7. Bounded Context Software Architecture Code Level Diagrams
 
-### 5.6.6.1. Bounded Context Domain Layer Class Diagrams
+### 5.6.7.1. Bounded Context Domain Layer Class Diagrams
 
 Las once fuentes siguientes son vistas complementarias del mismo Domain Layer; se subdividen por capacidad de visitas, inspecciones, intervenciones, acceso, trazabilidad y mensajería para preservar atributos, métodos, visibilidad y relaciones sin concentrar todo el modelo en una sola imagen.
 
@@ -371,7 +371,7 @@ Las once fuentes siguientes son vistas complementarias del mismo Domain Layer; s
 ---
 <br>
 
-### 5.3.6.2. Bounded Context Database Design Diagram
+### 5.6.7.2. Bounded Context Database Design Diagram
 
 El diagrama presenta el esquema físico PostgreSQL de FieldService: visitas, inspecciones, observaciones, enlaces con alertas, intervenciones, proyecciones locales, Inbox y Outbox. Las FKs internas preservan la consistencia entre visitas, inspecciones, observaciones e intervenciones. Los datos de usuarios, plantaciones, sectores, alertas y recomendaciones se mantienen como proyecciones o identificadores locales actualizados por eventos.
 
