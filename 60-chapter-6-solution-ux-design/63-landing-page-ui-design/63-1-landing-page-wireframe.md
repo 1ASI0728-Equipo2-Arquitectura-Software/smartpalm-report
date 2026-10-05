@@ -12,6 +12,7 @@ Web view
 ![wireframe4](../../assets/chapter6/63-landing-page-ui-design/63-1-landing-page-wireframe/wireframe4.png)
 
 Mobile view
+
 ![wireframe4](../../assets/chapter6/63-landing-page-ui-design/63-1-landing-page-wireframe/wireframemobile.png)
 
 

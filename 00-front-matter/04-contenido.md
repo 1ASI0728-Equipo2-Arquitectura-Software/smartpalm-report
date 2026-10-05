@@ -157,5 +157,3 @@ Esta sección inicia en una página nueva.
 - [Conclusiones y Recomendaciones](#conclusiones-y-recomendaciones)
 - [Bibliografía](#bibliografía)
 - [Anexos](#anexos)
-
-<!-- Capítulos V y VI incorporados para TP1 (corte en 6.4.2). Capítulo VII y 6.4.3+ pendientes para TB2. Verificar vínculos antes de cada entrega. -->

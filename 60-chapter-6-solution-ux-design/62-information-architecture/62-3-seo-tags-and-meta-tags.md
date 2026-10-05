@@ -25,3 +25,4 @@ Ejemplo de Implementación de Meta Tags
 <meta property="og:description" content="Gestione sus plantaciones con telemetría IoT, recomendaciones automatizadas e inspecciones de campo en tiempo real.">
 <meta property="og:image" content="https://smartpalm.io/assets/images/og-preview.png">
 
+```

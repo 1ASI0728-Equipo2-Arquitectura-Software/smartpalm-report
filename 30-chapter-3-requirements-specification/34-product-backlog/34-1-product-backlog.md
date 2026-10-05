@@ -11,7 +11,7 @@ A continuación se presenta el Product Backlog priorizado de Smart Palm. El orde
 La numeración de User Stories es consistente con el documento de User Stories (sección 3.2).
 
 | # Orden | ID | Título | Descripción | Story Points |
-| ------- | -- | ------ | ----------- | ------------ |
+| ---- | ------ | ------ | ----------- | ----- |
 | 1 | US001 | Presentar la propuesta de valor de Smart Palm | Como visitante interesado en mejorar la gestión de mi cultivo de palma aceitera, quiero conocer la propuesta de valor de Smart Palm, para entender como la plataforma puede ayudarme a monitorear y proteger mi plantación. | 2 |
 | 2 | US002 | Consultar los planes de suscripción disponibles | Como visitante interesado en contratar Smart Palm, quiero conocer los planes de suscripción disponibles, para evaluar cual se ajusta al tamaño y necesidades de mi operación. | 2 |
 | 3 | US003 | Direccionar al visitante hacia la aplicación correspondiente según su rol | Como visitante interesado en usar Smart Palm, quiero acceder a la aplicación correspondiente a mi rol desde el Landing Page, para iniciar mi experiencia en la plataforma. | 2 |
@@ -87,7 +87,6 @@ La numeración de User Stories es consistente con el documento de User Stories (
 
 La gestión y priorización del backlog se realiza en la siguiente herramienta:
 
-**Herramienta del Product Backlog:** [Tablero en Trello](https://trello.com/b/HSjBsXFx/grupo-2-fundamentos-de-arquitectura-de-software)
 
 ---
 

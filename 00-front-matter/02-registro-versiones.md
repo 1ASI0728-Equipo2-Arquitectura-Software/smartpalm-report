@@ -5,7 +5,7 @@ El objetivo de esta sección es resumir las modificaciones relevantes que se rea
 Esta sección inicia en una página nueva.
 
 | Versión | Fecha      | Autor                                | Descripción de modificación                                                                                                                                                                                      |
-| :------ | :--------- | :----------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| :------ | :------------- | :----------------------------------- | :--------------------------------------------------------------------------------------------- |
 | V0.1    | 13/09/2026 | Muñoz Vilcapoma, Mauricio Rigoberto  | Creación del repositorio y estructura base del informe: carpetas por capítulo y plantillas Markdown vacías.                                                                                                      |
 | V0.2    | 15/09/2026 | Muñoz Vilcapoma, Mauricio Rigoberto  | Capítulo I: 1.1.1 Descripción de la Startup, 1.1.2 Perfiles de integrantes del equipo, 1.2.1 Antecedentes y Problemática (5W2H), 1.2.2 Lean UX Process y 1.3 Segmentos objetivo.                                   |
 | V0.3    | 16/09/2026 | Muñoz Vilcapoma, Mauricio Rigoberto  | Capítulo III: 3.2 User Stories (Epics, historias de usuario y técnicas con criterios de aceptación) y 3.4 Product Backlog priorizado.                                                                            |
