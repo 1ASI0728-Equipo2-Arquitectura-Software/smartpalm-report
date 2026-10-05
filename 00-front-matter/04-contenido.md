@@ -155,7 +155,6 @@ Esta sección inicia en una página nueva.
       - [Wireflows de la aplicación móvil](#wireflows-de-la-aplicación-móvil)
       - [Cobertura de objetivos y servicios](#cobertura-de-objetivos-y-servicios)
 - [Conclusiones y Recomendaciones](#conclusiones-y-recomendaciones)
-  - [Video About-the-Team](#video-about-the-team)
 - [Bibliografía](#bibliografía)
 - [Anexos](#anexos)
 
