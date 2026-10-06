@@ -1,0 +1,26 @@
+# Registro de Versiones del Informe
+
+El objetivo de esta sección es resumir las modificaciones relevantes que se realizan al informe durante el ciclo de vida del proyecto.
+
+Esta sección inicia en una página nueva.
+
+| Versión | Fecha      | Autor                                | Descripción de modificación                                                                                                                                                                                      |
+| :------ | :------------- | :----------------------------------- | :--------------------------------------------------------------------------------------------- |
+| V0.1    | 13/09/2026 | Muñoz Vilcapoma, Mauricio Rigoberto  | Creación del repositorio y estructura base del informe: carpetas por capítulo y plantillas Markdown vacías.                                                                                                      |
+| V0.2    | 15/09/2026 | Muñoz Vilcapoma, Mauricio Rigoberto  | Capítulo I: 1.1.1 Descripción de la Startup, 1.1.2 Perfiles de integrantes del equipo, 1.2.1 Antecedentes y Problemática (5W2H), 1.2.2 Lean UX Process y 1.3 Segmentos objetivo.                                   |
+| V0.3    | 16/09/2026 | Muñoz Vilcapoma, Mauricio Rigoberto  | Capítulo III: 3.2 User Stories (Epics, historias de usuario y técnicas con criterios de aceptación) y 3.4 Product Backlog priorizado.                                                                            |
+| V0.4    | 17/09/2026 | Ramirez Cabrera, Kenyi Efrain        | Capítulo IV: 4.2.1 EventStorming y 4.2.2 Candidate Context Discovery (eventos pivote y bounded contexts candidatos).                                                                                              |
+| V0.5    | 18/09/2026 | Rojas Reategui, Victor Manuel        | Capítulo II: 2.1 Competidores (análisis competitivo, estrategias y tácticas) y 2.2 Entrevistas (diseño, registro y análisis); Capítulo III: 3.3 Impact Mapping de ambos segmentos.                                 |
+| V0.6    | 18/09/2026 | Conde Isla, Camila Alessandra        | Capítulo II: 2.4 Ubiquitous Language y registro consolidado de entrevista a ingeniero agrónomo; 2.3.4 As-Is y 3.1 To-Be Scenario Mapping de ambos segmentos.                                                      |
+| V0.7    | 18/09/2026 | Paucar Meneses, Jeremy Alión         | Capítulo IV: 4.3 Software Architecture (System Landscape, Context, Container y Deployment) con diagramas C4 en Structurizr; perfil de integrante y fotografía.                                                     |
+| V0.8    | 19/09/2026 | Paucar Meneses, Jeremy Alión         | Front-matter: carátula, registro de versiones, collaboration insights, contenido (índice) y student outcome.                                                                                                       |
+| V0.9    | 05/10/2026 | Paucar Meneses, Jeremy Alión         | Capítulo IV (feedback TB1): 4.2.4 con 7 Bounded Context Canvases graficados, 4.2.5 con 2 diagramas de Context Mapping y vocabulario canónico de eventos, 4.3 con C4 re-renderizados (contexto con AI Engine, contenedor legible, despliegue con conectores) y `workspace40.dsl` versionado. |
+| V1.0    | 04/10/2026 | Paucar Meneses, Jeremy Alión         | Capítulo V: 5.1 IoT Device Management, 5.2 Sensor Data Processing, 5.4 Agronomic Recommendation y 5.5 Crop Monitoring Dashboard (domain/interface/application/infrastructure layers, diagramas C4 component/code, clases y base de datos). |
+| V1.1    | 04/10/2026 | Rojas Reategui, Victor Manuel        | Capítulo V: 5.3 Alert & Notification, 5.6 Field Technical Management y 5.7 Identity & Subscription Management (layers, diagramas C4 component/code, clases y base de datos).                                       |
+| V1.2    | 05/10/2026 | Paucar Meneses, Jeremy Alión         | Capítulo V: alineación de 5.3/5.6/5.7 a numeración 5.X.6/5.X.7 y niveles del statement; corrección de typo 5.3.6.2 a 5.6.7.2.                                                                                    |
+| V1.3    | 04/10/2026 | Ramirez Cabrera, Kenyi Efrain        | Capítulo VI: 6.1 Style Guidelines (general, web/mobile/devices) y 6.2 Information Architecture (organization, labeling, searching, SEO y navigation).                                                               |
+| V1.4    | 04/10/2026 | Muñoz Vilcapoma, Mauricio Rigoberto  | Capítulo VI: 6.4.1 Applications Wireframes y 6.4.2 Applications Wireflow Diagrams (web y móvil, con user goals y cobertura por bounded context).                                                                    |
+| V1.5    | 05/10/2026 | Conde Isla, Camila Alessandra        | Capítulo VI: 6.3.1 Landing Page Wireframe y 6.3.2 Landing Page Mock-up (versión inicial).                                                                                                                          |
+| V1.6    | 05/10/2026 | Paucar Meneses, Jeremy Alión         | Front-matter TP1: carátula como Informe de Trabajo Parcial (TP1) y mes Octubre 2026; índice extendido con Capítulos V y VI (corte en 6.4.2) y re-sync de anchors.                                                   |
+
+<!-- Agregar una fila por cada modificación relevante (nueva sección, corrección o mejora) antes de cada entrega. -->
