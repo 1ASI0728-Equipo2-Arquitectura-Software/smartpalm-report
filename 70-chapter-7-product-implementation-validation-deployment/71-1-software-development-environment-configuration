@@ -48,15 +48,6 @@ El flujo de trabajo se organiza con ramas principales y ramas por funcionalidad.
 | Feature Branches | `feature/<description>` | Agrupan funcionalidades o secciones específicas del producto. |
 | Deployment Branch | `deploy` | Agrupa ajustes de publicación y configuración de despliegue cuando corresponde. |
 
-**Semantic Versioning**
-
-El equipo adopta Semantic Versioning con el formato `MAJOR.MINOR.PATCH` para identificar entregas del producto.
-
-| Segment | Meaning |
-|---|---|
-| `MAJOR` | Cambios mayores o incompatibles. |
-| `MINOR` | Nuevas funcionalidades compatibles. |
-| `PATCH` | Correcciones menores o ajustes puntuales. |
 
 **Conventional Commits**
 
@@ -70,3 +61,31 @@ Los commits siguen una estructura basada en Conventional Commits para mantener t
 | `refactor` | Mejora interna sin cambiar la funcionalidad esperada. | `refactor(alerts): redesign list with left-border severity` |
 | `config` | Configuración de entorno o despliegue. | `config(cloudflare): add SPA fallback` |
 
+### 7.1.3. Source Code Style Guide & Coding Conventions
+
+El equipo define convenciones de código para mantener legibilidad, consistencia y trazabilidad entre los productos implementados durante el Sprint 1.
+
+| Element | Convention | Example |
+|---|---|---|
+| Angular Components | PascalCase | `DashboardComponent`, `PlantationDetailComponent` |
+| Services | PascalCase with `Service` suffix | `PlantationService`, `AlertService` |
+| Methods and Variables | camelCase | `getActiveAlerts()`, `currentPlantation` |
+| Constants | UPPER_SNAKE_CASE | `MAX_VISIBLE_ALERTS` |
+| Files and Folders | kebab-case | `plantation-detail.component.ts` |
+| Routes | Lowercase route paths | `/dashboard`, `/plantaciones`, `/alertas` |
+| Branches | kebab-case | `feature/dashboard-redesign` |
+| Commits | English and imperative | `feat(subscription): add role-aware plans` |
+
+**General Rules**
+
+- El código fuente, nombres técnicos y commits se redactan en inglés.
+- Los textos visibles al usuario pueden estar en español cuando formen parte de la experiencia de SmartPalm.
+- Las funcionalidades se organizan por módulo: `auth`, `dashboard`, `plantations`, `devices`, `alerts`, `recommendations`, `reports`, `inspections`, `profile` y `subscription`.
+
+
+**Project Boards and Design References**
+
+| Resource | URL |
+|---|---|
+| Trello Board | https://trello.com/b/HSjBsXFx/grupo-2-fundamentos-de-arquitectura-de-software |
+| Figma WebApp Design | https://www.figma.com/design/bFDv7p60jPElSFuoSRZF1H/WebApp?node-id=0-1&p=f |
