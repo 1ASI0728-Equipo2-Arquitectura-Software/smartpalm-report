@@ -111,22 +111,24 @@ El Sprint 1 dejó tres artefactos ejecutables: Landing Page, Web Application y M
 
 #### 7.2.1.6. Services Documentation Evidence for Sprint Review
 
-En este sprint, la documentación de servicios corresponde únicamente a la Mock API. La Mock API permite simular los datos necesarios para que la Web Application muestre información de usuarios, suscripciones, plantaciones, zonas, dispositivos, lecturas, alertas, recomendaciones, reportes e inspecciones.
+En este sprint, la documentación de servicios corresponde a la integración mediante un API Gateway que centraliza y conecta todos los microservicios de la plataforma. El API Gateway gestiona y enruta las solicitudes necesarias para que la Web Application interactúe con los módulos de acceso, suscripciones, plantaciones, sectores, dispositivos IoT, lecturas de sensores, alertas, recomendaciones agronómicas, reportes e inspecciones de campo.
 
-| Module | Mock Resource | Main Actions | Sprint Relevance |
+| Module | Resource | Main Actions | Sprint Relevance |
 |---|---|---|---|
-| Access | `/api/v1/auth/register`, `/api/v1/auth/login`, `/api/v1/users/me` | Simular registro, login y consulta de perfil. | Permite navegar la Web Application con usuarios representativos. |
-| Subscriptions | `/api/v1/subscriptions/plans`, `/api/v1/subscriptions/me`, `/api/v1/subscriptions/me/upgrade` | Consultar planes, suscripción actual y cambio de plan. | Soporta las historias de contratación y suscripción inicial. |
-| Plantations | `/api/v1/plantations`, `/api/v1/plantations/:id`, `/api/v1/plantations/:plantationId/zones` | Consultar plantaciones, detalle técnico y zonas de monitoreo. | Soporta dashboard, listado y detalle de plantaciones. |
-| Device Service | `/api/v1/devices`, `/api/v1/devices/:id`, `/api/v1/devices/:id/zone` | Consultar dispositivos asociados a plantaciones y zonas. | Permite evidenciar el componente IoT dentro de la experiencia web. |
-| Sensor Readings | `/api/v1/readings` | Consultar lecturas simuladas por variable, zona, dispositivo o plantación. | Alimenta la visualización del estado del cultivo. |
-| Alerts | `/api/v1/alerts`, `/api/v1/alerts/:id`, `/api/v1/alerts/:id/acknowledge` | Consultar alertas activas, detalle de alerta y reconocimiento. | Permite priorizar condiciones críticas dentro de la Web Application. |
-| Agronomy Recommendations Service | `/api/v1/recommendations`, `/api/v1/recommendations/:id/approve`, `/api/v1/recommendations/:id/publish` | Consultar, aprobar y publicar recomendaciones agronómicas. | Soporta la experiencia del agrónomo y del productor. |
-| Reports | `/api/v1/reports`, `/api/v1/reports/generate-draft`, `/api/v1/reports/:id/publish` | Consultar, generar y publicar reportes. | Permite mostrar documentación del estado del cultivo. |
-| Field Records | `/api/v1/inspections`, `/api/v1/interventions` | Consultar inspecciones e intervenciones simuladas. | Complementa la trazabilidad del seguimiento agronómico. |
+| Access | `/api/v1/Authentication/sign-in`, `/api/v1/admin/users`, `/api/v1/users/{id}`, `/api/v1/admin/users/deletion-operations/{operationid}` | Gestionar el inicio de sesión, registro, consulta de perfiles de usuario y operaciones administrativas de cuentas. | Permite navegar la Web Application con usuarios representativos y roles definidos. |
+| Subscriptions | `/api/v1/admin/subscriptions`, `/api/v1/subscriptions`, `/api/v1/subscriptions/plans`, `/api/v1/subscriptions/payments`, `/api/v1/admin/subscriptions/{subscriptionid}`, `/api/v1/admin/subscriptions/users/{userid}` | Consultar planes, gestionar suscripciones y procesar pagos. | Soporta las historias de contratación y suscripción inicial de la plataforma. |
+| Plantations | `/api/v1/plantations`, `/api/v1/plantations/{plantationId}`, `/api/v1/plantations/{plantationId}/sectors`, `/api/v1/admin/plantations`, `/api/v1/agronomists/{agronomistid}/plantation-affiliations`, `/api/v1/internal/reconciliation/snapshot` | Consultar plantaciones, detalles técnicos, sectores de monitoreo, afiliaciones de agrónomos y reconciliación de datos. | Soporta el dashboard, listado, asignación y detalle técnico de las plantaciones. |
+| Device | `/api/v1/edge-gateways`, `/api/v1/edge-gateways/{gatewayMac}/devices`, `/api/v1/admin/edge-gateways`, `/api/v1/admin/edge-gateways/{gatewayMac}/iot-devices`, `/api/v1/admin/iot-devices/{iotMac}/provision`, `/api/v1/admin/iot-devices/{iotMac}/revoke`, `/api/v1/edge-gateways/{gatewayMac}/registry`, `/api/v1/edge-gateways/{gatewayMac}/connectivity` | Gestionar edge gateways, registrar dispositivos IoT, control de conectividad y aprovisionamiento de dispositivos. | Permite evidenciar el componente IoT y la sincronización de pasarelas dentro de la arquitectura. |
+| Sensor Readings | `/api/v1/devices/{deviceMac}/sensor-readings`, `/api/v1/edge-gateways/{gatewayMac}/sensor-readings`, `/api/v1/sectors/{sectorid}/sensor-readings`, `/api/v1/sectors/{sectorid}/health`, `/api/v1/admin/devices/{deviceMac}/thresholds`, `/api/v1/devices/{deviceMac}/thresholds` | Consultar lecturas de sensores, estado de salud del sector y configurar umbrales agronómicos. | Alimenta la visualización en tiempo real del estado y salud del cultivo. |
+| Alerts | `/api/v1/admin/alerts`, `/api/v1/alerts`, `/api/v1/alerts/{alertId}`, `/api/v1/alerts/{alertId}/acknowledge`, `/api/v1/alert-settings`, `/api/v1/alert-settings/{sensortype}` | Consultar alertas administrativas, de usuario, reconocimiento de eventos críticos y configuración de umbrales. | Permite priorizar condiciones críticas y gestionar notificaciones dentro de la Web Application. |
+| Agronomy Recommendations | `/api/v1/sectors/{sectorid}/recommendations`, `/api/v1/recommendations/general`, `/api/v1/reports/{reportid}/recommendations`, `/api/v1/recommendations/{recommendationid}`, `/api/v1/recommendations/{recommendationid}/approval`, `/api/v1/recommendations/{recommendationid}/publication` | Consultar, generar, aprobar y publicar recomendaciones agronómicas por sector o reporte. | Soporta la experiencia especializada del agrónomo y la toma de decisiones del productor. |
+| Reports | `/api/v1/sectors/{sectorid}/reports`, `/api/v1/reports/{reportid}`, `/api/v1/reports/{reportid}/publication` | Consultar, generar y publicar reportes técnicos del estado de los sectores. | Permite mostrar documentación consolidada del estado del cultivo. |
+| Field Records | `/api/v1/field/visits/{visitid}/inspections`, `/api/v1/field/visits/{visitid}/inspections/sync`, `/api/v1/field/inspections/{id}`, `/api/v1/field/plantations/{plantationid}/inspections`, `/api/v1/field/visits`, `/api/v1/field/visits/{id}/start`, `/api/v1/field/visits/{id}/complete`, `/api/v1/field/visits/{id}/cancel`, `/api/v1/field/interventions`, `/api/v1/sectors/{sectorid}/interventions`, `/api/v1/field/interventions/{id}/verify`, `/api/v1/field/interventions/{id}/reject` | Gestionar visitas de campo, inspecciones (online/offline y sincronización), observaciones, alertas y ciclo de vida de intervenciones agronómicas. | Complementa la trazabilidad estricta del seguimiento operativo y agronómico en campo. |
 
-#### Agronomy Service 
+#### Identity Service
+![identity-service-swagger.png](../../assets/chapter5/72-service-documentation-evidence-for-sprint-review/identity-service-swagger.png)
 
+#### Agronomy Service
 ![agronomy-service-swagger.png](../../assets/chapter5/72-service-documentation-evidence-for-sprint-review/agronomy-service-swagger.png)
 
 #### Ingestion Service 
@@ -134,6 +136,23 @@ En este sprint, la documentación de servicios corresponde únicamente a la Mock
 
 #### Device Service
 ![device-service-swagger.png](../../assets/chapter5/72-service-documentation-evidence-for-sprint-review/device-service-swagger.png)
+
+#### Field Service
+![field-service-swagger.png](../../assets/chapter5/72-service-documentation-evidence-for-sprint-review/field-service-swagger.png)
+
+#### Alert Service
+![alert_service-swagger.png](../../assets/chapter5/72-service-documentation-evidence-for-sprint-review/alert_service-swagger.png)
+
+#### Crop Serrvice 
+![crop-service-swagger.png](../../assets/chapter5/72-service-documentation-evidence-for-sprint-review/crop-service-swagger.png)
+
+#### API Gateway
+
+![api-gateway-swagger.png](../../assets/chapter5/72-service-documentation-evidence-for-sprint-review/api-gateway-swagger.png)
+
+![api-gateway-2-swagger.png](../../assets/chapter5/72-service-documentation-evidence-for-sprint-review/api-gateway-2-swagger.png)
+
+![api-gateway-3-swagger.png](../../assets/chapter5/72-service-documentation-evidence-for-sprint-review/api-gateway-3-swagger.png)
 
 
 #### 7.2.1.7. Software Deployment Evidence for Sprint Review
