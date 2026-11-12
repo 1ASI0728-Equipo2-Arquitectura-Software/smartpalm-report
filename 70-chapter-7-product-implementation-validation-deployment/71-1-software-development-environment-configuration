@@ -63,7 +63,7 @@ Los commits siguen una estructura basada en Conventional Commits para mantener t
 
 ### 7.1.3. Source Code Style Guide & Coding Conventions
 
-El equipo define convenciones de código para mantener legibilidad, consistencia y trazabilidad entre los productos implementados durante el Sprint 1.
+El equipo define convenciones de código para mantener legibilidad, consistencia y trazabilidad entre los productos implementados durante los sprints.
 
 | Element | Convention | Example |
 |---|---|---|
@@ -89,3 +89,30 @@ El equipo define convenciones de código para mantener legibilidad, consistencia
 |---|---|
 | Trello Board | https://trello.com/b/HSjBsXFx/grupo-2-fundamentos-de-arquitectura-de-software |
 | Figma WebApp Design | https://www.figma.com/design/bFDv7p60jPElSFuoSRZF1H/WebApp?node-id=0-1&p=f |
+
+
+### 7.1.4. Software Deployment Configuration
+
+La configuración de despliegue del Sprint 1 considera únicamente los artefactos implementados y publicados en esta iteración o pruebas de integración: Landing Page, Web Application y Mock API.
+
+| Artifact | Platform | Public URL | Sprint 1 Status |
+|---|---|---|---|
+| Landing Page | Netlify | https://smart-palm.netlify.app/ | Deployed |
+| Web Application | Cloudflare Pages |  | Deployed |
+| Mock API | Render |  | Deployed |
+
+
+**Deployment Configuration Summary**
+
+| Artifact | Configuration |
+|---|---|
+| Landing Page | Publicación estática en Netlify desde el proyecto del Landing Page. |
+| Web Application | Publicación de aplicación Angular en Cloudflare Pages. |
+| Mock API | Publicación en Render para entregar datos simulados a la Web Application. |
+
+**C4 Deployment Diagram - Structurizr DSL**
+
+El siguiente código DSL representa el despliegue completo proyectado para SmartPalm. Incluye los artefactos ya desplegados en Sprint 1, como Landing Page, Web Application y Mock API, y también la arquitectura completa prevista para el producto: Mobile Application, RESTful API, base de datos, Edge API, gateway LoRaWAN, dispositivo ESP32 y sensores de campo.
+
+
+
