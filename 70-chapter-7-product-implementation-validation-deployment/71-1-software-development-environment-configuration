@@ -2,11 +2,11 @@
 
 ## 7.1. Software Configuration Management
 
-Este capítulo documenta la configuración técnica utilizada por el equipo TempWise para implementar y desplegar los productos trabajados durante los sprints de SmartPalm: Landing Page, Mock API y Web Application. El objetivo de esta sección es dejar evidencia clara de las herramientas, repositorios, convenciones y ambientes usados para construir la primera versión visible del producto.
+Este capítulo documenta la configuración técnica utilizada por el equipo TempWise para implementar y desplegar los componentes trabajados durante el primer sprint de SmartPalm: el desarrollo del backend en microservicios, la Web Application, las aplicaciones embedded para los dispositivos y el Edge API. El objetivo de esta sección es dejar evidencia clara de las herramientas, repositorios, convenciones y ambientes usados para construir esta primera versión del producto, alineando la planeación del sprint y el backlog a estos objetivos técnicos.
 
 ### 7.1.1. Software Development Environment Configuration
 
-Durante los sprints, el equipo se enfocó en tres frentes de implementación. Primero, el Landing Page público de SmartPalm, orientado a presentar la propuesta de valor, beneficios, segmentos objetivo y planes de suscripción. Segundo, la Web Application, desarrollada en Angular para permitir la navegación inicial de usuarios, dashboard, plantaciones, alertas, recomendaciones, reportes, dispositivos y suscripciones. Tercero, una Mock API desplegada en Render para simular los recursos necesarios y permitir que la Web Application funcione con datos representativos.
+Durante el sprint, el equipo se enfocó en los frentes de implementación clave del sistema. Primero, el desarrollo del backend estructurado en microservicios, asegurando la lógica de negocio y la integración de los servicios core. Segundo, la Web Application, desarrollada para permitir la navegación inicial de los usuarios, dashboard, gestión de plantaciones, alertas, recomendaciones, reportes, dispositivos y suscripciones. Tercero, el desarrollo de las aplicaciones embedded orientadas a los dispositivos de campo y la configuración del Edge API para la gestión de la capa de borde. Cabe destacar que el proyecto no utiliza "mock-apis", por lo que toda la arquitectura descrita opera directamente sobre los microservicios y repositorios oficiales de la organización, de los cuales se puede extraer el historial de commits y sus enlaces correspondientes.
 
 | Category | Tool / Platform | Usage in Sprint 1 | Reference |
 |---|---|---|---|
@@ -19,7 +19,6 @@ Durante los sprints, el equipo se enfocó en tres frentes de implementación. Pr
 | Code Editor | Visual Studio Code | Edición de código fuente, archivos Markdown y configuración de proyecto. | https://code.visualstudio.com |
 | Static Site Deployment | Netlify | Publicación del Landing Page. | |
 | Web App Deployment | Cloudflare Pages | Publicación de la Web Application. |  |
-| Mock Services Deployment | Render | Publicación de la Mock API usada por la Web Application. |  |
 
 ### 7.1.2. Source Code Management
 
@@ -31,11 +30,11 @@ El equipo utiliza Git como sistema de control de versiones y GitHub como platafo
 |---|---|---|---|
 | Project Report | `smartpalm-report` | Contiene el informe, anexos y evidencias documentales del proyecto. | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/smartpalm-report|
 | Landing Page | `website` | Contiene el sitio público de SmartPalm con propuesta de valor, segmentos, beneficios, pricing y equipo. | https://github.com/upc-202601-1asi0572-6779-teamwise/website |
-| Web Application | `webapp-test` | Contiene la Web Application principal, incluyendo los bounded contexts y componentes compartidos implementados por el equipo. |  |
-| Web Service | `webservice` | Contiene el RESTful API desarrollado con ASP.NET Core, los bounded contexts de backend, persistencia y documentación de endpoints mediante Swagger. |  |
-| Mobile Application | `mobileapp` | Contiene la aplicación móvil desarrollada con Flutter para permitir la consulta y operación de funcionalidades de SmartPalm desde campo. |  |
-| Edge Service | `edgeservice` | Contiene el Edge API desarrollado con Python para gestionar la comunicación y sincronización de datos entre el dispositivo IoT y la plataforma cloud. |  |
-| Embedded Application | `embeddedapp` | Contiene el código de la aplicación embebida ejecutada en el dispositivo IoT para obtener y transmitir lecturas sensoriales. | |
+| Web Application | `webapp-test` | Contiene la Web Application principal, incluyendo los bounded contexts y componentes compartidos implementados por el equipo. | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm-WebApp |
+| Web Service | `webservice` | Contiene el RESTful API desarrollado con ASP.NET Core, los bounded contexts de backend, persistencia y documentación de endpoints mediante Swagger. | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.ApiGateway |
+| Mobile Application | `mobileapp` | Contiene la aplicación móvil desarrollada con Flutter para permitir la consulta y operación de funcionalidades de SmartPalm desde campo. | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm-MobileApp |
+| Edge Service | `edgeservice` | Contiene el Edge API desarrollado con Python para gestionar la comunicación y sincronización de datos entre el dispositivo IoT y la plataforma cloud. | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/edge-api |
+| Embedded Application | `embeddedapp` | Contiene el código de la aplicación embebida ejecutada en el dispositivo IoT para obtener y transmitir lecturas sensoriales. |https://github.com/1ASI0728-Equipo2-Arquitectura-Software/edge-node |
 
 **GitFlow Workflow**
 
@@ -98,8 +97,8 @@ La configuración de despliegue del Sprint 1 considera únicamente los artefacto
 | Artifact | Platform | Public URL | Sprint 1 Status |
 |---|---|---|---|
 | Landing Page | Netlify | https://smart-palm.netlify.app/ | Deployed |
-| Web Application | Cloudflare Pages |  | Deployed |
-| Mock API | Render |  | Deployed |
+| Web Application | Cloudflare Pages | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm-WebApp | - |
+
 
 
 **Deployment Configuration Summary**
@@ -108,11 +107,8 @@ La configuración de despliegue del Sprint 1 considera únicamente los artefacto
 |---|---|
 | Landing Page | Publicación estática en Netlify desde el proyecto del Landing Page. |
 | Web Application | Publicación de aplicación Angular en Cloudflare Pages. |
-| Mock API | Publicación en Render para entregar datos simulados a la Web Application. |
 
-**C4 Deployment Diagram - Structurizr DSL**
 
-El siguiente código DSL representa el despliegue completo proyectado para SmartPalm. Incluye los artefactos ya desplegados en Sprint 1, como Landing Page, Web Application y Mock API, y también la arquitectura completa prevista para el producto: Mobile Application, RESTful API, base de datos, Edge API, gateway LoRaWAN, dispositivo ESP32 y sensores de campo.
 
 
 
