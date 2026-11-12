@@ -21,3 +21,52 @@ Durante los sprints, el equipo se enfocó en tres frentes de implementación. Pr
 | Web App Deployment | Cloudflare Pages | Publicación de la Web Application. |  |
 | Mock Services Deployment | Render | Publicación de la Mock API usada por la Web Application. |  |
 
+### 7.1.2. Source Code Management
+
+El equipo utiliza Git como sistema de control de versiones y GitHub como plataforma de alojamiento remoto. Para el desarrollo, los repositorios relevantes corresponden al informe del proyecto, Landing Page, Web Application, Web Service, Mobile Application, Edge Service, Embedded Application y Mock API.
+
+**GitHub Repositories**
+
+| Product | Repository | Purpose | Status |
+|---|---|---|---|
+| Project Report | `smartpalm-report` | Contiene el informe, anexos y evidencias documentales del proyecto. | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/smartpalm-report|
+| Landing Page | `website` | Contiene el sitio público de SmartPalm con propuesta de valor, segmentos, beneficios, pricing y equipo. | https://github.com/upc-202601-1asi0572-6779-teamwise/website |
+| Web Application | `webapp-test` | Contiene la Web Application principal, incluyendo los bounded contexts y componentes compartidos implementados por el equipo. |  |
+| Web Service | `webservice` | Contiene el RESTful API desarrollado con ASP.NET Core, los bounded contexts de backend, persistencia y documentación de endpoints mediante Swagger. |  |
+| Mobile Application | `mobileapp` | Contiene la aplicación móvil desarrollada con Flutter para permitir la consulta y operación de funcionalidades de SmartPalm desde campo. |  |
+| Edge Service | `edgeservice` | Contiene el Edge API desarrollado con Python para gestionar la comunicación y sincronización de datos entre el dispositivo IoT y la plataforma cloud. |  |
+| Embedded Application | `embeddedapp` | Contiene el código de la aplicación embebida ejecutada en el dispositivo IoT para obtener y transmitir lecturas sensoriales. | |
+
+**GitFlow Workflow**
+
+El flujo de trabajo se organiza con ramas principales y ramas por funcionalidad. Esta estructura permite separar el código estable, la integración de avances y el desarrollo de funcionalidades específicas.
+
+| Branch Type | Convention | Purpose |
+|---|---|---|
+| Main Branch | `main` | Contiene versiones estables o entregables finales. |
+| Development Branch | `develop` | Integra los avances antes de pasar a una versión estable. |
+| Feature Branches | `feature/<description>` | Agrupan funcionalidades o secciones específicas del producto. |
+| Deployment Branch | `deploy` | Agrupa ajustes de publicación y configuración de despliegue cuando corresponde. |
+
+**Semantic Versioning**
+
+El equipo adopta Semantic Versioning con el formato `MAJOR.MINOR.PATCH` para identificar entregas del producto.
+
+| Segment | Meaning |
+|---|---|
+| `MAJOR` | Cambios mayores o incompatibles. |
+| `MINOR` | Nuevas funcionalidades compatibles. |
+| `PATCH` | Correcciones menores o ajustes puntuales. |
+
+**Conventional Commits**
+
+Los commits siguen una estructura basada en Conventional Commits para mantener trazabilidad.
+
+| Type | Usage | Example |
+|---|---|---|
+| `feat` | Nueva funcionalidad. | `feat(dashboard): replace placeholder with real dashboard and 5 widgets` |
+| `fix` | Corrección de errores. | `fix(auth): improve login and registration feedback` |
+| `docs` | Cambios de documentación. | `docs: update chapter 6 evidence` |
+| `refactor` | Mejora interna sin cambiar la funcionalidad esperada. | `refactor(alerts): redesign list with left-border severity` |
+| `config` | Configuración de entorno o despliegue. | `config(cloudflare): add SPA fallback` |
+
