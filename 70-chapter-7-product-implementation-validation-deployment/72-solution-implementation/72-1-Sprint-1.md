@@ -98,7 +98,7 @@ Durante el Sprint 1 se implementaron los artefactos necesarios para validar la e
 | web-application | `deploy` | `e820d03` | `feat(sidebar): add active route highlighting with background, text color, and left border` | Mejora la navegación lateral. | 2026-05-14 |
 
 
-#### 6.2.1.5. Execution Evidence for Sprint Review
+#### 7.2.1.5. Execution Evidence for Sprint Review
 
 El Sprint 1 dejó tres artefactos ejecutables: Landing Page, Web Application y Mock API. Estos permiten mostrar la propuesta de valor, navegar las vistas principales del producto y consumir datos simulados para validar la experiencia.
 
@@ -124,6 +124,13 @@ En este sprint, la documentación de servicios corresponde únicamente a la Mock
 | Recommendations | `/api/v1/recommendations`, `/api/v1/recommendations/:id/approve`, `/api/v1/recommendations/:id/publish` | Consultar, aprobar y publicar recomendaciones agronómicas. | Soporta la experiencia del agrónomo y del productor. |
 | Reports | `/api/v1/reports`, `/api/v1/reports/generate-draft`, `/api/v1/reports/:id/publish` | Consultar, generar y publicar reportes. | Permite mostrar documentación del estado del cultivo. |
 | Field Records | `/api/v1/inspections`, `/api/v1/interventions` | Consultar inspecciones e intervenciones simuladas. | Complementa la trazabilidad del seguimiento agronómico. |
+
+#### Agronomy Service 
+
+![agronomy-service-swagger.png](../../assets/chapter5/72-service-documentation-evidence-for-sprint-review/agronomy-service-swagger.png)
+
+#### Ingestion Service 
+![ingestion-service-swagger.png](../../assets/chapter5/72-service-documentation-evidence-for-sprint-review/ingestion-service-swagger.png)
 
 
 #### 7.2.1.7. Software Deployment Evidence for Sprint Review
