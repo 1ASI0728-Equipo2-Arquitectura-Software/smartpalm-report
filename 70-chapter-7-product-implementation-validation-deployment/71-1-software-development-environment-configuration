@@ -1,0 +1,23 @@
+# Capítulo VII: Product Implementation, Validation & Deployment
+
+## 7.1. Software Configuration Management
+
+Este capítulo documenta la configuración técnica utilizada por el equipo TempWise para implementar y desplegar los productos trabajados durante los sprints de SmartPalm: Landing Page, Mock API y Web Application. El objetivo de esta sección es dejar evidencia clara de las herramientas, repositorios, convenciones y ambientes usados para construir la primera versión visible del producto.
+
+### 7.1.1. Software Development Environment Configuration
+
+Durante los sprints, el equipo se enfocó en tres frentes de implementación. Primero, el Landing Page público de SmartPalm, orientado a presentar la propuesta de valor, beneficios, segmentos objetivo y planes de suscripción. Segundo, la Web Application, desarrollada en Angular para permitir la navegación inicial de usuarios, dashboard, plantaciones, alertas, recomendaciones, reportes, dispositivos y suscripciones. Tercero, una Mock API desplegada en Render para simular los recursos necesarios y permitir que la Web Application funcione con datos representativos.
+
+| Category | Tool / Platform | Usage in Sprint 1 | Reference |
+|---|---|---|---|
+| Project Management | Trello | Organización de tareas, historias de usuario y seguimiento del sprint. | https://trello.com/b/HSjBsXFx/grupo-2-fundamentos-de-arquitectura-de-software |
+| Source Code Management | Git + GitHub | Control de versiones, ramas, commits y colaboración del equipo. | https://github.com/orgs/1ASI0728-Equipo2-Arquitectura-Software/repositories|
+| Report Documentation | Markdown + GitHub | Documentación del avance del proyecto bajo enfoque Docs-as-Code. | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/smartpalm-report |
+| UX/UI Design | Figma | Diseño de wireframes, mock-ups y flujos de Landing Page y Web Application. |https://www.figma.com/design/bFDv7p60jPElSFuoSRZF1H/WebApp?node-id=0-1&p=f |
+| Collaborative Modeling | Miro | Modelado colaborativo previo de procesos y dominio del producto. | https://miro.com/app/board/uXjVHdJ_3Wo=/?share_link_id=547546845690 |
+| Web Application Development | Angular | Desarrollo de la Web Application de SmartPalm. | |
+| Code Editor | Visual Studio Code | Edición de código fuente, archivos Markdown y configuración de proyecto. | https://code.visualstudio.com |
+| Static Site Deployment | Netlify | Publicación del Landing Page. | |
+| Web App Deployment | Cloudflare Pages | Publicación de la Web Application. |  |
+| Mock Services Deployment | Render | Publicación de la Mock API usada por la Web Application. |  |
+
