@@ -69,7 +69,7 @@ El Sprint Backlog 1 se organizó a partir de las historias priorizadas del Produ
 
 #### 7.2.1.4. Development Evidence for Sprint Review
 
-Durante el Sprint 1 se implementaron los artefactos necesarios para validar la experiencia inicial de SmartPalm: Landing Page y Web Application. 
+Durante el Sprint 1 se implementaron los artefactos necesarios para validar la arquitectura de microservicios, el API Gateway, el Landing Page y la Web Application de SmartPalm.
 
 **Landing Page Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm-LandingPage
 
@@ -88,7 +88,6 @@ Durante el Sprint 1 se implementaron los artefactos necesarios para validar la e
 | landing-page | `feature/about-the-team` | `90bad9e` | `feature: update about the team section` | Actualiza la sección del equipo. | 2026-06-12 |
 | landing-page | `feature/footer` | `9e99d3a` | `feat:add footer section` | Implementa footer del Landing Page. | 2026-06-12 |
 
-
 **Web Application Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm-WebApp
 
 | Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
@@ -102,19 +101,95 @@ Durante el Sprint 1 se implementaron los artefactos necesarios para validar la e
 | web-application | `develop` | `f3f7a6e` | `feat(agronomist): add field inspections feature with list and detail` | Agrega módulo de inspecciones de campo. | 2026-05-13 |
 | web-application | `develop` | `05052a5` | `feat(subscription): add role-aware plans and subscription views with back navigation` | Agrega vistas de planes y suscripción por rol. | 2026-05-13 |
 | web-application | `develop` | `9865b7b` | `refactor(alert-detail): full-width severity layout with visual range bar, spanish labels, and device context` | Mejora la vista de detalle de alerta. | 2026-05-14 |
-| web-application | `deploy` | `1f1ed85` | `config(deploy): switch apiUrl to deployed Render mock API` | Configura la Web Application para consumir la Mock API desplegada. | 2026-05-14 |
+| web-application | `deploy` | `1f1ed85` | `config(deploy): switch apiUrl to deployed Render mock API` | Configura la Web Application para consumir los servicios centralizados. | 2026-05-14 |
 | web-application | `deploy` | `e820d03` | `feat(sidebar): add active route highlighting with background, text color, and left border` | Mejora la navegación lateral. | 2026-05-14 |
 
+**Agronomy Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.AgronomyService
+| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
+|---|---|---|---|---|---|
+| agronomy-service | `main` | `f91e387`[cite: 10] | `feat(agronomy): consume user deletion events` | Implementa el consumidor de eventos para la eliminación de usuarios. | 2026-11-07 |
+| agronomy-service | `main` | `6b7f32a`[cite: 10] | `feat(agronomy): purge agronomic records on deletion` | Permite purgar registros agronómicos al eliminar cuentas. | 2026-11-07 |
+| agronomy-service | `main` | `87e8864`[cite: 10] | `Initial Commit` | Commit inicial del microservicio de agronomía. | 2026-11-05 |
+
+**Identity Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.IdentityService
+
+| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
+|---|---|---|---|---|---|
+| identity-service | `main` | `99f09d7`[cite: 11] | `feat(identity): expose user deletion API and completion consumer` | Expone API de eliminación de usuarios y consumidor de completitud. | 2026-11-07 |
+| identity-service | `main` | `b53a99f`[cite: 11] | `feat(identity): orchestrate asynchronous user deletion` | Orquesta la eliminación asíncrona de usuarios. | 2026-11-07 |
+| identity-service | `main` | `9d5dbfc`[cite: 11] | `chore(identity): add user deletion database migration` | Agrega migración de base de datos para eliminación de usuarios. | 2026-11-07|
+| identity-service | `main` | `1968c93`[cite: 11] | `feat(identity): persist user deletion operations` | Persiste operaciones de eliminación de usuarios. | 2026-11-07 |
+| identity-service | `main` | `4bf0d15`[cite: 11] | `feat(identity): add user data deletion repository operations` | Agrega operaciones de repositorio para borrado de datos. | 2026-11-07 |
+| identity-service | `main` | `5a1a8b5`[cite: 11] | `feat(identity): add user deletion domain model` | Agrega modelo de dominio para eliminación de usuarios. | 2026-11-07 |
+| identity-service | `main` | `fd31892`[cite: 11] | `Merge remote-tracking branch into develop` | Fusión de ramas para consultas de suscripción. | 2026-11-06 |
+| identity-service | `main` | `fb0b6cd`[cite: 11] | `feat(identity): expose admin subscription status by user` | Expone estado de suscripción administrativa por usuario. | 2026-11-06 |
+| identity-service | `main` | `7785d41`[cite: 11] | `Inital Commit` | Commit inicial del microservicio de identidad. | 2026-11-05 |
+
+**Crop Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.CropService
+
+| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
+|---|---|---|---|---|---|
+| crop-service | `main` | `6c862a9`[cite: 12] | `feat(crop): consume user deletion events` | Implementa consumo de eventos de eliminación de usuarios. | 2026-11-07 |
+| crop-service | `main` | `920b363`[cite: 12] | `feat(crop): purge user-owned plantations on deletion` | Purga plantaciones propiedad del usuario al eliminarse la cuenta. | 2026-11-07|
+| crop-service | `main` | `9c6f105`[cite: 12] | `feat(crop): add inbox persistence for deletion events` | Agrega persistencia de bandeja de entrada para eventos de borrado. | 2026-11-07 |
+| crop-service | `main` | `5e525cb`[cite: 12] | `Merge branch 'feat/sector-identity' into develop` | Fusión de rama para identidad de sectores. | 2026-11-06 |
+| crop-service | `main` | `aca6bc1`[cite: 12] | `feat(crop-service): return sector identity after assignment` | Retorna identidad del sector tras su asignación. | 2026-11-06 |
+| crop-service | `main` | `89b822d`[cite: 12] | `Initial Commit` | Commit inicial del microservicio de cultivos. | 2026-11-05|
+
+**Ingestion Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.IngestionService
+
+| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
+|---|---|---|---|---|---|
+| ingestion-service | `main` | `4cb9d6c`[cite: 13] | `feat(ingestion): consume user deletion events` | Consume eventos de eliminación de usuarios. | 2026-11-07 |
+| ingestion-service | `main` | `62100ff`[cite: 13] | `feat(ingestion): purge telemetry and projections on deletion` | Purga telemetría y proyecciones al eliminar cuentas. | 2026-11-07 |
+| ingestion-service | `main` | `acf8f3e`[cite: 13] | `Initial Commit` | Commit inicial del microservicio de ingestión. | 2026-11-05 |
+
+**Device Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.DeviceService
+| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
+|---|---|---|---|---|---|
+| device-service | `main` | `69fba3a`[cite: 14] | `feat(device): consume user deletion events` | Consume eventos de eliminación de usuarios. | 2026-11-07 |
+| device-service | `main` | `8ea2aa5`[cite: 14] | `feat(device): purge gateways and IoT devices on deletion` | Purga pasarelas y dispositivos IoT al eliminar cuentas. | 2026-11-07 |
+| device-service | `main` | `e15887f`[cite: 14] | `feat(device): add inbox persistence for deletion events` | Agrega persistencia de bandeja de entrada para eventos de borrado. | 2026-11-07 |
+| device-service | `main` | `4ef34dc`[cite: 14] | `Merge branch 'fix/update-test' into develop` | Fusión de rama de corrección de pruebas. | 2026-11-06 |
+| device-service | `main` | `cf30ae4`[cite: 14] | `test(device-service): update registration payloads for ownership metadata` | Actualiza payloads de registro con metadatos de propiedad. | 2026-11-06|
+| device-service | `main` | `d6342ee`[cite: 14] | `Initial Commit` | Commit inicial del microservicio de dispositivos. | 2026-11-05 |
+
+**Field Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.FieldService
+
+| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
+|---|---|---|---|---|---|
+| field-service | `main` | `0d0f3bc`[cite: 15] | `feat(field): consume user deletion events` | Consume eventos de eliminación de usuarios. | 2026-11-07 |
+| field-service | `main` | `ef95624`[cite: 15] | `feat(field): purge field records on deletion` | Purga registros de campo al eliminar cuentas. | 2026-11-07 |
+| field-service | `main` | `5a644ff`[cite: 15] | `Initial Commit` | Commit inicial del microservicio de campo. | 2026-11-05 |
+
+**Alert Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.AlertService
+
+| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
+|---|---|---|---|---|---|
+| alert-service | `main` | `914390a`[cite: 16] | `feat(alert): consume user deletion events` | Consume eventos de eliminación de usuarios. | 2026-11-07|
+| alert-service | `main` | `79100fa`[cite: 16] | `feat(alert): purge alerts and notification data on deletion` | Purga alertas y datos de notificación al eliminar cuentas. | 2026-11-07 |
+| alert-service | `main` | `c6e8ebf`[cite: 16] | `Initial Commit` | Commit inicial del microservicio de alertas. | 2026-11-05 |
+
+**Edge API Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/edge-api
+
+| Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
+|---|---|---|---|---|---|
+| edge-api | `fix/update-authentication` | `2b6f060`[cite: 17] | `chore(edge-api): ignore local editor settings` | Ignora configuraciones locales del editor. | 2026-11-12 |
+| edge-api | `fix/update-authentication` | `a465b5f`[cite: 17] | `feat(edge-api): add durable cloud telemetry outbox` | Agrega outbox de telemetría duradera hacia la nube. | 2026-11-12 |
+| edge-api | `fix/update-authentication` | `7e8c709`[cite: 17] | `refactor(edge-api): use administrator-managed device registry` | Utiliza registro de dispositivos administrado por el sistema. | 2026-11-12 |
+| edge-api | `fix/update-authentication` | `a2d4026`[cite: 17] | `feat(edge-api): secure device IAM and provisioning` | Asegura el aprovisionamiento e IAM de dispositivos. | 2026-11-12 |
+
+---
 
 #### 7.2.1.5. Execution Evidence for Sprint Review
 
-El Sprint 1 dejó tres artefactos ejecutables: Landing Page, Web Application y Mock API. Estos permiten mostrar la propuesta de valor, navegar las vistas principales del producto y consumir datos simulados para validar la experiencia.
+El Sprint 1 dejó múltiples artefactos ejecutables e integrados mediante la arquitectura de microservicios y el API Gateway. Estos permiten mostrar la propuesta de valor, navegar las vistas principales del producto y consumir datos en tiempo real o simulados para validar la experiencia.
 
 | Evidence | Implemented Result |
 |---|---|
 | Landing Page | Sitio público con Hero Section, beneficios, segmentos, planes de suscripción, información del equipo y footer. |
-| Web Application | Aplicación Angular con login, registro, dashboard, plantaciones, dispositivos, alertas, recomendaciones, reportes, inspecciones, perfil y suscripciones. |
-
+| Web Application | Aplicación Angular con login, registro, dashboard, plantaciones, dispositivos, alertas, recomendaciones, reportes, inspecciones, perfil y suscripciones conectada al API Gateway. |
+| API Gateway & Microservices | Conjunto de servicios backend (Identity, Crop, Device, Ingestion, Alert, Agronomy, Field, Edge API) centralizados a través del API Gateway para la orquestación y enrutamiento de peticiones. |
 
 
 #### 7.2.1.6. Services Documentation Evidence for Sprint Review
