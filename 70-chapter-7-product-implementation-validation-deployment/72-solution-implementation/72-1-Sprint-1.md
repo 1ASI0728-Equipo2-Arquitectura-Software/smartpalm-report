@@ -21,7 +21,7 @@
 **User Stories included in Sprint 1**
 
 | Order | User Story Id | Title | Description | Story Points |
-|---:|---|---|---|---:|
+|:-|:--|:---|:---|:-|
 | 1 | US001 | Presentar la propuesta de valor de Smart Palm | Como visitante interesado en mejorar la gestión de mi cultivo de palma aceitera, quiero conocer la propuesta de valor de Smart Palm, para entender cómo la plataforma puede ayudarme a monitorear y proteger mi plantación. | 2 |
 | 2 | US002 | Consultar los planes de suscripción disponibles | Como visitante interesado en contratar Smart Palm, quiero conocer los planes de suscripción disponibles, para evaluar cuál se ajusta al tamaño y necesidades de mi operación. | 2 |
 | 3 | US006 | Conocer información institucional sobre TempWise | Como visitante del Landing Page, quiero conocer información sobre la startup TempWise y el equipo detrás de Smart Palm, para evaluar la credibilidad y experiencia del proveedor de la solución. | 1 |
@@ -50,7 +50,7 @@ El Sprint Backlog 1 se organizó a partir de las historias priorizadas del Produ
 El Sprint Backlog 1 se organizó a partir de las historias priorizadas del Product Backlog, reflejando el desarrollo de los microservicios, el API Gateway, el Landing Page y la Web Application implementados en los repositorios del equipo.
 
 | Sprint # | User Story Id | User Story Title | User Story Description | Work-Item / Task Id | Work-Item / Task Title | Work-Item / Task Description | Estimation (Hours) | Assigned To | Status |
-|---|---|---|---|---:|---|---|---:|---|---|
+|:--|:-|:---|:---|:--|:---|:---|:---|:---|:---|
 | Sprint 1 | US001 | Presentar la propuesta de valor de Smart Palm | Como visitante interesado en mejorar la gestión de mi cultivo de palma aceitera, quiero conocer la propuesta de valor de Smart Palm, para entender cómo la plataforma puede ayudarme a monitorear y proteger mi plantación. | TK01 | Landing Page: Hero y propuesta de valor | Implementar la cabecera principal con mensaje de SmartPalm, beneficios principales y llamados a la acción. | 5 | Mauricio Muñoz / Victor Rojas | Done |
 | Sprint 1 | US002 | Consultar los planes de suscripción disponibles | Como visitante interesado en contratar Smart Palm, quiero conocer los planes de suscripción disponibles, para evaluar cuál se ajusta al tamaño y necesidades de mi operación. | TK02 | Landing Page: Pricing | Implementar la sección de planes de suscripción con diferencias por cobertura y funcionalidades. | 5 | Mauricio Muñoz | Done |
 | Sprint 1 | US003 | Direccionar al visitante hacia la aplicación correspondiente según su rol | Como visitante interesado en usar Smart Palm, quiero acceder a la aplicación correspondiente a mi rol desde el Landing Page, para iniciar mi experiencia en la plataforma. | TK03 | Landing Page: Redirección por roles | Configurar los accesos desde el landing hacia los distintos módulos de la aplicación web según el rol. | 4 | Mauricio Muñoz / Camila Conde | Done |
@@ -159,6 +159,7 @@ Durante el Sprint 1 se implementaron los artefactos necesarios para validar la a
 <br>
 
 **Device Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.DeviceService
+
 | Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
 |---|---|---|---|---|---|
 | device-service | `main` | `69fba3a`[cite: 14] | `feat(device): consume user deletion events` | Consume eventos de eliminación de usuarios. | 2026-11-07 |
@@ -211,9 +212,10 @@ El Sprint 1 dejó múltiples artefactos ejecutables e integrados mediante la arq
 | Web Application | Aplicación Angular con login, registro, dashboard, plantaciones, dispositivos, alertas, recomendaciones, reportes, inspecciones, perfil y suscripciones conectada al API Gateway. |
 | API Gateway & Microservices | Conjunto de servicios backend (Identity, Crop, Device, Ingestion, Alert, Agronomy, Field, Edge API) centralizados a través del API Gateway para la orquestación, enrutamiento de peticiones y validación de recomendaciones asistidas por un modelo de IA |
 
-##### Web Application Execution Evidence**
+##### Web Application Execution Evidence
 
 **Visualización interfaz administrador**
+
 ![inicio](../../assets/chapter7/execution-evidence/evidence1.png)
 
 <br>
@@ -253,31 +255,37 @@ El Sprint 1 dejó múltiples artefactos ejecutables e integrados mediante la arq
 **Autenticación y Autorización**
 
 - Inicio de sesión con una cuenta de usuario con rol admitido por la plataforma. La autenticación se realiza mediante el API Gateway y el microservicio de identidad, validando credenciales y generando un token JWT para la sesión activa.
+
 ![sign-in](../../assets/chapter7/execution-evidence/sign-in.png)
 
 **Gestión de usuarios y roles**
 
 - Gestión de usuarios registrados en la plataforma junto con información relevante.
+
 ![users](../../assets/chapter7/execution-evidence/users.png)
 
 **Gestión de suscripciones y planes**
 
 - Muestra las suscripciones activas de los usuarios y los planes disponibles para contratación.
+
 ![active-subscriptions](../../assets/chapter7/execution-evidence/active-subscriptions.png)
 
 **Gestión de dispositivos registrados**
 
 - Registro y visualización de los dispositivos IoT registrados en la plataforma, incluyendo pasarelas y sensores asociados a las plantaciones.
+
 ![iot-registered](../../assets/chapter7/execution-evidence/iot-registered.png)  
 
 **Registro de lecturas de sensores**
 
 - Registro y visualización de las lecturas de sensores en tiempo real, mostrando datos de humedad, temperatura y otros parámetros críticos para el monitoreo del cultivo.
+
 ![sensors-readings](../../assets/chapter7/execution-evidence/sensors-readings.png)
 
 **Recomendaciones Agronómicas Asistidas por IA**
 
 - Generación de recomendaciones personalizadas basadas en datos de sensores y análisis de inteligencia artificial con un modelo Open Source. La IA analiza las condiciones del cultivo y sugiere acciones para optimizar la producción y prevenir problemas.
+
 ![ia-recommendation01](../../assets/chapter7/execution-evidence/ia-recommendation01.png)
 ![ia-recommendation-response](../../assets/chapter7/execution-evidence/ia-recommendation-response.png)
 
