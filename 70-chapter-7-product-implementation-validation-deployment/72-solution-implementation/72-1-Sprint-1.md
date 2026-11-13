@@ -90,6 +90,8 @@ Durante el Sprint 1 se implementaron los artefactos necesarios para validar la a
 | landing-page | `feature/about-the-team` | `90bad9e` | `feature: update about the team section` | Actualiza la sección del equipo. | 2026-06-12 |
 | landing-page | `feature/footer` | `9e99d3a` | `feat:add footer section` | Implementa footer del Landing Page. | 2026-06-12 |
 
+<br> 
+
 **Web Application Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm-WebApp
 
 | Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
@@ -106,12 +108,16 @@ Durante el Sprint 1 se implementaron los artefactos necesarios para validar la a
 | web-application | `deploy` | `1f1ed85` | `config(deploy): switch apiUrl to deployed Render mock API` | Configura la Web Application para consumir los servicios centralizados. | 2026-05-14 |
 | web-application | `deploy` | `e820d03` | `feat(sidebar): add active route highlighting with background, text color, and left border` | Mejora la navegación lateral. | 2026-05-14 |
 
+<br>
+
 **Agronomy Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.AgronomyService
 | Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
 |---|---|---|---|---|---|
 | agronomy-service | `main` | `f91e387`[cite: 10] | `feat(agronomy): consume user deletion events` | Implementa el consumidor de eventos para la eliminación de usuarios. | 2026-11-07 |
 | agronomy-service | `main` | `6b7f32a`[cite: 10] | `feat(agronomy): purge agronomic records on deletion` | Permite purgar registros agronómicos al eliminar cuentas. | 2026-11-07 |
 | agronomy-service | `main` | `87e8864`[cite: 10] | `Initial Commit` | Commit inicial del microservicio de agronomía. | 2026-11-05 |
+
+<br>
 
 **Identity Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.IdentityService
 
@@ -127,6 +133,8 @@ Durante el Sprint 1 se implementaron los artefactos necesarios para validar la a
 | identity-service | `main` | `fb0b6cd`[cite: 11] | `feat(identity): expose admin subscription status by user` | Expone estado de suscripción administrativa por usuario. | 2026-11-06 |
 | identity-service | `main` | `7785d41`[cite: 11] | `Inital Commit` | Commit inicial del microservicio de identidad. | 2026-11-05 |
 
+<br>
+
 **Crop Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.CropService
 
 | Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
@@ -138,6 +146,8 @@ Durante el Sprint 1 se implementaron los artefactos necesarios para validar la a
 | crop-service | `main` | `aca6bc1`[cite: 12] | `feat(crop-service): return sector identity after assignment` | Retorna identidad del sector tras su asignación. | 2026-11-06 |
 | crop-service | `main` | `89b822d`[cite: 12] | `Initial Commit` | Commit inicial del microservicio de cultivos. | 2026-11-05|
 
+<br>
+
 **Ingestion Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.IngestionService
 
 | Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
@@ -145,6 +155,8 @@ Durante el Sprint 1 se implementaron los artefactos necesarios para validar la a
 | ingestion-service | `main` | `4cb9d6c`[cite: 13] | `feat(ingestion): consume user deletion events` | Consume eventos de eliminación de usuarios. | 2026-11-07 |
 | ingestion-service | `main` | `62100ff`[cite: 13] | `feat(ingestion): purge telemetry and projections on deletion` | Purga telemetría y proyecciones al eliminar cuentas. | 2026-11-07 |
 | ingestion-service | `main` | `acf8f3e`[cite: 13] | `Initial Commit` | Commit inicial del microservicio de ingestión. | 2026-11-05 |
+
+<br>
 
 **Device Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.DeviceService
 | Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
@@ -156,6 +168,8 @@ Durante el Sprint 1 se implementaron los artefactos necesarios para validar la a
 | device-service | `main` | `cf30ae4`[cite: 14] | `test(device-service): update registration payloads for ownership metadata` | Actualiza payloads de registro con metadatos de propiedad. | 2026-11-06|
 | device-service | `main` | `d6342ee`[cite: 14] | `Initial Commit` | Commit inicial del microservicio de dispositivos. | 2026-11-05 |
 
+<br>
+
 **Field Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.FieldService
 
 | Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
@@ -164,6 +178,8 @@ Durante el Sprint 1 se implementaron los artefactos necesarios para validar la a
 | field-service | `main` | `ef95624`[cite: 15] | `feat(field): purge field records on deletion` | Purga registros de campo al eliminar cuentas. | 2026-11-07 |
 | field-service | `main` | `5a644ff`[cite: 15] | `Initial Commit` | Commit inicial del microservicio de campo. | 2026-11-05 |
 
+<br>
+
 **Alert Service Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.AlertService
 
 | Repository | Branch | Commit Id | Commit Message | Commit Message Body | Committed on (Date) |
@@ -171,6 +187,8 @@ Durante el Sprint 1 se implementaron los artefactos necesarios para validar la a
 | alert-service | `main` | `914390a`[cite: 16] | `feat(alert): consume user deletion events` | Consume eventos de eliminación de usuarios. | 2026-11-07|
 | alert-service | `main` | `79100fa`[cite: 16] | `feat(alert): purge alerts and notification data on deletion` | Purga alertas y datos de notificación al eliminar cuentas. | 2026-11-07 |
 | alert-service | `main` | `c6e8ebf`[cite: 16] | `Initial Commit` | Commit inicial del microservicio de alertas. | 2026-11-05 |
+
+<br>
 
 **Edge API Repository:** https://github.com/1ASI0728-Equipo2-Arquitectura-Software/edge-api
 
@@ -191,8 +209,79 @@ El Sprint 1 dejó múltiples artefactos ejecutables e integrados mediante la arq
 |---|---|
 | Landing Page | Sitio público con Hero Section, beneficios, segmentos, planes de suscripción, información del equipo y footer. |
 | Web Application | Aplicación Angular con login, registro, dashboard, plantaciones, dispositivos, alertas, recomendaciones, reportes, inspecciones, perfil y suscripciones conectada al API Gateway. |
-| API Gateway & Microservices | Conjunto de servicios backend (Identity, Crop, Device, Ingestion, Alert, Agronomy, Field, Edge API) centralizados a través del API Gateway para la orquestación y enrutamiento de peticiones. |
+| API Gateway & Microservices | Conjunto de servicios backend (Identity, Crop, Device, Ingestion, Alert, Agronomy, Field, Edge API) centralizados a través del API Gateway para la orquestación, enrutamiento de peticiones y validación de recomendaciones asistidas por un modelo de IA |
 
+##### Web Application Execution Evidence**
+
+**Visualización interfaz administrador**
+![inicio](../../assets/chapter7/execution-evidence/evidence1.png)
+
+<br>
+
+![usuarios](../../assets/chapter7/execution-evidence/evidence2.png)
+
+<br>
+
+![planes](../../assets/chapter7/execution-evidence/evidence3.png)
+
+<br>
+
+![plantaciones](../../assets/chapter7/execution-evidence/evidence4.png)
+
+<br>
+
+**Visualización interfaz agrónomo**
+
+![dashboard](../../assets/chapter7/execution-evidence/evidence5.png)
+
+<br>
+
+![resumen](../../assets/chapter7/execution-evidence/evidence6.png)
+
+<br>
+
+![monitoreo](../../assets/chapter7/execution-evidence/evidence7.png)
+
+<br>
+
+![lecturas](../../assets/chapter7/execution-evidence/evidence8.png)
+
+<br>
+
+#### Web Services Execution Evidence
+
+**Autenticación y Autorización**
+
+- Inicio de sesión con una cuenta de usuario con rol admitido por la plataforma. La autenticación se realiza mediante el API Gateway y el microservicio de identidad, validando credenciales y generando un token JWT para la sesión activa.
+![sign-in](../../assets/chapter7/execution-evidence/sign-in.png)
+
+**Gestión de usuarios y roles**
+
+- Gestión de usuarios registrados en la plataforma junto con información relevante.
+![users](../../assets/chapter7/execution-evidence/users.png)
+
+**Gestión de suscripciones y planes**
+
+- Muestra las suscripciones activas de los usuarios y los planes disponibles para contratación.
+![active-subscriptions](../../assets/chapter7/execution-evidence/active-subscriptions.png)
+
+**Gestión de dispositivos registrados**
+
+- Registro y visualización de los dispositivos IoT registrados en la plataforma, incluyendo pasarelas y sensores asociados a las plantaciones.
+![iot-registered](../../assets/chapter7/execution-evidence/iot-registered.png)  
+
+**Registro de lecturas de sensores**
+
+- Registro y visualización de las lecturas de sensores en tiempo real, mostrando datos de humedad, temperatura y otros parámetros críticos para el monitoreo del cultivo.
+![sensors-readings](../../assets/chapter7/execution-evidence/sensors-readings.png)
+
+**Recomendaciones Agronómicas Asistidas por IA**
+
+- Generación de recomendaciones personalizadas basadas en datos de sensores y análisis de inteligencia artificial con un modelo Open Source. La IA analiza las condiciones del cultivo y sugiere acciones para optimizar la producción y prevenir problemas.
+![ia-recommendation01](../../assets/chapter7/execution-evidence/ia-recommendation01.png)
+![ia-recommendation-response](../../assets/chapter7/execution-evidence/ia-recommendation-response.png)
+
+<br>
 
 #### 7.2.1.6. Services Documentation Evidence for Sprint Review
 
