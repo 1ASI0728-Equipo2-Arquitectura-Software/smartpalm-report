@@ -39,3 +39,10 @@ La colaboración se distribuyó así:
 ![Analíticas de colaboración TP1](../assets/front-matter/tp1-contributors.png)
 
 ![Red de commits del equipo TP1](../assets/front-matter/tp1-graph.png)
+
+
+## TB2
+
+**Evidencias de Colaboración**
+
+![gitflow](../assets/front-matter/tb2-graph.png)
