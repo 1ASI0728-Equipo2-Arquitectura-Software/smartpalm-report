@@ -240,17 +240,17 @@ En este sprint, la documentación de servicios corresponde a la integración med
 
 #### 7.2.1.7. Software Deployment Evidence for Sprint Review
 
-En el Sprint 1 se desplegaron los tres artefactos del alcance: Landing Page, Web Application y Mock API.
+En el Sprint 1 se desplegaron los artefactos del alcance, incluyendo el Landing Page, la Web Application y la arquitectura centralizada de microservicios mediante el API Gateway.
 
 | Artifact | Deployment Status | URL / Environment |
 |---|---|---|
 | Landing Page | Deployed | https://smart-palm.netlify.app/ |
-
-
+| Web Application | Deployed | https://smartpalm-webapp.vercel.app/ |
+| API Gateway & Microservices | Deployed | https://smartpalm-api-gateway.onrender.com/ |
 
 #### 7.2.1.8. Team Collaboration Insights during Sprint
 
-Durante el Sprint 1, el equipo distribuyó el trabajo en tres frentes: Landing Page y Web Application. El Landing Page permitió mostrar la propuesta de valor y el modelo comercial de SmartPalm. La Web Application permitió navegar las primeras vistas funcionales del sistema usando datos simulados.
+Durante el Sprint 1, el equipo distribuyó el trabajo en múltiples frentes clave: Landing Page, Web Application, API Gateway y microservicios backend. El Landing Page permitió mostrar la propuesta de valor y el modelo comercial de SmartPalm. Por su parte, la Web Application permitió navegar las primeras vistas funcionales del sistema conectándose al API Gateway para gestionar la autenticación, plantaciones, dispositivos IoT y alertas en tiempo real.
 
 | Team Member | Sprint 1 Contribution |
 |---|---|
