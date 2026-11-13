@@ -6,6 +6,19 @@
 | :--- | :--- | :--- |
 | Organización GitHub | 1ASI0728-Equipo2-Arquitectura-Software | https://github.com/1ASI0728-Equipo2-Arquitectura-Software |
 | Informe del proyecto | smartpalm-report | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/smartpalm-report |
+| Landing Page | SmartPalm-LandingPage | https://github.com/upc-202601-1asi0572-6779-teamwise/website |
+| Web Application | SmartPalm-WebApp | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm-WebApp |
+| API Gateway | SmartPalm.ApiGateway | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.ApiGateway |
+| Device Service | SmartPalm.DeviceService | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.DeviceService |
+| Ingestion Service | SmartPalm.IngestionService | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.IngestionService |
+| Agronomy Service | SmartPalm.AgronomyService | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.AgronomyService |
+| Crop Service | SmartPalm.CropService | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.CropService |
+| Alert Service | SmartPalm.AlertService | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.AlertService |
+| Field Service | SmartPalm.FieldService | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.FieldService |
+| Identity, Subscription and Payments Service | SmartPalm.IdentityService | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.IdentityService |
+| Mobile Application | SmartPalm-MobileApp | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm-MobileApp |
+| Edge Service | edge-api |  https://github.com/1ASI0728-Equipo2-Arquitectura-Software/edge-api |
+| Embedded Application | edge-node |https://github.com/1ASI0728-Equipo2-Arquitectura-Software/edge-node |
 
 ### Tableros de gestión del proyecto
 

@@ -22,5 +22,10 @@ Esta sección inicia en una página nueva.
 | V1.4    | 04/10/2026 | Muñoz Vilcapoma, Mauricio Rigoberto  | Capítulo VI: 6.4.1 Applications Wireframes y 6.4.2 Applications Wireflow Diagrams (web y móvil, con user goals y cobertura por bounded context).                                                                    |
 | V1.5    | 05/10/2026 | Conde Isla, Camila Alessandra        | Capítulo VI: 6.3.1 Landing Page Wireframe y 6.3.2 Landing Page Mock-up (versión inicial).                                                                                                                          |
 | V1.6    | 05/10/2026 | Paucar Meneses, Jeremy Alión         | Front-matter TP1: carátula como Informe de Trabajo Parcial (TP1) y mes Octubre 2026; índice extendido con Capítulos V y VI (corte en 6.4.2) y re-sync de anchors.                                                   |
+| V1.7    | 12/11/2026 | Rojas Reategui, Victor Manuel        | Sprint backlog, collaboration insights                                                |
+| V1.7    | 12/11/2026 | Paucar Meneses, Jeremy Alión         | Evidencias de ejecución                                               |
+| V1.7    | 12/11/2026 | Ramirez Cabrera, Kenyi Efrain        | Capítulo VII: 7.2.1.3, 7.2.1.4, 7.2.1.6                                                  |
+| V1.7    | 12/11/2026 | Ramirez Cabrera, Kenyi Efrain        | TB2: completada                                                |
+
 
 <!-- Agregar una fila por cada modificación relevante (nueva sección, corrección o mejora) antes de cada entrega. -->
