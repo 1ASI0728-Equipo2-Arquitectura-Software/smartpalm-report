@@ -17,8 +17,8 @@ Durante el sprint, el equipo se enfocó en los frentes de implementación clave 
 | Collaborative Modeling | Miro | Modelado colaborativo previo de procesos y dominio del producto. | https://miro.com/app/board/uXjVHdJ_3Wo=/?share_link_id=547546845690 |
 | Web Application Development | Angular | Desarrollo de la Web Application de SmartPalm. | |
 | Code Editor | Visual Studio Code | Edición de código fuente, archivos Markdown y configuración de proyecto. | https://code.visualstudio.com |
-| Static Site Deployment | Netlify | Publicación del Landing Page. | |
-| Web App Deployment | Cloudflare Pages | Publicación de la Web Application. |  |
+| Static Site Deployment | Vercel | Publicación del Landing Page. | |
+| Web App Deployment | Render Static Site | Publicación de la Web Application Angular. |  |
 
 ### 7.1.2. Source Code Management
 
@@ -108,31 +108,42 @@ El equipo define convenciones de código para mantener legibilidad, consistencia
 
 ### 7.1.4. Software Deployment Configuration
 
-La configuración de despliegue del Sprint 1 considera únicamente los artefactos implementados y publicados en esta iteración o pruebas de integración: Landing Page y Web Application.
+**Evidencia y estado del despliegue**
 
-| Artifact | Platform | Public URL | Sprint 1 Status |
+| Artefacto | Plataforma / tecnología | URL pública o repositorio | Estado |
 |---|---|---|---|
-| Landing Page | Netlify | https://smart-palm.netlify.app/ | Deployed |
-| Web Application | Render Static site | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm-WebApp | https://smartpalm-webapp.onrender.com/auth/login |
-| API Gateway | Render | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.ApiGateway | - |
-| Device Service | Render | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.DeviceService | - |
-| Ingestion Service | Render | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.IngestionService | - |
-| Agronomy Service | Render | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.AgronomyService | - |
-| Crop Service | Render | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.CropService | - |
-| Alert Service | Render | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.AlertService | - |
-| Field Service | Render | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.FieldService | - |
-| Identity Service | Render | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.IdentityService | - |
+| Landing Page | Vercel Static Hosting, CDN y HTTPS | https://smartpalm-landing.vercel.app/ | Desplegado |
+| Web Application | Render Static Site, Angular | https://smartpalm-webapp.onrender.com/auth/login | Desplegado |
+| Mobile Application | Flutter + Firebase App Distribution | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm-MobileApp | Planned / Target architecture |
+| API Gateway | Render Web Service, ASP.NET Core/YARP | https://github.com/1ASI0728-Equipo2-Arquitectura-Software/SmartPalm.ApiGateway | Planned / Target architecture |
+| Microservicios de dominio | Render Web Services, ASP.NET Core/Docker | Repositorios `DeviceService`, `IngestionService`, `AlertService`, `AgronomyService`, `CropService`, `FieldService` e `IdentityService` | Planned / Target architecture |
+| Message broker | CloudAMQP, RabbitMQ sobre AMQPS | Conexión administrada por el proveedor | Planned / Target architecture |
+| Edge Node | Raspberry Pi, Edge API en Python y SQLite | Repositorio `edge-api` | Planned / Target architecture |
+| Dispositivo IoT | Sensores de campo, firmware C++ y LoRaWAN/Wi-Fi | Repositorio `edge-node` | Planned / Target architecture |
 
 <br>
 
 **Deployment Configuration Summary**
 
-| Artifact | Configuration |
+| Componente | Configuración |
 |---|---|
-| Landing Page | Publicación estática en Netlify desde el proyecto del Landing Page. |
-| Web Application | Publicación de aplicación Angular en Render. |
+| Landing Page | Publicación estática en Vercel con HTTPS y CDN. |
+| Web Application | Publicación de los artefactos Angular en Render Static Site, incluyendo fallback para rutas SPA. |
+| API Gateway y microservicios | Servicios independientes en Render; el gateway es el único punto de entrada público y enruta hacia los bounded contexts. |
+| CloudAMQP / RabbitMQ | Conexión AMQPS, colas durables, confirmaciones, reintentos y dead-letter queues para eventos de integración. |
+| Edge API | Buffer local SQLite con operación offline acotada y sincronización idempotente de lotes hacia `IngestionService`. |
+| Health checks | Cada servicio de Render expone verificaciones de disponibilidad y preparación; la promoción depende de su resultado. |
+| Variables y secretos | `DATABASE_URL`, `RABBITMQ_URL`, firma JWT, CORS, credenciales de Firebase y claves de proveedores se administran en las plataformas y no se almacenan en Git. |
+| Redes y TLS | HTTPS para clientes; TLS para PostgreSQL y CloudAMQP; comunicación interna mediante la red privada de Render cuando esté disponible. |
+| Escalabilidad | Los servicios escalan de manera independiente; `IngestionService` es el principal candidato para réplicas adicionales por las ráfagas de telemetría. |
 
 <br>
 
+**C4 Deployment Diagram - Structurizr DSL**
+
+El siguiente código DSL representa el despliegue completo proyectado para SmartPalm. Incluye los artefactos ya desplegados en Sprint 1, como Landing Page, Web Application, Web Services, y también la arquitectura completa prevista para el producto: Mobile Application, RESTful API, base de datos, Edge API, gateway LoRaWAN, dispositivo ESP32, sensores de campo e integración de servicios externos como proveedores de IA.
 
 
+![c4-deployment-Diagram](../assets/chapter7/smartpalm-production.png)
+
+<br>
