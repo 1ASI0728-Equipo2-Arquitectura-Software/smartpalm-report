@@ -345,11 +345,12 @@ Durante el Sprint 1, el equipo distribuyó el trabajo en múltiples frentes clav
 
 | Team Member | Sprint 1 Contribution |
 |---|---|
-| Victor Manuel Rojas Reategui | Coordinación documental, integración del reporte y apoyo en producto. |
+| Victor Manuel Rojas Reategui | Coordinación documental, integración del reporte, desarrollo multiple de microservicios. |
 | Camila Conde Isla | Liderazgo del Landing Page y apoyo en diseño de la experiencia pública. |
 | Mauricio Muñoz | Colaboración en estructura funcional y documentación técnica del producto. |
 | Kenyi Ramirez | Colaboración en arquitectura y soporte de organización técnica. |
-| Jeremy Alión Paucar Meneses | Liderazgo de Web Application, Mock API y despliegue de la experiencia funcional. |
+| Jeremy Alión Paucar Meneses | Liderazgo de Web Application, integración con con servicio externo de inteligencia artificial y despliegue. |
 
+--- 
 
 
