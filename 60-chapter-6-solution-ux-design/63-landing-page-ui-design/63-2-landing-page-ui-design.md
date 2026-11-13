@@ -1,5 +1,7 @@
 ### 6.3.2 Landing Page Mockup
 
+Web view 
+
 ![mockup1](../../assets/chapter6/63-landing-page-ui-design/63-2-landing-page-mockup/mockup1.png)
 ![mockup2](../../assets/chapter6/63-landing-page-ui-design/63-2-landing-page-mockup/mockup2.png)
 ![mockup3](../../assets/chapter6/63-landing-page-ui-design/63-2-landing-page-mockup/mockup3.png)
