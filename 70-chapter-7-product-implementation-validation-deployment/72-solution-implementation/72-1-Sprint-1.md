@@ -335,8 +335,8 @@ En el Sprint 1 se desplegaron los artefactos del alcance, incluyendo el Landing 
 
 | Artifact | Deployment Status | URL / Environment |
 |---|---|---|
-| Landing Page | Deployed | https://smart-palm.netlify.app/ |
-| Web Application | Deployed | https://smartpalm-webapp.vercel.app/ |
+| Landing Page | Deployed | https://smartpalm-landing.vercel.app/ |
+| Web Application | Deployed | https://smartpalm-webapp.onrender.com/auth/login |
 | API Gateway & Microservices | Deployed | https://smartpalm-api-gateway.onrender.com/ |
 
 #### 7.2.1.8. Team Collaboration Insights during Sprint
